@@ -25,7 +25,7 @@ const move = (direct) => {
 }
 
 const intersect = () => {
-    
+    console.log('d');
 }
 
 export { player }
