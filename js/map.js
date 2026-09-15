@@ -23,71 +23,7 @@ const corridors = [
   { name: "c8", x: 17, y: 16, w: 2, h: 4 },
 ];
 
-function drawCorridorBorders(ctx) {
-  ctx.save();
-  ctx.strokeStyle = "#393939";
-  ctx.lineWidth = 4;
-  ctx.lineCap = "round";
-  ctx.shadowColor = "rgba(0, 0, 0, 0.35)";
-  ctx.shadowOffsetX = 2;
-  ctx.shadowOffsetY = 2;
-  ctx.shadowBlur = 3;
 
-  corridors.forEach((corridor) => {
-    const cx = corridor.x * CORRIDOR_TILE;
-    const cy = corridor.y * CORRIDOR_TILE;
-    const cw = corridor.w * CORRIDOR_TILE;
-    const ch = corridor.h * CORRIDOR_TILE;
-
-    let drawTop = true;
-    let drawBottom = true;
-    let drawLeft = true;
-    let drawRight = true;
-
-    if (corridor.name === 'c1' || corridor.name === "c2" || corridor.name === 'c8') {
-      drawTop = false;
-      drawBottom = false;
-    }
-    else if (corridor.name === "c3") {
-      drawTop = false;
-    }
-    else if (corridor.name === "c5" || corridor.name === 'c4') {
-      drawRight = false;
-      drawLeft = false;
-    }
-    else if (corridor.name === "c7") {
-      drawLeft = false;
-      drawRight = false;
-    }
-
-    if (drawTop) {
-      ctx.beginPath();
-      ctx.moveTo(cx, cy + 2);
-      ctx.lineTo(cx + cw, cy + 2);
-      ctx.stroke();
-    }
-    if (drawBottom) {
-      ctx.beginPath();
-      ctx.moveTo(cx, cy + ch - 2);
-      ctx.lineTo(cx + cw, cy + ch - 2);
-      ctx.stroke();
-    }
-    if (drawLeft) {
-      ctx.beginPath();
-      ctx.moveTo(cx + 2, cy);
-      ctx.lineTo(cx + 2, cy + ch);
-      ctx.stroke();
-    }
-    if (drawRight) {
-      ctx.beginPath();
-      ctx.moveTo(cx + cw - 2, cy);
-      ctx.lineTo(cx + cw - 2, cy + ch);
-      ctx.stroke();
-    }
-  });
-
-  ctx.restore();
-}
 
 const roadMap = () => {
   const canvas = document.getElementById("map");
