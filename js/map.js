@@ -4,12 +4,12 @@ const CORRIDOR_TILE = 32;
 
 const rooms = [
   { name: "r1", x: 1, y: 2, w: 12, h: 7 },
-  { name: "r2", x: 1, y: 11, w: 12, h: 12 },
-  { name: "r3", x: 3, y: 26, w: 6, h: 5 },
+  { name: "r2", x: 1, y: 11, w: 12, h: 13 },
+  { name: "r3", x: 3, y: 27, w: 6, h: 5 },
   { name: "r4", x: 14, y: 3, w: 8, h: 6 },
   { name: "r5", x: 14, y: 11, w: 8, h: 5 },
   { name: "r6", x: 15, y: 20, w: 6, h: 5 },
-  { name: "r7", x: 15, y: 27, w: 6.5, h: 5 },
+  { name: "r7", x: 14, y: 27, w: 6.5, h: 5 },
 ];
 
 const corridors = [
@@ -19,8 +19,8 @@ const corridors = [
   { name: "c4", x: 11, y: 16.4, w: 13, h: 2.1 },
   { name: "c5", x: 22, y: 4.9, w: 2, h: 1.5 },
   { name: "c6", x: 24, y: 4.9, w: 2, h: 28 },
-  { name: "c7", x: 9, y: 26.9, w: 6, h: 2.1 },
-  { name: "c8", x: 17, y: 16, w: 2, h: 4 },
+  { name: "c7", x: 9, y: 27.9, w: 6, h: 1.5 },
+  { name: "c8", x: 17, y: 16, w: 2, h: 3 },
 ];
 
 
@@ -99,19 +99,19 @@ const roadMap = () => {
       const ch = CORRIDOR_TILE * corridor.h;
       const inset = 12;
 
-      ctx.fillStyle = "#8d8888";
-      ctx.fillRect(
-        cx - inset / 2,
-        cy + inset / 2 - 1,
-        cw + inset,
-        ch - inset - 2,
-      );
+      // ctx.fillStyle = "#8d8888";
+      // ctx.fillRect(
+      //   cx - inset / 2,
+      //   cy + inset / 2 - 1,
+      //   cw + inset,
+      //   ch - inset - 2,
+      // );
 
       ctx.fillStyle = corridorPattern;
       ctx.fillRect(cx, cy, cw, ch);
     });
 
-    drawCorridorBorders(ctx);
+    // drawCorridorBorders(ctx);
   };
 };
 
