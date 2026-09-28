@@ -58,7 +58,8 @@ const loop = () => {
   setCharacter(moved ? `walk-${see}` : `idle-${see}`);
   move();
 
-  requestAnimationFrame(loop);
+  requestAnimationFrame(loop); // loop가 종료된 시점에 다시 loop 호출 != 재귀
+                               // 재귀는 현재 함수가 완료되기 전에 같은 함수를 다시 호출
 };
 
 const intersect = () => {
@@ -76,10 +77,14 @@ const stop = (key) => {
   pressed[key] = false;
 };
 
+// pressed를 객체 형식으로 해서 
+// true면 gif로 하고
+// false면(멈추거나 방향을 바꾸면) png로 
 window.addEventListener("blur", () => {
   pressed = {};
 });
 
+// 처음에 시작하랴고 넣은겨
 setCharacter("idle-down");
 move();
 requestAnimationFrame(loop);
