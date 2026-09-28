@@ -2,12 +2,21 @@ import { player } from "./player.js";
 import { moveTeacher } from "./teacher.js";
 // import { roadMap } from "./map.js";
 
+let isOpenQuestionModal = false;
 document
   .getElementById("question-modal-button")
   .addEventListener("click", () => {
     const modal = document.getElementById("question-modal");
-    modal.style.width = "1328px";
-    modal.style.height = "858px";
+    if(isOpenQuestionModal){
+        modal.style.width = "0px";
+        modal.style.height = "0px";
+        isOpenQuestionModal = !isOpenQuestionModal
+    }
+    else{
+        modal.style.width = "1328px";
+        modal.style.height = "858px";
+        isOpenQuestionModal = !isOpenQuestionModal
+    }
   });
 
 const headerMenu = [
