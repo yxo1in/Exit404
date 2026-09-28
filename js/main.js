@@ -1,4 +1,4 @@
-import { player } from "./player.js";
+import { playerIntersect, stop } from "./player.js";
 import { moveTeacher } from "./teacher.js";
 // import { roadMap } from "./map.js";
 
@@ -51,5 +51,9 @@ document.getElementById("answer_result").innerHTML =
 // });
 
 document.addEventListener("keydown", (e) => {
-  player(e.code);
+  if (e.code.startsWith("Arrow")) e.preventDefault();
+  playerIntersect(e.code);
+});
+document.addEventListener("keyup", (e) => {
+  stop(e.code);
 });
