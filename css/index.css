@@ -9,8 +9,9 @@ p {
 }
 
 .question-modal {
-  width: 1328px;
-  height: 858px;
+  width: 0;
+  height: 0;
+  overflow: hidden;
   border-radius: 15px;
   background: #303030;
   display: flex;
@@ -19,6 +20,8 @@ p {
   justify-content: center;
   align-items: center;
   padding-left: 12px;
+  transition: 0.3s;
+  
 }
 .question-modal-header {
   display: flex;
