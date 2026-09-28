@@ -8,13 +8,31 @@
   </head>
   <body>
     <div class="question-modal">
-      <div class="question-modal-header">
-        <div>File</div>
-        <div>Edit</div>
-        <div>Selection</div>
-        <div>View</div>
-        <div></div>
-        <div></div>
+      <div class="question-modal-header" id="question-modal-header">
+        <script>
+          // ================
+          // 헤더 메뉴 불러오기
+          // ================
+          const header = document.getElementById("question-modal-header");
+          const header_menu = [
+            "File",
+            "Edit",
+            "Selection",
+            "View",
+            "Go",
+            "Run",
+            "Terminal",
+          ];
+          const res = [];
+          header_menu.map((m) => {
+            res.push(`<div class="question-modal-header-menu">${m}</div>`);
+          });
+          header.innerHTML += res.join("");
+        </script>
+        <div class="question-modal-header-search">
+          <div class="question-modal-header-search-icon">
+          </div>
+        </div>
       </div>
       <div class="question-modal-body">
         <div class="question-modal-file">
@@ -39,8 +57,8 @@
             ></div>
           </div>
           <div class="question-modal-file-text-wrap">
-            <div style="display: flex;">
-              <img src="./assets/image/downArrow.svg" alt="아래 화살표"> 
+            <div style="display: flex">
+              <img src="./assets/image/downArrow.svg" alt="아래 화살표" />
               <p class="question-modal-file-text">JavaScript</p>
             </div>
             <div class="question-modal-file-text-sub-wrap">
@@ -56,11 +74,8 @@
               <p class="question-modal-question-file-text">Question</p>
               <p class="question-modal-question-file-text">x</p>
             </div>
-            
           </div>
-          <div class="question-modal-answer">
-
-          </div>
+          <div class="question-modal-answer"></div>
         </div>
       </div>
     </div>
