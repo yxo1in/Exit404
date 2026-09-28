@@ -23,11 +23,11 @@
             "Run",
             "Terminal",
           ];
-          const res = [];
+          const header_res = [];
           header_menu.map((m) => {
-            res.push(`<div class="question-modal-header-menu">${m}</div>`);
+            header_res.push(`<div class="question-modal-header-menu">${m}</div>`);
           });
-          header.innerHTML += res.join("");
+          header.innerHTML += header_res.join("");
         </script>
         <div class="question-modal-header-search">
           <div class="question-modal-header-search-icon">
@@ -75,7 +75,30 @@
               <p class="question-modal-question-file-text">x</p>
             </div>
           </div>
-          <div class="question-modal-answer"></div>
+          <div class="question-modal-answer">
+            <div class="question-modal-answer-menu" id="question-modal-answer-menu">
+              <script>
+                const answer = document.getElementById('question-modal-answer-menu');
+                const answer_menu = ['Problem', 'Output', 'Debug Console', 'Terminal'];
+                const answer_menu_res = [];
+                answer_menu.map((m) => {
+                  answer_menu_res.push(`<p class="question-modal-answer-menu-text">${m}</p>`);
+                })
+                answer.innerHTML = answer_menu_res.join("");
+              </script>
+            </div>
+            <div class="question-modal-answer-wrap">
+              <p class="question-modal-answer-text">C:\user\2026\Exit404></p>
+              <p id="answer_result">
+                <script>
+                  const answer_result = document.getElementById('answer_result');
+                  const isCorrect = false; // 임시 데이터
+                  answer_result.innerHTML = `<p class="answer-result" style="color:${isCorrect ? 'green' : '#b90e0a'}">${isCorrect ? 'Pass' : 'Error'}</p>`;
+                
+                </script>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>

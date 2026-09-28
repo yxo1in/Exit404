@@ -131,13 +131,6 @@ p {
   border-radius: 10px;
   border: 1px solid #5a5a5a;
 }
-.question-modal-answer {
-  background-color: #1f1f1f;
-  height: 243px;
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid #5a5a5a;
-}
 
 .question-modal-question-file {
   width: 87px;
@@ -157,4 +150,42 @@ p {
   color: #c8c8c8;
   font-family: "Pretendard", sans-serif;
   font-size: 14px;
+}
+
+.question-modal-answer {
+  background-color: #1f1f1f;
+  height: 243px;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid #5a5a5a;
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  
+}
+.question-modal-answer-menu{
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  margin-left: 13px;
+  margin-top: 10px;
+}
+.question-modal-answer-menu-text{
+  color: #c8c8c8;
+  font-size: 10px;
+}
+.question-modal-answer-text{
+  color: #c8c8c8;
+  font-size: 16px;
+  margin-left: 13px;
+  letter-spacing: 1.3px;
+}
+.question-modal-answer-wrap{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.answer-result{
+  font-size: 16px;
 }
