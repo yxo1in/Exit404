@@ -7,18 +7,20 @@ document
   .getElementById("question-modal-button")
   .addEventListener("click", () => {
     const modal = document.getElementById("question-modal");
-    if(isOpenQuestionModal){
-        modal.style.width = "0px";
-        modal.style.height = "0px";
-        isOpenQuestionModal = !isOpenQuestionModal
-    }
-    else{
-        modal.style.width = "1328px";
-        modal.style.height = "858px";
-        isOpenQuestionModal = !isOpenQuestionModal
+    if (isOpenQuestionModal) {
+      modal.style.width = "0px";
+      modal.style.height = "0px";
+      isOpenQuestionModal = !isOpenQuestionModal;
+    } else {
+      modal.style.width = "1328px";
+      modal.style.height = "858px";
+      isOpenQuestionModal = !isOpenQuestionModal;
     }
   });
 
+// ===============
+// QuestionModal
+// ===============
 const headerMenu = [
   "File",
   "Edit",
@@ -46,6 +48,19 @@ const isCorrect = false;
 document.getElementById("answer_result").innerHTML =
   `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
 
+// ================================
+// ItemModal
+// ================================
+const inventory = document.getElementById("inventory-modal-item");
+const items = [1, 2, 3, 4, 5, 6, 7, 8];
+inventory.innerHTML = items
+  .map((item) => {
+    return `<div class="item-wrap">아이템${item}</div>`;
+  })
+  .join("");
+
+
+  
 // window.addEventListener("DOMContentLoaded", () => {
 //   roadMap();
 // });

@@ -1,6 +1,4 @@
-p {
-  margin: 0;
-}
+
 
 .question-modal {
   width: 0;
@@ -15,6 +13,7 @@ p {
   align-items: center;
   padding-left: 12px;
   transition: 0.3s;
+  margin-inline: 30px;
   
 }
 .question-modal-header {
