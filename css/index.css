@@ -4,3 +4,11 @@ body {
   justify-content: center;
 }
 
+p {
+  margin: 0;
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  src: url('../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf');
+}

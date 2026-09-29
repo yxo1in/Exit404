@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="./css/index.css" />
     <link rel="stylesheet" href="./css/questionModal.css" />
     <link rel="stylesheet" href="./css/map.css" />
+    <link rel="stylesheet" href="./css/inventoryModal.css" />
   </head>
   <body>
     <!-- 
@@ -17,9 +18,39 @@
     -->
 
     <div id="game">
-      <img id="player" alt="player" data-sprite=""/>
+      <img id="player" alt="player" data-sprite="" />
     </div>
     <button id="question-modal-button">모달</button>
+    <!-- 인벤토리 모달 -->
+    <div class="inventory-modal" id="inventory-modal">
+      <div class="inventory-modal-body">
+        <div class="inventory-modal-item-wrap">
+          <div class="inventory-modal-user">
+            <div class="userIcon"></div>
+            <p class="userInfo">const INVENTORY = () => {</p>
+          </div>
+          <div class="inventory-modal-item" id="inventory-modal-item">
+            <p class="userInfo">}</p>
+          </div>
+        </div>
+        <div class="inventory-modal-explain">
+          <div class="inventory-explain-wrap">
+            <p class="inventory-title">C:\Exit404\item ></p>
+            <div>
+              <p onclick="" class="inventory-explain">
+                <span id="item-name"></span>
+                <p class="inventory-explain"><span id="item-explain"></span></p>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="inventory-modal-footer">
+        <p class="inventory-modal-footer-text">close: esc</p>
+      </div>
+    </div>
+
+    <!-- 문제 모달 -->
     <div class="question-modal" id="question-modal">
       <div class="question-modal-header" id="question-modal-header">
         <div class="question-modal-header-search">
