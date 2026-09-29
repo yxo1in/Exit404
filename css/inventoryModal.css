@@ -1,5 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
 
+@font-face {
+  font-family: "Pretendard";
+  src: url("../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf");
+}
+
 .inventory-modal {
   width: 1093px;
   height: 676px;
@@ -74,4 +79,12 @@
   border-radius: 10px;
   background: #1f1f1f;
   box-shadow: 8px 8px 4px 0 rgba(0, 0, 0, 0.3) inset;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inventory-title {
+}
+.inventory-explain {
 }

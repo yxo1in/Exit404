@@ -1,4 +1,7 @@
-
+@font-face {
+  font-family: 'Pretendard';
+  src: url('../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf');
+}
 
 .question-modal {
   width: 0;
