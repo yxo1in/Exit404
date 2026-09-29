@@ -1,5 +1,4 @@
-const SIZE = 48;
-const SPEED = 4;
+const SPEED = 8;
 
 const character = {
   "idle-up": "mirim_student back.png",
@@ -52,8 +51,6 @@ const loop = () => {
     moved = true;
   }
 
-  x = Math.max(0, Math.min(x, window.innerWidth - SIZE));
-  y = Math.max(0, Math.min(y, window.innerHeight - SIZE));
 
   setCharacter(moved ? `walk-${see}` : `idle-${see}`);
   move();
@@ -63,7 +60,7 @@ const loop = () => {
 };
 
 const intersect = () => {
-  console.log("d");
+  console.log("상호작용 키");
 };
 
 const playerIntersect = (key) => {
@@ -85,7 +82,7 @@ window.addEventListener("blur", () => {
 });
 
 // 처음에 시작하랴고 넣은겨
-setCharacter("idle-down");
+setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
 move();
 requestAnimationFrame(loop);
 
