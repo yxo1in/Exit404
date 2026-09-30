@@ -2,8 +2,6 @@ import { playerIntersect, stop } from "./player.js";
 import { moveTeacher } from "./teacher.js";
 // import { roadMap } from "./map.js";
 
-
-
 // ===============
 // QuestionModal
 // ===============
@@ -16,14 +14,9 @@ const headerMenu = [
   "Run",
   "Terminal",
 ];
-document
-  .getElementById("question-modal-header")
-  .insertAdjacentHTML(
-    "afterbegin",
-    headerMenu
-      .map((m) => `<div class="question-modal-header-menu">${m}</div>`)
-      .join(""),
-  );
+document.getElementById("question-modal-header").innerHTML = headerMenu
+  .map((m) => `<div class="question-modal-header-menu">${m}</div>`)
+  .join("");
 
 const answerMenu = ["Problem", "Output", "Debug Console", "Terminal"];
 document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
@@ -62,12 +55,12 @@ const selectItem = (item) => {
   itemExplain.innerHTML = items_explain[item];
 };
 
-inventory.querySelectorAll('.item-wrap').forEach((item) => {
-  item.addEventListener('click', () => {
-    const itemNum = Number(item.dataset.item); 
+inventory.querySelectorAll(".item-wrap").forEach((item) => {
+  item.addEventListener("click", () => {
+    const itemNum = Number(item.dataset.item);
     selectItem(itemNum);
-  })
-})
+  });
+});
 
 // window.addEventListener("DOMContentLoaded", () => {
 //   roadMap();

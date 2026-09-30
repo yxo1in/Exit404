@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
 
 @font-face {
-  font-family: "Pretendard";
-  src: url("../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf");
+  font-family: 'Pretendard';
+  src: url('../assets/fonts/Pretendard/woff2/PretendardVariable.woff2');
 }
 
 .inventory-modal {
