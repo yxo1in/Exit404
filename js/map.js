@@ -1,4 +1,4 @@
-const TILE_SIZE = 16;
+const TILE_SIZE = 32;
 const WALL_THICKNESS = 32;
 const CORRIDOR_TILE = 32;
 
