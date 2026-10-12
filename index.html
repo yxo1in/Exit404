@@ -1,117 +1,111 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Exit404</title>
-    <link rel="stylesheet" href="./css/index.css" />
-    <link rel="stylesheet" href="./css/questionModal.css" />
-    <link rel="stylesheet" href="./css/map.css" />
-    <link rel="stylesheet" href="./css/inventoryModal.css" />
-  </head>
-  <body>
-    <!-- 
-    <div class="map">
 
-        
-    /div> 
-    -->
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exit404</title>
+  <link rel="stylesheet" href="./css/index.css" />
+  <link rel="stylesheet" href="./css/questionModal.css" />
+  <link rel="stylesheet" href="./css/map.css" />
+  <link rel="stylesheet" href="./css/inventoryModal.css" />
 
-    <div id="game">
-      <img id="player" alt="player" data-sprite="" />
+
+</head>
+
+<body>
+
+  <div id="map">
+    <canvas id="mapCanvas"></canvas>
+  </div>
+
+
+
+  <!-- <div id=" game">
+    <img id="player" alt="player" data-sprite="" />
+  </div> -->
+  <!-- <button id="question-modal-button">모달</button> -->
+  <!-- 인벤토리 모달 -->
+  <div class="inventory-modal" id="inventory-modal">
+    <div class="inventory-modal-body">
+      <div class="inventory-modal-item-wrap">
+        <div class="inventory-modal-user">
+          <div class="userIcon"></div>
+          <p class="userInfo">const INVENTORY = () => {</p>
+        </div>
+        <div class="inventory-modal-item" id="inventory-modal-item">
+          <p class="userInfo">}</p>
+        </div>
+      </div>
+      <div class="inventory-modal-explain">
+        <div class="inventory-explain-wrap">
+          <p class="inventory-title">C:\Exit404\item ></p>
+          <div>
+            <p onclick="" class="inventory-explain">
+              <span id="item-name"></span>
+            <p class="inventory-explain"><span id="item-explain"></span></p>
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    <button id="question-modal-button">모달</button>
-    <!-- 인벤토리 모달 -->
-    <div class="inventory-modal" id="inventory-modal">
-      <div class="inventory-modal-body">
-        <div class="inventory-modal-item-wrap">
-          <div class="inventory-modal-user">
-            <div class="userIcon"></div>
-            <p class="userInfo">const INVENTORY = () => {</p>
-          </div>
-          <div class="inventory-modal-item" id="inventory-modal-item">
-            <p class="userInfo">}</p>
-          </div>
-        </div>
-        <div class="inventory-modal-explain">
-          <div class="inventory-explain-wrap">
-            <p class="inventory-title">C:\Exit404\item ></p>
-            <div>
-              <p onclick="" class="inventory-explain">
-                <span id="item-name"></span>
-                <p class="inventory-explain"><span id="item-explain"></span></p>
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="inventory-modal-footer">
-        <p class="inventory-modal-footer-text">close: esc</p>
+    <div class="inventory-modal-footer">
+      <p class="inventory-modal-footer-text">close: esc</p>
+    </div>
+  </div>
+
+  <!-- 문제 모달 -->
+  <div class="question-modal" id="question-modal">
+    <div class="question-modal-header" id="question-modal-header">
+      <div class="question-modal-header-search">
+        <div class="question-modal-header-search-icon"></div>
       </div>
     </div>
-
-    <!-- 문제 모달 -->
-    <div class="question-modal" id="question-modal">
-      <div class="question-modal-header" id="question-modal-header">
-        <div class="question-modal-header-search">
-          <div class="question-modal-header-search-icon"></div>
-        </div>
-      </div>
-      <div class="question-modal-body">
-        <div class="question-modal-file">
-          <div class="question-modal-file-menu">
-            <div class="question-modal-file-icon-wrap">
-              <div
-                class="question-modal-file-icon"
-                style="
+    <div class="question-modal-body">
+      <div class="question-modal-file">
+        <div class="question-modal-file-menu">
+          <div class="question-modal-file-icon-wrap">
+            <div class="question-modal-file-icon" style="
                   background-image: url(./assets/image/ant-design_file-outlined.svg);
-                "
-              ></div>
-              <div
-                class="question-modal-file-icon"
-                style="
+                "></div>
+            <div class="question-modal-file-icon" style="
                   background-image: url(./assets/image/bx_search-alt-2.svg);
-                "
-              ></div>
-            </div>
-            <div
-              class="question-modal-file-icon"
-              style="background-image: url(./assets/image/ep_setting.svg)"
-            ></div>
+                "></div>
           </div>
-          <div class="question-modal-file-text-wrap">
-            <div style="display: flex">
-              <img src="./assets/image/downArrow.svg" alt="아래 화살표" />
-              <p class="question-modal-file-text">JavaScript</p>
-            </div>
-            <div class="question-modal-file-text-sub-wrap">
-              <p class="question-modal-file-text">1_quiz.js</p>
-              <p class="question-modal-file-text">2_quiz.js</p>
-              <p class="question-modal-file-text">3_quiz.js</p>
-            </div>
+          <div class="question-modal-file-icon" style="background-image: url(./assets/image/ep_setting.svg)"></div>
+        </div>
+        <div class="question-modal-file-text-wrap">
+          <div style="display: flex">
+            <img src="./assets/image/downArrow.svg" alt="아래 화살표" />
+            <p class="question-modal-file-text">JavaScript</p>
+          </div>
+          <div class="question-modal-file-text-sub-wrap">
+            <p class="question-modal-file-text">1_quiz.js</p>
+            <p class="question-modal-file-text">2_quiz.js</p>
+            <p class="question-modal-file-text">3_quiz.js</p>
           </div>
         </div>
-        <div class="question-modal-anwser-wrap">
-          <div class="question-modal-question">
-            <div class="question-modal-question-file">
-              <p class="question-modal-question-file-text">Question</p>
-              <p class="question-modal-question-file-text">x</p>
-            </div>
+      </div>
+      <div class="question-modal-anwser-wrap">
+        <div class="question-modal-question">
+          <div class="question-modal-question-file">
+            <p class="question-modal-question-file-text">Question</p>
+            <p class="question-modal-question-file-text">x</p>
           </div>
-          <div class="question-modal-answer">
-            <div
-              class="question-modal-answer-menu"
-              id="question-modal-answer-menu"
-            ></div>
-            <div class="question-modal-answer-wrap">
-              <p class="question-modal-answer-text">C:\user\2026\Exit404></p>
-              <div id="answer_result"></div>
-            </div>
+        </div>
+        <div class="question-modal-answer">
+          <div class="question-modal-answer-menu" id="question-modal-answer-menu"></div>
+          <div class="question-modal-answer-wrap">
+            <p class="question-modal-answer-text">C:\user\2026\Exit404></p>
+            <div id="answer_result"></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
-    <script type="module" src="./js/main.js"></script>
-  </body>
+  <script type="module" src="./js/map.js"></script>
+  <script type="module" src="./js/main.js"></script>
+</body>
+
 </html>
