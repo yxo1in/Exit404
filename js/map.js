@@ -32,32 +32,47 @@ const rooms = [
 ];
 
 const walls = [
-    // 왼쪽 라인 
-    { name: "r_left_top", x: 6, y: 2, w: 11, h: 4 },
-    { name: "r_left_bot", x: 6, y: 24, w: 13, h: 4 },
+    // 1. 기존 방 상단 회색 벽 (h: 4로 통일)
+    { name: "w_left_top", x: 6, y: 2, w: 11, h: 4 },
+    { name: "w_left_bot", x: 6, y: 24, w: 13, h: 4 },
 
-    // 중앙 상단 라인 
-    { name: "r_top_1", x: 21, y: -1, w: 7, h: 4 },
-    { name: "r_top_2", x: 31, y: -1, w: 7, h: 4 },
-    { name: "r_top_3", x: 45, y: -1, w: 9, h: 4 },
+    { name: "w_top_1", x: 21, y: -1, w: 7, h: 4 },
+    { name: "w_top_2", x: 31, y: -1, w: 7, h: 4 },
+    { name: "w_top_3", x: 45, y: -1, w: 9, h: 4 },
 
-    // 중앙 
-    { name: "r_mid_center", x: 22, y: 16, w: 13, h: 4 },
-    { name: "r_mid_center_sub", x: 33, y: 16, w: 6, h: 4 },
-    { name: "r_mid_small", x: 47, y: 16, w: 6, h: 4 },
+    { name: "w_mid_center", x: 22, y: 16, w: 13, h: 4 },
+    { name: "w_mid_center_sub", x: 33, y: 16, w: 6, h: 4 },
+    { name: "w_mid_small", x: 47, y: 16, w: 6, h: 4 },
 
-    // 오른쪽 상단 
-    { name: "r_right_top1", x: 57, y: 1, w: 9, h: 4 },
-    //{ name: "r_right_top1_sub", x: 56, y: 13, w: 12, h: 4 },
-    { name: "r_right_top2", x: 70, y: 1, w: 13, h: 4 },
+    { name: "w_right_top1", x: 57, y: 1, w: 9, h: 4 },
+    { name: "w_right_top2", x: 70, y: 1, w: 13, h: 4 },
 
-    // 오른쪽 중앙 
-    { name: "r_right_mid", x: 56, y: 24, w: 11, h: 4 },
-    { name: "r_right_bot1", x: 70, y: 24, w: 9, h: 4 },
+    { name: "w_right_mid", x: 56, y: 23, w: 11, h: 4 },
+    { name: "w_right_bot1", x: 70, y: 23, w: 9, h: 4 },
 
-    // 하단 라인 
-    { name: "r_bot_mid", x: 27, y: 43, w: 17, h: 4 },
-    { name: "r_bot_right", x: 60, y: 40, w: 22, h: 4 }
+    // 2. 상단 메인 복도(c_top_main, y:12) 위쪽 연결 벽 (y: 8, h: 4)
+    { name: "w_top_corridor_link1", x: 17, y: 8, w: 6, h: 4 },
+    { name: "w_top_corridor_link2", x: 25, y: 8, w: 9, h: 4 },
+    { name: "w_top_corridor_link3", x: 36, y: 8, w: 5, h: 4 },
+    { name: "w_top_corridor_link4", x: 50, y: 8, w: 7, h: 4 },
+    { name: "w_top_corridor_link4", x: 45, y: 8, w: 3, h: 4 },
+    { name: "w_top_top_corridor_link", x: 41, y: 6, w: 4, h: 4 },
+    { name: "w_bot_corridor_link", x: 68, y: 15, w: 2, h: 4 },
+    { name: "w_bot_corridor_link", x: 66, y: 13, w: 2, h: 4 },
+
+    // 3. 하단 메인 복도(c_bot_main, y:37) 위쪽 연결 벽 (y: 33, h: 4)
+    { name: "w_bot_corridor_link1", x: 19, y: 33, w: 6, h: 4 },
+    { name: "w_bot_corridor_link2", x: 29, y: 33, w: 8, h: 4 },
+    { name: "w_bot_corridor_link3", x: 37, y: 28, w: 4, h: 4 },
+    { name: "w_bot_corridor_link3", x: 45, y: 33, w: 3, h: 4 },
+    { name: "w_bot_corridor_link3", x: 48, y: 29, w: 7, h: 4 },
+    { name: "w_bot_corridor_link3", x: 55, y: 33, w: 3, h: 4 },
+    { name: "w_bot_corridor_link3", x: 60, y: 33, w: 13, h: 4 },
+    { name: "w_bot_corridor_link4", x: 75, y: 33, w: 8, h: 4 },
+
+    // 4. 하단 라인 방 상단 회색 벽 (h: 4)
+    { name: "w_bot_mid", x: 27, y: 43, w: 17, h: 4 },
+    { name: "w_bot_right", x: 60, y: 40, w: 22, h: 4 }
 ];
 
 const corridors = [
@@ -95,74 +110,115 @@ const corridors = [
     { name: "c_bot_right_pocket", x: 48, y: 33, w: 7, h: 10 }
 ];
 
+const thickness = [];
+
 const roadMap = () => {
     const canvas = document.getElementById("mapCanvas");
     const ctx = canvas.getContext("2d");
 
+    const corridorTile = new Image();
+    corridorTile.src = "../assets/tile/corridor-tile.svg";
+    const toiletTile = new Image();
+    toiletTile.src = "../assets/tile/toilet-tile.jpeg";
+    const woodTile = new Image();
+    woodTile.src = "../assets/tile/wood-tile.png";
+
+
+    let imagesLoaded = 0;
+    const onImageLoad = () => {
+        imagesLoaded++;
+        if (imagesLoaded === 3) {
+            resizeCanvas();
+        }
+    };
+
+    corridorTile.onload = onImageLoad;
+    toiletTile.onload = onImageLoad;
+    woodTile.onload = onImageLoad;
+
     const resizeCanvas = () => {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
-
-        // 크기가 변경되면 맵을 다시 그려줍니다.
         draw();
     };
 
     const draw = () => {
-        // ctx.fillStyle = '#000000';
-        // ctx.fillRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const corridorTile = new Image();
-        corridorTile.src = "../assets/tile/corridor-tile.svg";
-        const toiletTile = new Image();
-        toiletTile.src = "../assets/tile/toilet-tile.jpeg";
-        const woodTile = new Image();
-        woodTile.src = "../assets/tile/wood-tile.png";
+        const BORDER_SIZE = 5;
+        ctx.fillStyle = '#535252';
 
-
-        rooms.forEach(room => {
-            // 좌표 및 크기 계산
-            const drawX = room.x * TILE_SIZE;
-            const drawY = room.y * TILE_SIZE;
-            const drawWidth = room.w * TILE_SIZE;
-            const drawHeight = room.h * TILE_SIZE;
-
-            // 갈색으로 채우기
-            ctx.fillStyle = '#5C3A21';
-            ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
-
+        corridors.forEach(corridor => {
+            ctx.fillRect(
+                corridor.x * TILE_SIZE - BORDER_SIZE,
+                corridor.y * TILE_SIZE - BORDER_SIZE,
+                corridor.w * TILE_SIZE + (BORDER_SIZE * 2),
+                corridor.h * TILE_SIZE + (BORDER_SIZE * 2)
+            );
         });
 
         walls.forEach(wall => {
-
-            const WdrawX = wall.x * TILE_SIZE;
-            const WdrawY = wall.y * TILE_SIZE;
-            const WdrawWidth = wall.w * TILE_SIZE;
-            const WdrawHeight = wall.h * TILE_SIZE;
-
-            ctx.fillStyle = 'rgb(174, 171, 169)';
-            ctx.fillRect(WdrawX, WdrawY, WdrawWidth, WdrawHeight);
-
+            ctx.fillRect(
+                wall.x * TILE_SIZE - BORDER_SIZE,
+                wall.y * TILE_SIZE - BORDER_SIZE,
+                wall.w * TILE_SIZE + (BORDER_SIZE * 2),
+                wall.h * TILE_SIZE + (BORDER_SIZE * 2)
+            );
         });
 
-        corridors.forEach(corridor => {
+        rooms.forEach(room => {
+            ctx.fillRect(
+                room.x * TILE_SIZE - BORDER_SIZE,
+                room.y * TILE_SIZE - BORDER_SIZE,
+                room.w * TILE_SIZE + (BORDER_SIZE * 2),
+                room.h * TILE_SIZE + (BORDER_SIZE * 2)
+            );
+        });
 
+        const corridorPattern = ctx.createPattern(corridorTile, 'repeat');
+        ctx.fillStyle = corridorPattern || 'hsl(0, 0%, 83%)';
+
+        corridors.forEach(corridor => {
             const CdrawX = corridor.x * TILE_SIZE;
             const CdrawY = corridor.y * TILE_SIZE;
             const CdrawWidth = corridor.w * TILE_SIZE;
             const CdrawHeight = corridor.h * TILE_SIZE;
 
-            ctx.fillStyle = 'hsl(0, 0%, 83%)';
             ctx.fillRect(CdrawX, CdrawY, CdrawWidth, CdrawHeight);
         });
 
-    
-    }
+        ctx.fillStyle = 'rgb(167, 166, 166)';
+
+        walls.forEach(wall => {
+            const WdrawX = wall.x * TILE_SIZE;
+            const WdrawY = wall.y * TILE_SIZE;
+            const WdrawWidth = wall.w * TILE_SIZE;
+            const WdrawHeight = wall.h * TILE_SIZE;
+
+            ctx.fillRect(WdrawX, WdrawY, WdrawWidth, WdrawHeight);
+        });
+        const woodPattern = ctx.createPattern(woodTile, 'repeat');
+        const matrix = new DOMMatrix();
+        matrix.scaleSelf(0.12, 0.12);
+
+        // 1. 매트릭스를 패턴에 적용
+        woodPattern.setTransform(matrix);
+
+        // 2. 캔버스 fillStyle에 패턴 지정
+        ctx.fillStyle = woodPattern;
+
+        rooms.forEach(room => {
+            const drawX = room.x * TILE_SIZE;
+            const drawY = room.y * TILE_SIZE;
+            const drawWidth = room.w * TILE_SIZE;
+            const drawHeight = room.h * TILE_SIZE;
+
+            ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
+        });
+    };
 
     window.addEventListener('resize', resizeCanvas);
-    resizeCanvas();
 };
-
-
 
 roadMap();
 export { roadMap };
