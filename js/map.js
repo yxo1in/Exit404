@@ -1,4 +1,6 @@
-const TILE_SIZE = 16;
+import { getPlayerPos } from './player.js';
+
+const TILE_SIZE = 32;
 const WALL_THICKNESS = 32;
 const CORRIDOR_TILE = 32;
 
@@ -117,7 +119,7 @@ const roadMap = () => {
     const ctx = canvas.getContext("2d");
 
     const corridorTile = new Image();
-    corridorTile.src = "../assets/tile/corridor-tile.svg";
+    corridorTile.src = "../assets/tile/corridor-tile.png";
     const toiletTile = new Image();
     toiletTile.src = "../assets/tile/toilet-tile.jpeg";
     const woodTile = new Image();
@@ -145,8 +147,11 @@ const roadMap = () => {
     const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-        const BORDER_SIZE = 5;
-        ctx.fillStyle = '#535252';
+        // ctx.fillStyle = '#000000'; // 검정색 지정
+        // ctx.fillRect(0, 0, canvas.width, canvas.height); // 캔버스 전체 영역 칠하기
+
+        const BORDER_SIZE = 6;
+        ctx.fillStyle = '#84818a';
 
         corridors.forEach(corridor => {
             ctx.fillRect(
@@ -175,8 +180,17 @@ const roadMap = () => {
             );
         });
 
+
         const corridorPattern = ctx.createPattern(corridorTile, 'repeat');
-        ctx.fillStyle = corridorPattern || 'hsl(0, 0%, 83%)';
+        const Cmatrix = new DOMMatrix();
+        Cmatrix.scaleSelf(0.2, 0.2);
+
+        // 1. 매트릭스를 패턴에 적용
+        corridorPattern.setTransform(Cmatrix);
+
+        // 2. 캔버스 fillStyle에 패턴 지정
+        ctx.fillStyle = corridorPattern;
+
 
         corridors.forEach(corridor => {
             const CdrawX = corridor.x * TILE_SIZE;
@@ -185,9 +199,10 @@ const roadMap = () => {
             const CdrawHeight = corridor.h * TILE_SIZE;
 
             ctx.fillRect(CdrawX, CdrawY, CdrawWidth, CdrawHeight);
+
         });
 
-        ctx.fillStyle = 'rgb(167, 166, 166)';
+        ctx.fillStyle = 'rgb(88, 68, 68)';
 
         walls.forEach(wall => {
             const WdrawX = wall.x * TILE_SIZE;
@@ -199,7 +214,7 @@ const roadMap = () => {
         });
         const woodPattern = ctx.createPattern(woodTile, 'repeat');
         const matrix = new DOMMatrix();
-        matrix.scaleSelf(0.12, 0.12);
+        matrix.scaleSelf(0.3, 0.3);
 
         // 1. 매트릭스를 패턴에 적용
         woodPattern.setTransform(matrix);
@@ -215,7 +230,34 @@ const roadMap = () => {
 
             ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
         });
+
+        // ... (rooms, walls, corridors 배열 및 맵 패턴 그리는 기존 로직 그대로 유지) ...
+
+
+        const { x: currentX, y: currentY } = getPlayerPos(); // 실시간 x, y 좌표 가져오기
+        const pos = getPlayerPos(); // 기존에 쓰시던 좌표 함수 그대로 사용[cite: 2]
+
+        const playerCenterX = pos.x + 90;  
+        const playerCenterY = pos.y + 70;  
+        const visionRadius = 180;          //시야 크기 
+
+
+        const gradient = ctx.createRadialGradient(
+            playerCenterX, playerCenterY, 0,
+            playerCenterX, playerCenterY, visionRadius
+        );
+
+        gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');        // 캐릭터 중심: 보임
+        gradient.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');    // 경계: 반투명 어둠
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.98)');     // 외곽: 검은 어둠
+
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // 매 프레임 위치 재계산 및 갱신
+        requestAnimationFrame(draw);
     };
+
 
     window.addEventListener('resize', resizeCanvas);
 };
