@@ -150,7 +150,7 @@ const roadMap = () => {
         // ctx.fillStyle = '#000000'; // 검정색 지정
         // ctx.fillRect(0, 0, canvas.width, canvas.height); // 캔버스 전체 영역 칠하기
 
-        const BORDER_SIZE = 6;
+        const BORDER_SIZE = 8;
         ctx.fillStyle = '#84818a';
 
         corridors.forEach(corridor => {
@@ -180,6 +180,17 @@ const roadMap = () => {
             );
         });
 
+        ctx.fillStyle = 'rgb(88, 68, 68)';
+
+        walls.forEach(wall => {
+            const WdrawX = wall.x * TILE_SIZE;
+            const WdrawY = wall.y * TILE_SIZE;
+            const WdrawWidth = wall.w * TILE_SIZE;
+            const WdrawHeight = wall.h * TILE_SIZE;
+
+            ctx.fillRect(WdrawX, WdrawY, WdrawWidth, WdrawHeight);
+        });
+
 
         const corridorPattern = ctx.createPattern(corridorTile, 'repeat');
         const Cmatrix = new DOMMatrix();
@@ -202,16 +213,9 @@ const roadMap = () => {
 
         });
 
-        ctx.fillStyle = 'rgb(88, 68, 68)';
 
-        walls.forEach(wall => {
-            const WdrawX = wall.x * TILE_SIZE;
-            const WdrawY = wall.y * TILE_SIZE;
-            const WdrawWidth = wall.w * TILE_SIZE;
-            const WdrawHeight = wall.h * TILE_SIZE;
 
-            ctx.fillRect(WdrawX, WdrawY, WdrawWidth, WdrawHeight);
-        });
+
         const woodPattern = ctx.createPattern(woodTile, 'repeat');
         const matrix = new DOMMatrix();
         matrix.scaleSelf(0.3, 0.3);
@@ -237,8 +241,8 @@ const roadMap = () => {
         const { x: currentX, y: currentY } = getPlayerPos(); // 실시간 x, y 좌표 가져오기
         const pos = getPlayerPos(); // 기존에 쓰시던 좌표 함수 그대로 사용[cite: 2]
 
-        const playerCenterX = pos.x + 90;  
-        const playerCenterY = pos.y + 70;  
+        const playerCenterX = pos.x + 90;
+        const playerCenterY = pos.y + 70;
         const visionRadius = 180;          //시야 크기 
 
 
@@ -254,7 +258,7 @@ const roadMap = () => {
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // 매 프레임 위치 재계산 및 갱신
+        // // 매 프레임 위치 재계산 및 갱신
         requestAnimationFrame(draw);
     };
 
