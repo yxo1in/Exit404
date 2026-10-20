@@ -13,8 +13,8 @@ const character = {
 
 const player = document.getElementById("player");
 
-let x = 100;
-let y = 100;
+let x = 200;
+let y = 200;
 let see = "down";
 let pressed = {};
 
@@ -126,4 +126,9 @@ setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
 move();
 requestAnimationFrame(loop);
 
-export { playerIntersect, stop };
+
+
+const getPlayerPos = () => ({ x, y });
+
+// 기존 export 구문에 getPlayerPos를 추가
+export { playerIntersect, stop, getPlayerPos };
