@@ -1,4 +1,4 @@
-const SPEED = 8;
+const SPEED = 10;
 
 const character = {
   "idle-up": "mirim_student back.png",
@@ -103,6 +103,7 @@ const playerIntersect = (key) => {
     intersect();
   }
   if (key === "KeyI") {
+    console.log("열린당");
     inventoryOpen();
   }
   if (key === "Escape") {

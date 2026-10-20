@@ -6,6 +6,8 @@
 .question-modal {
   width: 0;
   height: 0;
+  position: fixed;
+  margin: auto;
   overflow: hidden;
   border-radius: 15px;
   background: #303030;

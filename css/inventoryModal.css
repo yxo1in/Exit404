@@ -6,6 +6,9 @@
 }
 
 .inventory-modal {
+  position: fixed;
+  z-index: 1000000;
+  margin: auto;
   width: 0;
   height: 0;
   background-color: #303030;

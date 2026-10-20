@@ -230,31 +230,31 @@ const roadMap = () => {
 
     // ... (rooms, walls, corridors 배열 및 맵 패턴 그리는 기존 로직 그대로 유지) ...
 
-    const { x: currentX, y: currentY } = getPlayerPos(); // 실시간 x, y 좌표 가져오기
-    const pos = getPlayerPos(); // 기존에 쓰시던 좌표 함수 그대로 사용[cite: 2]
+    // const { x: currentX, y: currentY } = getPlayerPos(); // 실시간 x, y 좌표 가져오기
+    // const pos = getPlayerPos(); // 기존에 쓰시던 좌표 함수 그대로 사용[cite: 2]
 
-    const playerCenterX = pos.x + 90;
-    const playerCenterY = pos.y + 70;
-    const visionRadius = 180; //시야 크기
+    // const playerCenterX = pos.x + 90;
+    // const playerCenterY = pos.y + 70;
+    // const visionRadius = 180; //시야 크기
 
-    const gradient = ctx.createRadialGradient(
-      playerCenterX,
-      playerCenterY,
-      0,
-      playerCenterX,
-      playerCenterY,
-      visionRadius,
-    );
+    // const gradient = ctx.createRadialGradient(
+    //   playerCenterX,
+    //   playerCenterY,
+    //   0,
+    //   playerCenterX,
+    //   playerCenterY,
+    //   visionRadius,
+    // );
 
-    gradient.addColorStop(0, "rgba(0, 0, 0, 0)"); // 캐릭터 중심: 보임
-    gradient.addColorStop(0.6, "rgba(0, 0, 0, 0.4)"); // 경계: 반투명 어둠
-    gradient.addColorStop(1, "rgba(0, 0, 0, 0.98)"); // 외곽: 검은 어둠
+    // gradient.addColorStop(0, "rgba(0, 0, 0, 0)"); // 캐릭터 중심: 보임
+    // gradient.addColorStop(0.6, "rgba(0, 0, 0, 0.4)"); // 경계: 반투명 어둠
+    // gradient.addColorStop(1, "rgba(0, 0, 0, 0.98)"); // 외곽: 검은 어둠
 
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // ctx.fillStyle = gradient;
+    // ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    // // 매 프레임 위치 재계산 및 갱신
-    requestAnimationFrame(draw);
+    // // // 매 프레임 위치 재계산 및 갱신
+    // requestAnimationFrame(draw);
   };
 
   window.addEventListener("resize", resizeCanvas);
