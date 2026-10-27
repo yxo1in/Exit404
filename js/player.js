@@ -27,7 +27,12 @@ const setCharacter = (move) => {
 
 const move = () => {
   const isLeft = see === "left" ? " scaleX(-1)" : "";
-  player.style.transform = `translate(${x}px, ${y}px)${isLeft}`;
+
+  // 플레이어 DOM을 화면 정중앙에 고정 (x, y 좌표로 직접 translate 하지 않음)
+  player.style.position = "fixed";
+  player.style.left = "50%";
+  player.style.top = "50%";
+  player.style.transform = `translate(-50%, -50%)${isLeft}`;
 };
 
 const loop = () => {

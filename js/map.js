@@ -1,6 +1,6 @@
 import { getPlayerPos } from './player.js';
 
-const TILE_SIZE = 32;
+const TILE_SIZE = 40;
 const WALL_THICKNESS = 32;
 const CORRIDOR_TILE = 32;
 
@@ -147,6 +147,15 @@ const roadMap = () => {
     const draw = () => {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+        // ★ [카메라 추적 추가] 1. 플레이어 위치 및 카메라 Offset 계산
+        const pos = getPlayerPos();
+        const cameraX = (canvas.width / 2) - pos.x;
+        const cameraY = (canvas.height / 2) - pos.y;
+
+        // ★ [카메라 추적 추가] 2. 카메라 이동 적용
+        ctx.save();
+        ctx.translate(cameraX, cameraY);
+
         // ctx.fillStyle = '#000000'; // 검정색 지정
         // ctx.fillRect(0, 0, canvas.width, canvas.height); // 캔버스 전체 영역 칠하기
 
@@ -235,30 +244,9 @@ const roadMap = () => {
             ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
         });
 
-        // ... (rooms, walls, corridors 배열 및 맵 패턴 그리는 기존 로직 그대로 유지) ...
+        // ★ [카메라 추적 추가] 3. 카메라 이동 복원
+        ctx.restore();
 
-
-        const { x: currentX, y: currentY } = getPlayerPos(); // 실시간 x, y 좌표 가져오기
-        const pos = getPlayerPos(); // 기존에 쓰시던 좌표 함수 그대로 사용[cite: 2]
-
-        const playerCenterX = pos.x + 90;
-        const playerCenterY = pos.y + 70;
-        const visionRadius = 180;          //시야 크기 
-
-
-        const gradient = ctx.createRadialGradient(
-            playerCenterX, playerCenterY, 0,
-            playerCenterX, playerCenterY, visionRadius
-        );
-
-        gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');        // 캐릭터 중심: 보임
-        gradient.addColorStop(0.6, 'rgba(0, 0, 0, 0.4)');    // 경계: 반투명 어둠
-        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.98)');     // 외곽: 검은 어둠
-
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // // 매 프레임 위치 재계산 및 갱신
         requestAnimationFrame(draw);
     };
 
