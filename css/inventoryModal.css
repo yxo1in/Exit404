@@ -1,8 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap");
 
 @font-face {
-  font-family: 'Pretendard';
-  src: url('../assets/fonts/Pretendard/woff2/PretendardVariable.woff2');
+  font-family: "Pretendard";
+  src: url("../assets/fonts/Pretendard/woff2/PretendardVariable.woff2");
 }
 
 .inventory-modal {
@@ -71,7 +71,10 @@
   cursor: pointer;
   box-shadow: 8px 4px 1px 0 rgba(33, 21, 21, 0.25);
 }
-
+.item-wrap:hover {
+  background: #444444;
+  transition: 0.2s; 
+}
 .inventory-modal-body {
   display: flex;
   flex-direction: row;
@@ -129,5 +132,5 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  color: #4E9CE5;
+  color: #4e9ce5;
 }

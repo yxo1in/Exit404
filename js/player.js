@@ -1,4 +1,4 @@
-const SPEED = 10;
+const SPEED = 4;
 
 const character = {
   "idle-up": "mirim_student back.png",
