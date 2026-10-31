@@ -1,4 +1,4 @@
-const SPEED = 4;
+let run = false;
 
 const character = {
   "idle-up": "mirim_student back.png",
@@ -19,7 +19,6 @@ let see = "down";
 let pressed = {};
 
 const setCharacter = (move) => {
-  // 움직이고 있는데 같은 행동을 하면 그냥 그대로 유지
   if (player.dataset.sprite === move) return;
   player.dataset.sprite = move;
   player.src = encodeURI(`./assets/character/${character[move]}`);
@@ -37,23 +36,44 @@ const move = () => {
 
 const loop = () => {
   let moved = false;
-
-  if (pressed.ArrowUp) {
-    y -= SPEED;
-    see = "up";
-    moved = true;
-  } else if (pressed.ArrowDown) {
-    y += SPEED;
-    see = "down";
-    moved = true;
-  } else if (pressed.ArrowLeft) {
-    x -= SPEED;
-    see = "left";
-    moved = true;
-  } else if (pressed.ArrowRight) {
-    x += SPEED;
-    see = "right";
-    moved = true;
+  if (!run) {
+    let SPEED = 4;
+    if (pressed.ArrowUp) {
+      y -= SPEED;
+      see = "up";
+      moved = true;
+    } else if (pressed.ArrowDown) {
+      y += SPEED;
+      see = "down";
+      moved = true;
+    } else if (pressed.ArrowLeft) {
+      x -= SPEED;
+      see = "left";
+      moved = true;
+    } else if (pressed.ArrowRight) {
+      x += SPEED;
+      see = "right";
+      moved = true;
+    }
+  } else if (run) {
+    let SPEED = 6;
+    if (pressed.ArrowUp) {
+      y -= SPEED;
+      see = "up";
+      moved = true;
+    } else if (pressed.ArrowDown) {
+      y += SPEED;
+      see = "down";
+      moved = true;
+    } else if (pressed.ArrowLeft) {
+      x -= SPEED;
+      see = "left";
+      moved = true;
+    } else if (pressed.ArrowRight) {
+      x += SPEED;
+      see = "right";
+      moved = true;
+    }
   }
 
   setCharacter(moved ? `walk-${see}` : `idle-${see}`);
@@ -114,10 +134,13 @@ const playerIntersect = (key) => {
   if (key === "Escape") {
     inventoryClose();
   }
+  if (key === "ShiftLeft") {
+    run = true;
+  }
 };
-
 const stop = (key) => {
   pressed[key] = false;
+  run = false;
 };
 
 // pressed를 객체 형식으로 해서
@@ -132,9 +155,6 @@ setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
 move();
 requestAnimationFrame(loop);
 
-
-
 const getPlayerPos = () => ({ x, y });
 
-// 기존 export 구문에 getPlayerPos를 추가
 export { playerIntersect, stop, getPlayerPos };
