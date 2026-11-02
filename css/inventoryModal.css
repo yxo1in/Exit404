@@ -2,10 +2,13 @@
 
 @font-face {
   font-family: "Pretendard";
-  src: url("../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf");
+  src: url("../assets/fonts/Pretendard/woff2/PretendardVariable.woff2");
 }
 
 .inventory-modal {
+  position: fixed;
+  z-index: 1000000;
+  margin: auto;
   width: 0;
   height: 0;
   background-color: #303030;
@@ -68,7 +71,10 @@
   cursor: pointer;
   box-shadow: 8px 4px 1px 0 rgba(33, 21, 21, 0.25);
 }
-
+.item-wrap:hover {
+  background: #444444;
+  transition: 0.2s; 
+}
 .inventory-modal-body {
   display: flex;
   flex-direction: row;
@@ -126,5 +132,5 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  color: #4E9CE5;
+  color: #4e9ce5;
 }

@@ -1,11 +1,13 @@
 @font-face {
   font-family: 'Pretendard';
-  src: url('../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf');
+  src: url('../assets/fonts/Pretendard/woff2/PretendardVariable.woff2');
 }
 
 .question-modal {
   width: 0;
   height: 0;
+  position: fixed;
+  margin: auto;
   overflow: hidden;
   border-radius: 15px;
   background: #303030;

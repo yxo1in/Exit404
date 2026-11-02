@@ -255,4 +255,4 @@ const roadMap = () => {
 };
 
 roadMap();
-export { roadMap };
+export { roadMap, rooms, walls, corridors };
