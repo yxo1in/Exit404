@@ -247,7 +247,7 @@ const roadMap = () => {
 // 맵 칸 표: 0 = 바닥, 1 = 벽, 다른 숫자는 아이템??
 const gridMinX = 6; // 방, 복도, 벽으 ㅣ가장 작은 x값ㅅ
 const gridMinY = -1; // 얘도 똑같
-const COLS = 77; // 가로 칸 수 => 가장 오른쪽에 잇는거(w_right_top2) - gridMinX
+const COLS = 77+7; // 가로 칸 수 => 가장 오른쪽에 잇는거(w_right_top2) - gridMinX
 const ROWS = 54; // 세로 칸 수 => 가장 아래 잇는거
 
 const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
@@ -255,14 +255,14 @@ const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
 rooms.map((r) => {
   for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
     for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
-      grid[row][col] = 0;
+      grid[row][col+7] = 0;
     }
   }
 });
 corridors.map((r) => {
   for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
     for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
-      grid[row][col] = 0;
+      grid[row][col+7] = 0;
     }
   }
 });
@@ -278,8 +278,8 @@ grid.shift();
 const isMove = (x, y) => {
     console.log(grid);
   console.log(x, y);
-  let cx = Math.floor((x - gridMinX) / TILE_SIZE);
-  let cy = Math.floor((y - gridMinY) / TILE_SIZE);
+  let cx = Math.ceil((x - gridMinX) / TILE_SIZE);
+  let cy = Math.ceil((y - gridMinY) / TILE_SIZE);
   console.log(cx, cy);
   console.log(grid[cy][cx]);
   if (grid[cy][cx] === 0) {

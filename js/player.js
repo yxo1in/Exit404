@@ -2,7 +2,7 @@ import { isMove } from "./map.js";
 
 let run = false;
 
-// 스태미나 관련 변수 
+// 스태미나 관련 변수
 const MAX_STAMINA = 100;
 let currentStamina = MAX_STAMINA;
 const DRAIN_RATE = 0.6;
@@ -25,8 +25,8 @@ const character = {
 
 const player = document.getElementById("player");
 
-let x = 220;
-let y = 220;
+let x = 260;
+let y = 230;
 let see = "down";
 let pressed = {};
 
@@ -85,21 +85,29 @@ const loop = () => {
   } else if (run) {
     const SPEED = 6;
     if (pressed.ArrowUp) {
-      y -= SPEED;
+      if (isMove(x, y - SPEED)) {
+        y -= SPEED;
+        moved = true;
+      }
       see = "up";
-      moved = true;
     } else if (pressed.ArrowDown) {
-      y += SPEED;
+      if (isMove(x, y + SPEED)) {
+        y += SPEED;
+        moved = true;
+      }
       see = "down";
-      moved = true;
     } else if (pressed.ArrowLeft) {
-      x -= SPEED;
+      if (isMove(x - SPEED, y)) {
+        x -= SPEED;
+        moved = true;
+      }
       see = "left";
-      moved = true;
     } else if (pressed.ArrowRight) {
-      x += SPEED;
+      if (isMove(x + SPEED, y)) {
+        x += SPEED;
+        moved = true;
+      }
       see = "right";
-      moved = true;
     }
   }
 
