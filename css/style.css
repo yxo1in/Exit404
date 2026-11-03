@@ -16,59 +16,43 @@
             rgba(0, 0, 0, 1) 100%);
 }
 
-/* ★ 파란색 컨테이너 */
 #stamina-container {
     position: fixed;
     left: 24px;
     bottom: 24px;
     width: 320px;
-    height: 32px;
-    background-color: #2b1cee;
-    /* 이미지의 쨍한 블루 컬러 */
-    border-radius: 4px;
-    /* 레트로 느낌의 살짝 둥근 모서리 */
-    padding: 4px 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+
+    height: 36px;
+    background: url('../assets/image/stamina_bar.svg') no-repeat center / contain;
+
+    /* 이미지 안의 '빈 스태미나 칸' 위치에 맞게 패딩 조절 (상 우 하 좌) */
+    /* 왼쪽 패딩(55px 자리)을 늘려서 :( 아이콘 오른쪽부터 게이지가 시작되게 설정 */
+    padding: 10px 12px 10px 55px;
+    box-sizing: border-box;
     z-index: 9999;
 }
 
-/* ★ 좌측 :( 아이콘 텍스트 */
-.stamina-icon-text {
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 16px;
-    font-family: monospace;
-    /* 레트로 느낌의 고정폭 폰트 */
-    letter-spacing: -1px;
-    user-select: none;
-    flex-shrink: 0;
-}
-
-/* ★ 게이지 바 전체 영역 */
-.stamina-track {
-    flex: 1;
-    height: 14px;
-    background: rgba(0, 0, 0, 0.15);
-    /* 바닥 투명 트랙 */
-    border-radius: 7px;
-    overflow: hidden;
-    position: relative;
-}
-
-/* ★ 흰색 점선/블록 형태 스태미나 게이지 바 */
 #stamina-bar {
-    width: 80%;
-    /* 스태미나 잔여량 (%) */
     height: 100%;
-    /* 8px 흰색 블록 + 4px 간격을 반복 생성하는 패턴 그라데이션 */
-    background: repeating-linear-gradient(90deg,
-            #ffffff 0px,
-            #ffffff 8px,
+    background-color: #ffffff;
+
+    /* 총 20칸이라면 steps(20)을 줘서 20단계로만 바뀌도록 강제 */
+    /* transition: width 0.1s steps(20, jump-end); */
+}
+
+.stamina-track {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    /* 픽셀 구멍 마스크 처리 */
+    -webkit-mask-image: repeating-linear-gradient(90deg,
+            #000 0px,
+            #000 8px,
             transparent 8px,
             transparent 12px);
-    border-radius: 7px;
-    transition: width 0.1s linear;
+    mask-image: repeating-linear-gradient(90deg,
+            #000 0px,
+            #000 8px,
+            transparent 8px,
+            transparent 12px);
 }
