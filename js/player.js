@@ -2,6 +2,16 @@ import { isMove } from "./map.js";
 
 let run = false;
 
+// 스태미나 관련 변수 
+const MAX_STAMINA = 100;
+let currentStamina = MAX_STAMINA;
+const DRAIN_RATE = 0.6;
+const RECOVERY_RATE = 0.3;
+let isExhausted = false;
+
+const staminaBar = document.getElementById("stamina-bar");
+const staminaContainer = document.getElementById("stamina-container");
+
 const character = {
   "idle-up": "mirim_student back.png",
   "idle-down": "mirim_student front.png",
@@ -39,6 +49,12 @@ const move = () => {
 const c = document.getElementById("player");
 const loop = () => {
   let moved = false;
+
+  // 스태미나 소진(탈진) 상태이거나 게이지가 0이면 run을 강제로 끔
+  if (isExhausted || currentStamina <= 0) {
+    run = false;
+  }
+
   if (!run) {
     const SPEED = 4;
     if (pressed.ArrowUp) {
@@ -85,6 +101,23 @@ const loop = () => {
       see = "right";
       moved = true;
     }
+  }
+
+  if (run && moved) {
+    currentStamina = Math.max(0, currentStamina - DRAIN_RATE);
+    if (currentStamina === 0) {
+      isExhausted = true;
+    }
+  } else {
+    currentStamina = Math.min(MAX_STAMINA, currentStamina + RECOVERY_RATE);
+    if (isExhausted && currentStamina >= 20) {
+      isExhausted = false;
+    }
+  }
+
+  // ⚡ [추가] UI 게이지 업데이트
+  if (staminaBar) {
+    staminaBar.style.width = `${(currentStamina / MAX_STAMINA) * 90}%`;
   }
 
   setCharacter(moved ? `walk-${see}` : `idle-${see}`);

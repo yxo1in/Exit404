@@ -12,3 +12,15 @@ p {
   font-family: 'Pretendard';
   src: url('../assets/fonts/Pretendard/woff2/PretendardVariable.woff2');
 }
+
+#mapCanvas,
+#map,
+body {
+  user-select: none;
+  /* 텍스트/이미지 드래그 선택 방지 */
+  -webkit-user-select: none;
+  touch-action: none;
+  /* 터치/마우스 스크롤 방지 */
+  overflow: hidden;
+  /* 브라우저 스크롤바 생성 방지 */
+}
