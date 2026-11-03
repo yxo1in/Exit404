@@ -1,6 +1,8 @@
+import { isMove } from "./map.js";
+
 let run = false;
 
-// 스태미나 관련 변수 
+// 스태미나 관련 변수
 const MAX_STAMINA = 100;
 let currentStamina = MAX_STAMINA;
 const DRAIN_RATE = 0.6;
@@ -23,8 +25,8 @@ const character = {
 
 const player = document.getElementById("player");
 
-let x = 200;
-let y = 200;
+let x = 260;
+let y = 230;
 let see = "down";
 let pressed = {};
 
@@ -44,6 +46,7 @@ const move = () => {
   player.style.transform = `translate(-50%, -50%)${isLeft}`;
 };
 
+const c = document.getElementById("player");
 const loop = () => {
   let moved = false;
 
@@ -53,42 +56,58 @@ const loop = () => {
   }
 
   if (!run) {
-    let SPEED = 4;
+    const SPEED = 4;
     if (pressed.ArrowUp) {
-      y -= SPEED;
+      if (isMove(x, y - SPEED)) {
+        y -= SPEED;
+        moved = true;
+      }
       see = "up";
-      moved = true;
     } else if (pressed.ArrowDown) {
-      y += SPEED;
+      if (isMove(x, y + SPEED)) {
+        y += SPEED;
+        moved = true;
+      }
       see = "down";
-      moved = true;
     } else if (pressed.ArrowLeft) {
-      x -= SPEED;
+      if (isMove(x - SPEED, y)) {
+        x -= SPEED;
+        moved = true;
+      }
       see = "left";
-      moved = true;
     } else if (pressed.ArrowRight) {
-      x += SPEED;
+      if (isMove(x + SPEED, y)) {
+        x += SPEED;
+        moved = true;
+      }
       see = "right";
-      moved = true;
     }
   } else if (run) {
-    let SPEED = 6;
+    const SPEED = 6;
     if (pressed.ArrowUp) {
-      y -= SPEED;
+      if (isMove(x, y - SPEED)) {
+        y -= SPEED;
+        moved = true;
+      }
       see = "up";
-      moved = true;
     } else if (pressed.ArrowDown) {
-      y += SPEED;
+      if (isMove(x, y + SPEED)) {
+        y += SPEED;
+        moved = true;
+      }
       see = "down";
-      moved = true;
     } else if (pressed.ArrowLeft) {
-      x -= SPEED;
+      if (isMove(x - SPEED, y)) {
+        x -= SPEED;
+        moved = true;
+      }
       see = "left";
-      moved = true;
     } else if (pressed.ArrowRight) {
-      x += SPEED;
+      if (isMove(x + SPEED, y)) {
+        x += SPEED;
+        moved = true;
+      }
       see = "right";
-      moved = true;
     }
   }
 
@@ -122,20 +141,20 @@ const intersect = () => {
 
 let isOpenQuestionModal = false;
 let isOpenInventory = false;
-document
-  .getElementById("question-modal-button")
-  .addEventListener("click", () => {
-    const modal = document.getElementById("question-modal");
-    if (!isOpenQuestionModal && !isOpenInventory) {
-      modal.style.width = "1328px";
-      modal.style.height = "858px";
-      isOpenQuestionModal = !isOpenQuestionModal;
-    } else {
-      modal.style.width = "0px";
-      modal.style.height = "0px";
-      isOpenQuestionModal = !isOpenQuestionModal;
-    }
-  });
+// document
+//   .getElementById("question-modal-button")
+//   .addEventListener("click", () => {
+//     const modal = document.getElementById("question-modal");
+//     if (!isOpenQuestionModal && !isOpenInventory) {
+//       modal.style.width = "1328px";
+//       modal.style.height = "858px";
+//       isOpenQuestionModal = !isOpenQuestionModal;
+//     } else {
+//       modal.style.width = "0px";
+//       modal.style.height = "0px";
+//       isOpenQuestionModal = !isOpenQuestionModal;
+//     }
+//   });
 
 const inventoryModal = document.getElementById("inventory-modal");
 const inventoryOpen = () => {
