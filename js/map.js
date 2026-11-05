@@ -320,7 +320,7 @@ let gy;
 const setGoal = (x, y) => {
   gx = x;
   gy = y;
-}
+};
 const BFS = (sx, sy) => {
   // 시작 좌표를 매개변수로 받
   const queue = [];
@@ -332,10 +332,10 @@ const BFS = (sx, sy) => {
 
   while (queue.length) {
     const current = queue.shift();
-    if(current.row === gy && current.col === gx){
+    if (current.row === gy && current.col === gx) {
       break;
     }
-    
+
     // 상하좌우 계산
     for (let i = 0; i < 4; i++) {
       const nr = current.row + dr[i];
@@ -353,11 +353,26 @@ const BFS = (sx, sy) => {
       }
     }
   }
-  if(current.row === sy && current.col === sx){
-    return null;
+  let cur = { row: gy, col: gx };
+  const path = [];
+  while (!(cur.row === sy && cur.col === sx)) {
+    path.push(cur);
+    cur = prev[cur.row][cur.col];
   }
+  return path.reverse();
 };
 
 roadMap();
 
-export { roadMap, rooms, walls, corridors, grid, gridMinX, gridMinY, isMove, setGoal };
+export {
+  roadMap,
+  rooms,
+  walls,
+  corridors,
+  grid,
+  gridMinX,
+  gridMinY,
+  isMove,
+  setGoal,
+  BFS,
+};
