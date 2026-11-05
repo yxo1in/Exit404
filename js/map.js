@@ -247,7 +247,7 @@ const roadMap = () => {
 // 맵 칸 표: 0 = 바닥, 1 = 벽, 다른 숫자는 아이템??
 const gridMinX = 6; // 방, 복도, 벽으 ㅣ가장 작은 x값ㅅ
 const gridMinY = -1; // 얘도 똑같
-const COLS = 77+7; // 가로 칸 수 => 가장 오른쪽에 잇는거(w_right_top2) - gridMinX
+const COLS = 77 + 7; // 가로 칸 수 => 가장 오른쪽에 잇는거(w_right_top2) - gridMinX
 const ROWS = 54; // 세로 칸 수 => 가장 아래 잇는거
 
 const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
@@ -255,14 +255,14 @@ const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
 rooms.map((r) => {
   for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
     for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
-      grid[row][col+7] = 0;
+      grid[row][col + 7] = 0;
     }
   }
 });
 corridors.map((r) => {
   for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
     for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
-      grid[row][col+7] = 0;
+      grid[row][col + 7] = 0;
     }
   }
 });
@@ -274,14 +274,15 @@ grid.shift();
 	=> 이걸 토대로 배열에 넣어서 구해야하는데.......
 	=> minValue - 캐릭터 좌표값 하면 인덱스 구해질듯.!!!!
 3. 에러 발생 => 벽이 아닌데 막힘, 벽인데 안막힘 => 배열 인덱스를 잘못 가져온듯....
+4. 해결!!!!!!!!!!!!!!!!!!
 */
 const isMove = (x, y) => {
-    console.log(grid);
-  console.log(x, y);
+  // console.log(grid);
+  // console.log(x, y);
   let cx = Math.ceil((x - gridMinX) / TILE_SIZE);
   let cy = Math.ceil((y - gridMinY) / TILE_SIZE);
-  console.log(cx, cy);
-  console.log(grid[cy][cx]);
+  // console.log(cx, cy);
+  // console.log(grid[cy][cx]);
   if (grid[cy][cx] === 0) {
     console.log(true);
     return true;
@@ -290,5 +291,91 @@ const isMove = (x, y) => {
   return false;
 };
 
+/* 
+  BFS 구현하기
+  1. queue 하나 만들기
+  2. 시작 정점 = 선생님 좌표값
+  3. 시작 정점의 adjacent => 해당 좌표의 한 칸 떨어진 좌표 => dx, dy로 구현 + 정점의 값이 0이여야함
+  4. 근데 또 그렇게 하면 방문한 정점을 재방문하는 경우가 생길 수 있다 => 방문햇는지 체크 
+  5. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
+    => 1) prev에 넣는 값의 형식은 객체로, {row : , col : } 로 정의한다.
+       2) prev에 처음 값을 넣을 땐 어디서 어디로 이동했는지 알 수 없음 => 해당 좌표값 넣기.
+       */
+/* 
+  prev 흐름
+  0. 현재 좌표(선생님 좌표)와 캐릭터의 좌표가 같으면 GAME OVER => prev 실행 X
+  1. 우선 prev를 만들 때 grid와 같은 크기로 만든 뒤 값을 null로 채운다.
+  2. 큐에 넣는 순간 prev에 dequeue한 값을 넣는다.
+  3. 조건 = 범위 안인가? + 해당 grid 값이 0인가? 해당 prev의 값이 null인지를 만족하면 큐에 enqueue
+  4. BFS를 호출할 때마다 prev는 초기화
+  5. 역추적 끝내는 조건 => prev[지금 row, 지금 col] == 선생님 칸
+  6. prev로 최종 다착 지점을 가르키는 지점을 가리키는 지점을 ... 반복해서 경로 찾기
+  
+  => 총 반복문 2개 (BFS, prev)
+*/
+const dr = [-1, 1, 0, 0]; // 상하좌우
+const dc = [0, 0, -1, 1]; // 상하좌우
+let gx;
+let gy;
+const setGoal = (x, y) => {
+  gx = Math.ceil((x - gridMinX) / TILE_SIZE);
+  gy = Math.ceil((y - gridMinY) / TILE_SIZE);
+};
+const BFS = (sx, sy) => {
+  // 시작 좌표를 매개변수로 받
+  if (gx === undefined) return null; // setGoal 호출 전
+  const queue = [];
+  queue.push({ row: sy, col: sx });
+  const prev = Array.from({ length: grid.length }, () =>
+    Array(grid[0].length).fill(null),
+  );
+  prev[sy][sx] = { row: sy, col: sx };
+
+  while (queue.length) {
+    const current = queue.shift();
+    if (current.row === gy && current.col === gx) {
+      break;
+    }
+
+    // 상하좌우 계산
+    for (let i = 0; i < 4; i++) {
+      const nr = current.row + dr[i];
+      const nc = current.col + dc[i];
+      if (
+        nr >= 0 &&
+        nr < grid.length &&
+        nc >= 0 &&
+        nc < grid[0].length &&
+        grid[nr][nc] === 0 &&
+        prev[nr][nc] === null
+      ) {
+        prev[nr][nc] = current;
+        queue.push({ row: nr, col: nc });
+      }
+    }
+  }
+  if (prev[gy][gx] === null) return null;
+
+  let cur = { row: gy, col: gx };
+  const path = [];
+  while (!(cur.row === sy && cur.col === sx)) {
+    path.push(cur);
+    cur = prev[cur.row][cur.col];
+  }
+  return path.reverse();
+};
+
 roadMap();
-export { roadMap, rooms, walls, corridors, grid, gridMinX, gridMinY, isMove };
+
+export {
+  roadMap,
+  rooms,
+  walls,
+  corridors,
+  grid,
+  gridMinX,
+  gridMinY,
+  isMove,
+  setGoal,
+  BFS,
+};
