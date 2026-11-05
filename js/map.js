@@ -318,11 +318,12 @@ const dc = [0, 0, -1, 1]; // 상하좌우
 let gx;
 let gy;
 const setGoal = (x, y) => {
-  gx = x;
-  gy = y;
+  gx = Math.ceil((x - gridMinX) / TILE_SIZE);
+  gy = Math.ceil((y - gridMinY) / TILE_SIZE);
 };
 const BFS = (sx, sy) => {
   // 시작 좌표를 매개변수로 받
+  if (gx === undefined) return null; // setGoal 호출 전
   const queue = [];
   queue.push({ row: sy, col: sx });
   const prev = Array.from({ length: grid.length }, () =>
@@ -353,6 +354,8 @@ const BFS = (sx, sy) => {
       }
     }
   }
+  if (prev[gy][gx] === null) return null;
+
   let cur = { row: gy, col: gx };
   const path = [];
   while (!(cur.row === sy && cur.col === sx)) {

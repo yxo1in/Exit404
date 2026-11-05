@@ -1,4 +1,4 @@
-import { BFS } from "./map";
+import { BFS } from "./map.js";
 // BFS
 
 const teacher = {
@@ -11,7 +11,10 @@ const teacher = {
   "walk-right": "mirim_teacher right_side_walking.gif",
   "walk-left": "mirim_teacher right_side_walking.gif",
 };
-
-const moveTeacher = () => {};
+const moveTeacher = () => {
+  console.log(BFS(10, 10));
+  requestAnimationFrame(moveTeacher);
+};
+requestAnimationFrame(moveTeacher);
 
 export { moveTeacher };
