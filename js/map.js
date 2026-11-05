@@ -274,14 +274,15 @@ grid.shift();
 	=> 이걸 토대로 배열에 넣어서 구해야하는데.......
 	=> minValue - 캐릭터 좌표값 하면 인덱스 구해질듯.!!!!
 3. 에러 발생 => 벽이 아닌데 막힘, 벽인데 안막힘 => 배열 인덱스를 잘못 가져온듯....
+4. 해결!!!!!!!!!!!!!!!!!!
 */
 const isMove = (x, y) => {
-    console.log(grid);
-  console.log(x, y);
+    // console.log(grid);
+  // console.log(x, y);
   let cx = Math.ceil((x - gridMinX) / TILE_SIZE);
   let cy = Math.ceil((y - gridMinY) / TILE_SIZE);
-  console.log(cx, cy);
-  console.log(grid[cy][cx]);
+  // console.log(cx, cy);
+  // console.log(grid[cy][cx]);
   if (grid[cy][cx] === 0) {
     console.log(true);
     return true;
@@ -289,6 +290,29 @@ const isMove = (x, y) => {
   console.log(false);
   return false;
 };
+
+/* 
+  BFS 구현하기
+  1. queue 하나 만들기
+  2. 시작 정점 = 선생님 좌표값
+  3. 시작 정점의 adjacent => 해당 좌표의 한 칸 떨어진 좌표 => dx, dy로 구현 + 정점의 값이 0이여야함
+  4. 근데 또 그렇게 하면 방문한 정점을 재방문하는 경우가 생길 수 있다 => 방문햇는지 체크 
+  5. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
+    => 1) prev에 넣는 값의 형식은 객체로, {row : , col : } 로 정의한다.
+       2) prev에 처음 값을 넣을 땐 어디서 어디로 이동했는지 알 수 없음 => 해당 좌표값 넣기.
+  
+  prev 흐름
+  0. 현재 좌표(선생님 좌표)와 캐릭터의 좌표가 같으면 GAME OVER => prev 실행 X
+  1. 우선 prev를 만들 때 grid와 같은 크기로 만든 뒤 값을 null로 채운다.
+  2. 큐에 넣는 순간 prev에 dequeue한 값을 넣는다.
+  3. 조건 = 범위 안인가? + 해당 grid 값이 0인가? 해당 prev의 값이 null인지를 만족하면 큐에 enqueue
+  4. BFS를 호출할 때마다 prev는 초기화
+  5. 역추적 끝내는 조건 => prev[지금 row, 지금 col] == 선생님 칸
+  6. prev로 최종 다착 지점을 가르키는 지점을 가리키는 지점을 ... 반복해서 경로 찾기
+
+  => 총 반복문 2개 (BFS, prev)
+*/ 
+
 
 roadMap();
 export { roadMap, rooms, walls, corridors, grid, gridMinX, gridMinY, isMove };
