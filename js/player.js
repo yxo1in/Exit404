@@ -1,4 +1,4 @@
-import { isMove } from "./map.js";
+import { isMove, setGoal } from "./map.js";
 
 let run = false;
 
@@ -48,6 +48,7 @@ const move = () => {
 
 const c = document.getElementById("player");
 const loop = () => {
+  setGoal(x, y);
   let moved = false;
 
   // 스태미나 소진(탈진) 상태이거나 게이지가 0이면 run을 강제로 끔
@@ -119,7 +120,7 @@ const loop = () => {
   } else {
     currentStamina = Math.min(MAX_STAMINA, currentStamina + RECOVERY_RATE);
     if (isExhausted && currentStamina >= 20) {
-      isExhausted = false;
+      isExhausted = false;  
     }
   }
 

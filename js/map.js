@@ -247,7 +247,7 @@ const roadMap = () => {
 // 맵 칸 표: 0 = 바닥, 1 = 벽, 다른 숫자는 아이템??
 const gridMinX = 6; // 방, 복도, 벽으 ㅣ가장 작은 x값ㅅ
 const gridMinY = -1; // 얘도 똑같
-const COLS = 77+7; // 가로 칸 수 => 가장 오른쪽에 잇는거(w_right_top2) - gridMinX
+const COLS = 77 + 7; // 가로 칸 수 => 가장 오른쪽에 잇는거(w_right_top2) - gridMinX
 const ROWS = 54; // 세로 칸 수 => 가장 아래 잇는거
 
 const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
@@ -255,14 +255,14 @@ const grid = Array.from({ length: ROWS }, () => Array(COLS).fill(1));
 rooms.map((r) => {
   for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
     for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
-      grid[row][col+7] = 0;
+      grid[row][col + 7] = 0;
     }
   }
 });
 corridors.map((r) => {
   for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
     for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
-      grid[row][col+7] = 0;
+      grid[row][col + 7] = 0;
     }
   }
 });
@@ -277,7 +277,7 @@ grid.shift();
 4. 해결!!!!!!!!!!!!!!!!!!
 */
 const isMove = (x, y) => {
-    // console.log(grid);
+  // console.log(grid);
   // console.log(x, y);
   let cx = Math.ceil((x - gridMinX) / TILE_SIZE);
   let cy = Math.ceil((y - gridMinY) / TILE_SIZE);
@@ -300,7 +300,8 @@ const isMove = (x, y) => {
   5. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
     => 1) prev에 넣는 값의 형식은 객체로, {row : , col : } 로 정의한다.
        2) prev에 처음 값을 넣을 땐 어디서 어디로 이동했는지 알 수 없음 => 해당 좌표값 넣기.
-  
+       */
+/* 
   prev 흐름
   0. 현재 좌표(선생님 좌표)와 캐릭터의 좌표가 같으면 GAME OVER => prev 실행 X
   1. 우선 prev를 만들 때 grid와 같은 크기로 만든 뒤 값을 null로 채운다.
@@ -309,10 +310,54 @@ const isMove = (x, y) => {
   4. BFS를 호출할 때마다 prev는 초기화
   5. 역추적 끝내는 조건 => prev[지금 row, 지금 col] == 선생님 칸
   6. prev로 최종 다착 지점을 가르키는 지점을 가리키는 지점을 ... 반복해서 경로 찾기
-
+  
   => 총 반복문 2개 (BFS, prev)
-*/ 
+*/
+const dr = [-1, 1, 0, 0]; // 상하좌우
+const dc = [0, 0, -1, 1]; // 상하좌우
+let gx;
+let gy;
+const setGoal = (x, y) => {
+  gx = x;
+  gy = y;
+}
+const BFS = (sx, sy) => {
+  // 시작 좌표를 매개변수로 받
+  const queue = [];
+  queue.push({ row: sy, col: sx });
+  const prev = Array.from({ length: grid.length }, () =>
+    Array(grid[0].length).fill(null),
+  );
+  prev[sy][sx] = { row: sy, col: sx };
 
+  while (queue.length) {
+    const current = queue.shift();
+    if(current.row === gy && current.col === gx){
+      break;
+    }
+    
+    // 상하좌우 계산
+    for (let i = 0; i < 4; i++) {
+      const nr = current.row + dr[i];
+      const nc = current.col + dc[i];
+      if (
+        nr >= 0 &&
+        nr < grid.length &&
+        nc >= 0 &&
+        nc < grid[0].length &&
+        grid[nr][nc] === 0 &&
+        prev[nr][nc] === null
+      ) {
+        prev[nr][nc] = current;
+        queue.push({ row: nr, col: nc });
+      }
+    }
+  }
+  if(current.row === sy && current.col === sx){
+    return null;
+  }
+};
 
 roadMap();
-export { roadMap, rooms, walls, corridors, grid, gridMinX, gridMinY, isMove };
+
+export { roadMap, rooms, walls, corridors, grid, gridMinX, gridMinY, isMove, setGoal };
