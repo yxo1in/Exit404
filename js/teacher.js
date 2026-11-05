@@ -12,9 +12,6 @@ const teacher = {
   "walk-left": "mirim_teacher right_side_walking.gif",
 };
 const moveTeacher = () => {
-  console.log(BFS(10, 10));
-  requestAnimationFrame(moveTeacher);
-};
-requestAnimationFrame(moveTeacher);
+  };
 
 export { moveTeacher };
