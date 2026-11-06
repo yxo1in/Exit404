@@ -1,4 +1,4 @@
-import { BFS, toCell, toPixel } from "./map.js";
+import { BFS, toCell } from "./map.js";
 import { getPlayerPos } from "./player.js";
 // BFS
 
@@ -39,12 +39,17 @@ const draw = () => {
 };
 
 let path = [];
-let lastGoal = "";
 
 const setPath = () => {
+  const pos = getPlayerPos();
+  const goal = toCell(pos.x, pos.y);
+  if (goal.col === pos.x && goal.row === pos.y && path.length) return;
+
   const start = toCell(tx, ty);
   const res = BFS(start.col, start.row);
-  if(!res){ // setGoal이 실행되기 전에 실행되었을 경우
+  if (!res) {
+    // setGoal이 실행되기 전
+    path = [];
     return;
   }
   if (res.length === 0) {
@@ -57,24 +62,25 @@ const setPath = () => {
 const move = () => {
   if (!path.length) return false;
 
-  const target = toPixel(path[0].row, path[0].col);
-  const dx = target.x - tx;
-  const dy = target.y - ty;
-
-  if (Math.abs(dx) <= SPEED && Math.abs(dy) <= SPEED) {
-    tx = target.x;
-    ty = target.y;
-    path.shift();
-    return true;
+  const current = toCell(tx, ty); // 지금 선생님이 있는 칸
+  if (current.row === path[0].row && current.col === path[0].col) {
+    path.shift(); // 다음 칸에 들어왔으면 그 다음 칸으로
+    if (!path.length) return false;
   }
 
-  if (Math.abs(dx) > Math.abs(dy)) {
-    // Math.sign = 부호 알려주는 함수 -1, 0, 1  
-    tx += Math.sign(dx) * SPEED;
-    see = dx > 0 ? "right" : "left";
+  const next = path[0];
+  if (next.col > current.col) {
+    tx += SPEED;
+    see = "right";
+  } else if (next.col < current.col) {
+    tx -= SPEED;
+    see = "left";
+  } else if (next.row > current.row) {
+    ty += SPEED;
+    see = "down";
   } else {
-    ty += Math.sign(dy) * SPEED;
-    see = dy > 0 ? "down" : "up";
+    ty -= SPEED;
+    see = "up";
   }
   return true;
 };
