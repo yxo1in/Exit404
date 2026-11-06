@@ -44,6 +44,9 @@ let lastGoal = "";
 const setPath = () => {
   const start = toCell(tx, ty);
   const res = BFS(start.col, start.row);
+  if(!res){ // setGoal이 실행되기 전에 실행되었을 경우
+    return;
+  }
   if (res.length === 0) {
     // res => 경로인데 경로가 없는거면 캐릭터와 닿은거겠죠?
     // Game Over 구현하기 **
@@ -52,19 +55,25 @@ const setPath = () => {
 };
 
 const move = () => {
+  if (!path.length) return false;
+
   const target = toPixel(path[0].row, path[0].col);
   const dx = target.x - tx;
   const dy = target.y - ty;
 
-  tx = target.x;
-  ty = target.y;
-  path.shift();
+  if (Math.abs(dx) <= SPEED && Math.abs(dy) <= SPEED) {
+    tx = target.x;
+    ty = target.y;
+    path.shift();
+    return true;
+  }
 
-  if (dx > dy) {
-    tx += dx * SPEED
+  if (Math.abs(dx) > Math.abs(dy)) {
+    // Math.sign = 부호 알려주는 함수 -1, 0, 1  
+    tx += Math.sign(dx) * SPEED;
     see = dx > 0 ? "right" : "left";
   } else {
-    ty += dx * SPEED
+    ty += Math.sign(dy) * SPEED;
     see = dy > 0 ? "down" : "up";
   }
   return true;
