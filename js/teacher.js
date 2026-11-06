@@ -1,4 +1,4 @@
-import { BFS } from "./map.js";
+import { BFS, toCell, toPixel } from "./map.js";
 import { getPlayerPos } from "./player.js";
 // BFS
 
@@ -18,6 +18,7 @@ const teacher = document.getElementById("teacher");
 let tx = 600;
 let ty = 500;
 let see = "down";
+let SPEED = 1;
 
 const setCharacter = (move) => {
   if (teacher.dataset.sprite === move) return;
@@ -37,9 +38,42 @@ const draw = () => {
   teacher.style.zIndex = 2;
 };
 
+let path = [];
+let lastGoal = "";
+
+const setPath = () => {
+  const start = toCell(tx, ty);
+  const res = BFS(start.col, start.row);
+  if (res.length === 0) {
+    // res => 경로인데 경로가 없는거면 캐릭터와 닿은거겠죠?
+    // Game Over 구현하기 **
+  }
+  path = res;
+};
+
+const move = () => {
+  const target = toPixel(path[0].row, path[0].col);
+  const dx = target.x - tx;
+  const dy = target.y - ty;
+
+  tx = target.x;
+  ty = target.y;
+  path.shift();
+
+  if (dx > dy) {
+    tx += dx * SPEED
+    see = dx > 0 ? "right" : "left";
+  } else {
+    ty += dx * SPEED
+    see = dy > 0 ? "down" : "up";
+  }
+  return true;
+};
+
 const moveTeacher = () => {
-  // console.log(BFS(10, 10));
-  setCharacter(`idle-${see}`);
+  setPath();
+  const isMove = move();
+  setCharacter(isMove ? `walk-${see}` : `idle-${see}`);
   draw();
 
   requestAnimationFrame(moveTeacher);

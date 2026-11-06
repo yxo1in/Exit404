@@ -365,6 +365,17 @@ const BFS = (sx, sy) => {
   return path.reverse();
 };
 
+const toCell = (x, y) => ({
+  col: Math.ceil((x - gridMinX) / TILE_SIZE),
+  row: Math.ceil((y - gridMinY) / TILE_SIZE),
+});
+
+// 픽셀 중앙 좌표 구하기
+const toPixel = (row, col) => ({
+  x: col * TILE_SIZE + gridMinX - TILE_SIZE / 2,
+  y: row * TILE_SIZE + gridMinY - TILE_SIZE / 2,
+});
+
 roadMap();
 
 export {
@@ -378,4 +389,6 @@ export {
   isMove,
   setGoal,
   BFS,
+  toCell,
+  toPixel
 };
