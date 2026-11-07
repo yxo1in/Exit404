@@ -2,6 +2,8 @@ import { getPlayerPos } from "./player.js";
 
 const TILE_SIZE = 40;
 
+const desks = [{ x: 8, y: 8, w: 2, h: 2 }];
+
 const rooms = [
   // 왼쪽 라인
   { name: "r_left_top", x: 6, y: 6, w: 11, h: 10 },
@@ -122,11 +124,13 @@ const roadMap = () => {
   toiletTile.src = "../assets/tile/toilet-tile.jpeg";
   const woodTile = new Image();
   woodTile.src = "../assets/tile/wood-tile.png";
+  const desktop = new Image();
+  desktop.src = '../assets/image/desktop.svg';
 
   let imagesLoaded = 0;
   const onImageLoad = () => {
     imagesLoaded++;
-    if (imagesLoaded === 3) {
+    if (imagesLoaded === 4) {
       resizeCanvas();
     }
   };
@@ -134,6 +138,7 @@ const roadMap = () => {
   corridorTile.onload = onImageLoad;
   toiletTile.onload = onImageLoad;
   woodTile.onload = onImageLoad;
+  desktop.onload = onImageLoad
 
   const resizeCanvas = () => {
     canvas.width = window.innerWidth;
@@ -216,25 +221,29 @@ const roadMap = () => {
       ctx.fillRect(CdrawX, CdrawY, CdrawWidth, CdrawHeight);
     });
 
+    
     const woodPattern = ctx.createPattern(woodTile, "repeat");
     const matrix = new DOMMatrix();
     matrix.scaleSelf(0.3, 0.3);
-
+    
     // 1. 매트릭스를 패턴에 적용
     woodPattern.setTransform(matrix);
-
+    
     // 2. 캔버스 fillStyle에 패턴 지정
     ctx.fillStyle = woodPattern;
-
+    
     rooms.forEach((room) => {
       const drawX = room.x * TILE_SIZE;
       const drawY = room.y * TILE_SIZE;
       const drawWidth = room.w * TILE_SIZE;
       const drawHeight = room.h * TILE_SIZE;
-
+      
       ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
     });
-
+    
+    desks.forEach((desk) => {
+      ctx.drawImage(desktop, desk.x * TILE_SIZE, desk.y * TILE_SIZE, desk.w *TILE_SIZE, desk.h * TILE_SIZE);
+    })
     // ★ [카메라 추적 추가] 3. 카메라 이동 복원
     ctx.restore();
 
@@ -266,6 +275,13 @@ corridors.map((r) => {
     }
   }
 });
+desks.map((r) => {
+  for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
+    for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
+      grid[row][col + 7] = 2;
+    }
+  }
+})
 grid.shift();
 /*
 1. 인덱스 + minValue => 좌표값으로 계산
@@ -390,5 +406,5 @@ export {
   setGoal,
   BFS,
   toCell,
-  toPixel
+  toPixel,
 };
