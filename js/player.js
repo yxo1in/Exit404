@@ -47,6 +47,13 @@ const move = () => {
 };
 
 const c = document.getElementById("player");
+
+const intersect = () => {
+  console.log("상호작용 키");
+};
+
+let isOpenQuestionModal = false;
+let isOpenInventory = false;
 const loop = () => {
   setGoal(x, y);
   let moved = false;
@@ -56,59 +63,61 @@ const loop = () => {
     run = false;
   }
 
-  if (!run) {
-    const SPEED = 4;
-    if (pressed.ArrowUp) {
-      if (isMove(x, y - SPEED)) {
-        y -= SPEED;
-        moved = true;
+  if (!isOpenInventory) {
+    if (!run) {
+      const SPEED = 4;
+      if (pressed.ArrowUp) {
+        if (isMove(x, y - SPEED)) {
+          y -= SPEED;
+          moved = true;
+        }
+        see = "up";
+      } else if (pressed.ArrowDown) {
+        if (isMove(x, y + SPEED)) {
+          y += SPEED;
+          moved = true;
+        }
+        see = "down";
+      } else if (pressed.ArrowLeft) {
+        if (isMove(x - SPEED, y)) {
+          x -= SPEED;
+          moved = true;
+        }
+        see = "left";
+      } else if (pressed.ArrowRight) {
+        if (isMove(x + SPEED, y)) {
+          x += SPEED;
+          moved = true;
+        }
+        see = "right";
       }
-      see = "up";
-    } else if (pressed.ArrowDown) {
-      if (isMove(x, y + SPEED)) {
-        y += SPEED;
-        moved = true;
+    } else if (run) {
+      const SPEED = 6;
+      if (pressed.ArrowUp) {
+        if (isMove(x, y - SPEED)) {
+          y -= SPEED;
+          moved = true;
+        }
+        see = "up";
+      } else if (pressed.ArrowDown) {
+        if (isMove(x, y + SPEED)) {
+          y += SPEED;
+          moved = true;
+        }
+        see = "down";
+      } else if (pressed.ArrowLeft) {
+        if (isMove(x - SPEED, y)) {
+          x -= SPEED;
+          moved = true;
+        }
+        see = "left";
+      } else if (pressed.ArrowRight) {
+        if (isMove(x + SPEED, y)) {
+          x += SPEED;
+          moved = true;
+        }
+        see = "right";
       }
-      see = "down";
-    } else if (pressed.ArrowLeft) {
-      if (isMove(x - SPEED, y)) {
-        x -= SPEED;
-        moved = true;
-      }
-      see = "left";
-    } else if (pressed.ArrowRight) {
-      if (isMove(x + SPEED, y)) {
-        x += SPEED;
-        moved = true;
-      }
-      see = "right";
-    }
-  } else if (run) {
-    const SPEED = 6;
-    if (pressed.ArrowUp) {
-      if (isMove(x, y - SPEED)) {
-        y -= SPEED;
-        moved = true;
-      }
-      see = "up";
-    } else if (pressed.ArrowDown) {
-      if (isMove(x, y + SPEED)) {
-        y += SPEED;
-        moved = true;
-      }
-      see = "down";
-    } else if (pressed.ArrowLeft) {
-      if (isMove(x - SPEED, y)) {
-        x -= SPEED;
-        moved = true;
-      }
-      see = "left";
-    } else if (pressed.ArrowRight) {
-      if (isMove(x + SPEED, y)) {
-        x += SPEED;
-        moved = true;
-      }
-      see = "right";
     }
   }
 
@@ -135,13 +144,6 @@ const loop = () => {
   requestAnimationFrame(loop); // loop가 종료된 시점에 다시 loop 호출 != 재귀
   // 재귀는 현재 함수가 완료되기 전에 같은 함수를 다시 호출
 };
-
-const intersect = () => {
-  console.log("상호작용 키");
-};
-
-let isOpenQuestionModal = false;
-let isOpenInventory = false;
 // document
 //   .getElementById("question-modal-button")
 //   .addEventListener("click", () => {
