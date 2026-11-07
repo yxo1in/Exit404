@@ -1,5 +1,5 @@
 import { BFS, toCell } from "./map.js";
-import { getPlayerPos } from "./player.js";
+import { getPlayerPos, isOpenInventory } from "./player.js";
 // BFS
 
 const CHARACTER = {
@@ -86,11 +86,13 @@ const move = () => {
 };
 
 const moveTeacher = () => {
-  setPath();
-  const isMove = move();
-  setCharacter(isMove ? `walk-${see}` : `idle-${see}`);
-  draw();
-
+  if(!isOpenInventory){
+    setPath();
+    const isMove = move();
+    setCharacter(isMove ? `walk-${see}` : `idle-${see}`);
+    draw();
+  
+  }
   requestAnimationFrame(moveTeacher);
 };
 requestAnimationFrame(moveTeacher);

@@ -4,27 +4,27 @@ import { moveTeacher } from "./teacher.js";
 // ===============
 // QuestionModal
 // ===============
-// const headerMenu = [
-//   "File",
-//   "Edit",
-//   "Selection",
-//   "View",
-//   "Go",
-//   "Run",
-//   "Terminal",
-// ];
-// document.getElementById("question-modal-header").innerHTML = headerMenu
-//   .map((m) => `<div class="question-modal-header-menu">${m}</div>`)
-//   .join("");
+const headerMenu = [
+  "File",
+  "Edit",
+  "Selection",
+  "View",
+  "Go",
+  "Run",
+  "Terminal",
+];
+document.getElementById("question-modal-header").innerHTML = headerMenu
+  .map((m) => `<div class="question-modal-header-menu">${m}</div>`)
+  .join("");
 
-// const answerMenu = ["Problem", "Output", "Debug Console", "Terminal"];
-// document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
-//   .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
-//   .join("");
+const answerMenu = ["Problem", "Output", "Debug Console", "Terminal"];
+document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
+  .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
+  .join("");
 
-// const isCorrect = false;
-// document.getElementById("answer_result").innerHTML =
-//   `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+const isCorrect = false;
+document.getElementById("answer_result").innerHTML =
+  `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
 
 // ================================
 // InventoryModal

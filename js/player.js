@@ -120,7 +120,7 @@ const loop = () => {
   } else {
     currentStamina = Math.min(MAX_STAMINA, currentStamina + RECOVERY_RATE);
     if (isExhausted && currentStamina >= 20) {
-      isExhausted = false;  
+      isExhausted = false;
     }
   }
 
@@ -210,4 +210,4 @@ requestAnimationFrame(loop);
 
 const getPlayerPos = () => ({ x, y });
 
-export { playerIntersect, stop, getPlayerPos };
+export { playerIntersect, stop, getPlayerPos, isOpenInventory };
