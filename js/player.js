@@ -36,6 +36,8 @@ const setCharacter = (move) => {
   player.src = encodeURI(`./assets/character/${character[move]}`);
 };
 
+let isOpenQuestionModal = false;
+let isOpenInventory = false;
 const move = () => {
   const isLeft = see === "left" ? " scaleX(-1)" : "";
 
@@ -53,13 +55,24 @@ const intersect = () => {
     1. 상호작용을 눌렀을 때 이 함수가 호출됨.
     2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
     3. 문제 모달 띄우기 + 게임 진행 멈추기
-
   */
- console.log(deskIsNear(x, y) )
+  if (deskIsNear(x, y)) {
+    if (isOpenInventory) {
+      inventoryClose();
+    }
+    const modal = document.getElementById("question-modal");
+    if (!isOpenQuestionModal) {
+      modal.style.width = "1328px";
+      modal.style.height = "858px";
+      isOpenQuestionModal = true;
+      setTimeout(() => {
+        modal.style.width = "0px";
+        modal.style.height = "0px";
+        isOpenQuestionModal = false;
+      }, 20000);
+    }
+  }
 };
-
-let isOpenQuestionModal = false;
-let isOpenInventory = false;
 const loop = () => {
   setGoal(x, y);
   let moved = false;
@@ -69,7 +82,7 @@ const loop = () => {
     run = false;
   }
 
-  if (!isOpenInventory) {
+  if (!isOpenInventory && !isOpenQuestionModal) {
     if (!run) {
       const SPEED = 4;
       if (pressed.ArrowUp) {
@@ -150,20 +163,6 @@ const loop = () => {
   requestAnimationFrame(loop); // loop가 종료된 시점에 다시 loop 호출 != 재귀
   // 재귀는 현재 함수가 완료되기 전에 같은 함수를 다시 호출
 };
-// document
-//   .getElementById("question-modal-button")
-//   .addEventListener("click", () => {
-//     const modal = document.getElementById("question-modal");
-//     if (!isOpenQuestionModal && !isOpenInventory) {
-//       modal.style.width = "1328px";
-//       modal.style.height = "858px";
-//       isOpenQuestionModal = !isOpenQuestionModal;
-//     } else {
-//       modal.style.width = "0px";
-//       modal.style.height = "0px";
-//       isOpenQuestionModal = !isOpenQuestionModal;
-//     }
-//   });
 
 const inventoryModal = document.getElementById("inventory-modal");
 const inventoryOpen = () => {
@@ -218,4 +217,10 @@ requestAnimationFrame(loop);
 
 const getPlayerPos = () => ({ x, y });
 
-export { playerIntersect, stop, getPlayerPos, isOpenInventory };
+export {
+  playerIntersect,
+  stop,
+  getPlayerPos,
+  isOpenInventory,
+  isOpenQuestionModal,
+};
