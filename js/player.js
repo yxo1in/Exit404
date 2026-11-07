@@ -1,4 +1,4 @@
-import { isMove, setGoal } from "./map.js";
+import { isMove, setGoal, deskIsNear } from "./map.js";
 
 let run = false;
 
@@ -49,7 +49,13 @@ const move = () => {
 const c = document.getElementById("player");
 
 const intersect = () => {
-  console.log("상호작용 키");
+  /* 상호작용 구현
+    1. 상호작용을 눌렀을 때 이 함수가 호출됨.
+    2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
+    3. 문제 모달 띄우기 + 게임 진행 멈추기
+
+  */
+ console.log(deskIsNear(x, y) )
 };
 
 let isOpenQuestionModal = false;
