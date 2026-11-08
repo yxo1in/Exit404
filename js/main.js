@@ -1,5 +1,6 @@
 import { playerIntersect, stop } from "./player.js";
 import { moveTeacher } from "./teacher.js";
+import { supabaseClient } from "./supabase.js";
 // import { roadMap } from "./map.js";
 // ===============
 // QuestionModal

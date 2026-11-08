@@ -59,6 +59,7 @@ const setPath = () => {
   if (res.length === 0) {
     // res => 경로인데 경로가 없는거면 캐릭터와 닿은거겠죠?
     // Game Over 구현하기 **
+    console.log("game over");
   }
   path = res;
 };
