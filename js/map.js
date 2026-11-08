@@ -465,8 +465,6 @@ const isExit = (x, y) => {
   return grid[character.row][character.col] === 3;
 };
 
-roadMap();
-
 export {
   roadMap,
   rooms,

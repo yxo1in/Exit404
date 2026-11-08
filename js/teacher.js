@@ -99,6 +99,5 @@ const moveTeacher = () => {
   }
   requestAnimationFrame(moveTeacher);
 };
-requestAnimationFrame(moveTeacher);
 
 export { moveTeacher };

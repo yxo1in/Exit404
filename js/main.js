@@ -1,7 +1,7 @@
-import { playerIntersect, stop } from "./player.js";
+import { startPlayer, playerIntersect, stop } from "./player.js";
 import { moveTeacher } from "./teacher.js";
-import { supabaseClient } from "./supabase.js";
-// import { roadMap } from "./map.js";
+import { problems } from "./supabase.js";
+import { roadMap } from "./map.js";
 // ===============
 // QuestionModal
 // ===============
@@ -62,14 +62,28 @@ inventory.querySelectorAll(".item-wrap").forEach((item) => {
   });
 });
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   roadMap();
-// });
+const init = () => {
+  const loading = document.getElementById("loading");
 
-document.addEventListener("keydown", (e) => {
-  if (e.code.startsWith("Arrow")) e.preventDefault();
-  playerIntersect(e.code);
-});
-document.addEventListener("keyup", (e) => {
-  stop(e.code);
-});
+  console.log(problems);
+  if (problems.length === 0) {
+    loading.textContent = "문제를 불러오지 못했습니다.";
+    return;
+  }
+
+  roadMap();
+  startPlayer();
+  moveTeacher();
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code.startsWith("Arrow")) e.preventDefault();
+    playerIntersect(e.code);
+  });
+  document.addEventListener("keyup", (e) => {
+    stop(e.code);
+  });
+
+  loading.remove();
+};
+
+init();

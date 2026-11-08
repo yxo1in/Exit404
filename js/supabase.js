@@ -6,16 +6,15 @@ const SUPABASE_ANON_KEY =
 
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-async function testConnection() {
-  const { data, error } = await supabaseClient.from("problem").select("*");
+// 이 파일을 import한 모듈은 문제를 다 불러올 때까지 기다렸다가 실행됨
+const { data, error } = await supabaseClient
+  .from("problem")
+  .select("id, category, question");
 
-  if (error) {
-    console.error("연결 실패:", error);
-  } else {
-    console.log("연결 성공! 가져온 데이터:", data);
-  }
+if (error) {
+  console.error("연결 실패:", error);
 }
 
-testConnection();
+const problems = data ?? [];
 
-export { supabaseClient };
+export { supabaseClient, problems };

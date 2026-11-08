@@ -217,14 +217,17 @@ window.addEventListener("blur", () => {
   pressed = {};
 });
 
-// 처음에 시작하랴고 넣은겨
-setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
-move();
-requestAnimationFrame(loop);
+// 데이터를 불러온 뒤 main.js에서 호출
+const startPlayer = () => {
+  setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
+  move();
+  requestAnimationFrame(loop);
+};
 
 const getPlayerPos = () => ({ x, y });
 
 export {
+  startPlayer,
   playerIntersect,
   stop,
   getPlayerPos,
