@@ -1,4 +1,4 @@
-import { isMove, setGoal, deskIsNear } from "./map.js";
+import { isMove, setGoal, deskIsNear, isExit } from "./map.js";
 
 let run = false;
 
@@ -38,6 +38,7 @@ const setCharacter = (move) => {
 
 let isOpenQuestionModal = false;
 let isOpenInventory = false;
+let isEscaped = false;
 const move = () => {
   const isLeft = see === "left" ? " scaleX(-1)" : "";
 
@@ -138,6 +139,12 @@ const loop = () => {
         see = "right";
       }
     }
+  }
+
+  if (!isEscaped && isExit(x, y)) {
+    // isEscaped = true;
+    // 탈출 처리 구현하기 **
+    console.log("escape");
   }
 
   if (run && moved) {

@@ -2,7 +2,25 @@ import { getPlayerPos } from "./player.js";
 
 const TILE_SIZE = 40;
 
-const desks = [{ x: 8, y: 8, w: 2, h: 2 }];
+const desks = [
+  { x: 24, y: 4, w: 2, h: 2, question: 0 }, // r_top_1
+  { x: 33, y: 3, w: 2, h: 2, question: 1 }, // r_top_2
+  { x: 48, y: 3, w: 2, h: 2, question: 2 }, // r_top_3
+  { x: 62, y: 6, w: 2, h: 2, question: 3 }, // r_right_top1
+  { x: 49, y: 23, w: 2, h: 2, question: 4 }, // r_mid_small
+  { x: 61, y: 28, w: 2, h: 2, question: 5 }, // r_right_mid
+  { x: 74, y: 27, w: 2, h: 2, question: 6 }, // r_right_bot1
+  { x: 11, y: 36, w: 2, h: 2, question: 7 }, // r_left_bot
+  { x: 36, y: 48, w: 2, h: 2, question: 8 }, // r_bot_mid
+  { x: 71, y: 48, w: 2, h: 2, question: 9 }, // r_bot_right
+];
+
+const exit = {
+  x: 83,
+  y: 7,
+  radius: 1.5,
+  tiles: { x: 82, y: 6, w: 1, h: 2 },
+};
 
 const rooms = [
   // 왼쪽 라인
@@ -249,6 +267,26 @@ const roadMap = () => {
         desk.h * TILE_SIZE,
       );
     });
+
+    const exitX = exit.x * TILE_SIZE;
+    const exitY = exit.y * TILE_SIZE;
+    const exitRadius = exit.radius * TILE_SIZE;
+    const exitGlow = ctx.createRadialGradient(
+      exitX,
+      exitY,
+      0,
+      exitX,
+      exitY,
+      exitRadius,
+    );
+    exitGlow.addColorStop(0, "rgba(110, 235, 60, 0.95)");
+    exitGlow.addColorStop(0.5, "rgba(110, 235, 60, 0.6)");
+    exitGlow.addColorStop(1, "rgba(110, 235, 60, 0)");
+    ctx.fillStyle = exitGlow;
+    ctx.beginPath();
+    ctx.arc(exitX, exitY, exitRadius, 0, Math.PI * 2);
+    ctx.fill();
+
     // ★ [카메라 추적 추가] 3. 카메라 이동 복원
     ctx.restore();
 
@@ -287,6 +325,19 @@ desks.map((r) => {
     }
   }
 });
+for (
+  let row = exit.tiles.y - gridMinY;
+  row < exit.tiles.y - gridMinY + exit.tiles.h;
+  row++
+) {
+  for (
+    let col = exit.tiles.x - gridMinX;
+    col < exit.tiles.x - gridMinX + exit.tiles.w;
+    col++
+  ) {
+    grid[row][col + 7] = 3;
+  }
+}
 grid.shift();
 /*
 1. 인덱스 + minValue => 좌표값으로 계산
@@ -305,7 +356,7 @@ const isMove = (x, y) => {
   let cy = Math.ceil((y - gridMinY) / TILE_SIZE);
   // console.log(cx, cy);
   // console.log(grid[cy][cx]);
-  if (grid[cy][cx] === 0) {
+  if (grid[cy][cx] === 0 || grid[cy][cx] === 3) {
     console.log(true);
     return true;
   }
@@ -368,7 +419,7 @@ const BFS = (sx, sy) => {
         nr < grid.length &&
         nc >= 0 &&
         nc < grid[0].length &&
-        grid[nr][nc] === 0 &&
+        (grid[nr][nc] === 0 || grid[nr][nc] === 3) &&
         prev[nr][nc] === null
       ) {
         prev[nr][nc] = current;
@@ -396,7 +447,7 @@ const deskIsNear = (x, y) => {
   // console.log(x, y);
   let character = toCell(x, y);
 
-  if (grid[character.col][character.row] === 2) {
+  if (grid[character.row][character.col] === 2) {
     return true;
   }
   for (let i = 0; i < 4; i++) {
@@ -407,6 +458,11 @@ const deskIsNear = (x, y) => {
     }
   }
   return false;
+};
+
+const isExit = (x, y) => {
+  const character = toCell(x, y);
+  return grid[character.row][character.col] === 3;
 };
 
 roadMap();
@@ -423,5 +479,6 @@ export {
   setGoal,
   BFS,
   toCell,
-  deskIsNear
+  deskIsNear,
+  isExit,
 };
