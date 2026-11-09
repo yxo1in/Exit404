@@ -1,9 +1,18 @@
+import { init } from "./main.js";
+
 let currentMenuIndex = 0; // 0: START, 1: RANKING, 2: LANGUAGE
+
+document.addEventListener('DOMContentLoaded', () => {
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) {
+        loadingEl.style.display = 'none';
+    }
+});
 
 // 각 메뉴 선택 시 화살표가 가리킬 Y 좌표 (px)
 const menuYPositions = [-10, 30, 79];
 
-// 1. 화살표 위치 갱신 함수
+// 화살표 위치 갱신 함수
 function updateMenuArrow() {
     const arrowLeft = document.getElementById('menu-arrow-left');
     const arrowRight = document.getElementById('menu-arrow-right');
@@ -16,7 +25,6 @@ function updateMenuArrow() {
     arrowRight.style.top = `${targetY}px`;
 }
 
-// 2. 선택된 메뉴 실행 함수 (빠져있던 부분 추가)
 function selectMenu(index) {
     if (index === 0) {
         startGame();
@@ -27,15 +35,14 @@ function selectMenu(index) {
     }
 }
 
-// 3. 게임 시작 처리 함수
-function startGame() {
-    // 시작 화면 닫기
-    const startScreen = document.getElementById('start-screen');
-    if (startScreen) {
-        startScreen.style.display = 'none';
-    }
 
-    // 숨겨둔 게임 요소 켜기
+function startGame() {
+    const startScreen = document.getElementById('start-screen');
+    const loadingEl = document.getElementById('loading');
+
+    if (startScreen) startScreen.style.display = 'none';
+    if (loadingEl) loadingEl.style.display = 'none';
+
     const mapEl = document.getElementById('map');
     const staminaEl = document.getElementById('stamina-container');
     const gameEl = document.getElementById('game');
@@ -44,36 +51,12 @@ function startGame() {
     if (staminaEl) staminaEl.style.display = 'flex';
     if (gameEl) gameEl.style.display = 'block';
 
-    // map.js와 main.js가 dynamic load 방식이라면 아래 주석 해제 후 사용
+    init();
 
-
-
-
-
-
-    if (!document.getElementById('script-map')) {
-        const mapScript = document.createElement('script');
-        mapScript.id = 'script-map';
-        mapScript.type = 'module';
-        mapScript.src = './js/map.js';
-        document.body.appendChild(mapScript);
-    }
-
-    if (!document.getElementById('script-main')) {
-        const mainScript = document.createElement('script');
-        mainScript.id = 'script-main';
-        mainScript.type = 'module';
-        mainScript.src = './js/main.js';
-        document.body.appendChild(mainScript);
-    }
-
-
-
-
-
+    // 4. 캔버스 사이즈 갱신
+    window.dispatchEvent(new Event('resize'));
 }
 
-// 4. 이벤트 리스너 등록
 document.addEventListener('DOMContentLoaded', () => {
 
     // 키보드 조작 (방향키, W/S, Enter, Space)

@@ -167,12 +167,12 @@ const roadMap = () => {
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // ★ [카메라 추적 추가] 1. 플레이어 위치 및 카메라 Offset 계산
+    // 1. 플레이어 위치 및 카메라 계산
     const pos = getPlayerPos();
     const cameraX = canvas.width / 2 - pos.x;
     const cameraY = canvas.height / 2 - pos.y;
 
-    // ★ [카메라 추적 추가] 2. 카메라 이동 적용
+    // 2. 카메라 이동 적용
     ctx.save();
     ctx.translate(cameraX, cameraY);
 
@@ -224,10 +224,8 @@ const roadMap = () => {
     const Cmatrix = new DOMMatrix();
     Cmatrix.scaleSelf(0.2, 0.2);
 
-    // 1. 매트릭스를 패턴에 적용
     corridorPattern.setTransform(Cmatrix);
 
-    // 2. 캔버스 fillStyle에 패턴 지정
     ctx.fillStyle = corridorPattern;
 
     corridors.forEach((corridor) => {
@@ -243,10 +241,8 @@ const roadMap = () => {
     const matrix = new DOMMatrix();
     matrix.scaleSelf(0.3, 0.3);
 
-    // 1. 매트릭스를 패턴에 적용
     woodPattern.setTransform(matrix);
 
-    // 2. 캔버스 fillStyle에 패턴 지정
     ctx.fillStyle = woodPattern;
 
     rooms.forEach((room) => {
@@ -287,7 +283,7 @@ const roadMap = () => {
     ctx.arc(exitX, exitY, exitRadius, 0, Math.PI * 2);
     ctx.fill();
 
-    // ★ [카메라 추적 추가] 3. 카메라 이동 복원
+    // 카메라 이동 복원
     ctx.restore();
 
     requestAnimationFrame(draw);
@@ -343,8 +339,8 @@ grid.shift();
 1. 인덱스 + minValue => 좌표값으로 계산
 2. 만약 SPEED 만큼 움직였는데 1으로 된 값의 위치하면 이동 불가
  => 이걸 어케 구할거냐? 캐릭터의 좌표값을 찾는 방법을 알아야함. 
-	=> 이걸 토대로 배열에 넣어서 구해야하는데.......
-	=> minValue - 캐릭터 좌표값 하면 인덱스 구해질듯.!!!!
+  => 이걸 토대로 배열에 넣어서 구해야하는데.......
+  => minValue - 캐릭터 좌표값 하면 인덱스 구해질듯.!!!!
 3. 에러 발생 => 벽이 아닌데 막힘, 벽인데 안막힘 => 배열 인덱스를 잘못 가져온듯....
 4. 해결!!!!!!!!!!!!!!!!!!
 */

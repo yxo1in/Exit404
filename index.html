@@ -10,19 +10,18 @@
   <link rel="stylesheet" href="./css/map.css" />
   <link rel="stylesheet" href="./css/inventoryModal.css" />
   <link rel="stylesheet" href="./css/style.css" />
-  <!-- ★ htef 오타 수정 -> href -->
   <link rel="stylesheet" href="./css/start.css" />
+
+
 </head>
 
 <body>
-  <!-- 시작 화면 전체 오버레이 (body 안으로 이동) -->
+  <!-- 시작 화면 -->
   <div id="start-screen">
-    <!-- 배경 이미지 (menu-container 밖으로 분리) -->
     <img src="./assets/image/main_screen.svg" class="start-bg-img" alt="background" />
 
-    <!-- 메뉴 영역 -->
     <div class="menu-container">
-      <img src="./assets/image/arrow_left.png" id="menu-arrow-left" class="menu-arrow" alt="arrow left" />
+      <img src="./assets/image/right_arrow.svg" id="menu-arrow-left" class="menu-arrow" alt="arrow left" />
 
       <button class="menu-btn" data-index="0" id="btn-start">
         <img src="./assets/image/start_txt.png" alt="START" />
@@ -34,26 +33,28 @@
         <img src="./assets/image/language_txt.png" alt="LANGUAGE" />
       </button>
 
-      <img src="./assets/image/arrow_right.png" id="menu-arrow-right" class="menu-arrow" alt="arrow right" />
+      <img src="./assets/image/left_arrow.svg" id="menu-arrow-right" class="menu-arrow" alt="arrow right" />
     </div>
   </div>
+  <div id="loading">불러오는 중...</div>
 
-  <!-- 게임 맵 및 UI 영역 -->
   <div id="map">
-    <canvas id="mapCanvas"></canvas>
+    <canvas id="mapCanvas">
+    </canvas>
   </div>
 
   <div id="stamina-container">
     <div class="stamina-track">
-      <div id="stamina-bar"></div>
+      <div id="stamina-bar">
+      </div>
     </div>
   </div>
 
-  <div id="game">
+  <div id="game" style="display: none;">
     <img id="player" alt="player" data-sprite="" />
     <img id="teacher" alt="teacher" data-sprite="" />
   </div>
-
+  </div>
   <!-- 인벤토리 모달 -->
   <div class="inventory-modal" id="inventory-modal">
     <div class="inventory-modal-body">
@@ -94,10 +95,11 @@
       <div class="question-modal-file">
         <div class="question-modal-file-menu">
           <div class="question-modal-file-icon-wrap">
-            <div class="question-modal-file-icon"
-              style="background-image: url(./assets/image/ant-design_file-outlined.svg);"></div>
-            <div class="question-modal-file-icon" style="background-image: url(./assets/image/bx_search-alt-2.svg);">
-            </div>
+            <div class="question-modal-file-icon" style="
+                  background-image: url(./assets/image/ant-design_file-outlined.svg);
+                "></div>
+            <div class="question-modal-file-icon" style="
+                  background-image: url(./assets/image/bx_search-alt-2.svg);"></div>
           </div>
           <div class="question-modal-file-icon" style="background-image: url(./assets/image/ep_setting.svg)"></div>
         </div>
@@ -119,6 +121,12 @@
             <p class="question-modal-question-file-text">Question</p>
             <p class="question-modal-question-file-text">x</p>
           </div>
+          <div>
+            <p><span>Q1.</span><span id="question-title"></span></p>
+            <label for="answer">
+              <input id='answer' type="text" placeholder="">
+            </label>
+          </div>
         </div>
         <div class="question-modal-answer">
           <div class="question-modal-answer-menu" id="question-modal-answer-menu"></div>
@@ -131,8 +139,11 @@
     </div>
   </div>
 
-  <!-- 진입점 스크립트 하나만 연결 -->
+
+
   <script type="module" src="./js/start.js"></script>
+  <script type="module" src="./js/map.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 
 </html>

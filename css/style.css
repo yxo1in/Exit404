@@ -5,7 +5,6 @@
     display: none;
 }
 
-
 #fogOfWar {
     position: fixed;
     top: 0;
@@ -15,7 +14,7 @@
     pointer-events: none;
     z-index: 10;
 
-    /* 중심(50% 50%)은 완전 투명, 150px부터 부드럽게 검은색으로 막음 */
+    /* 중심은 완전 투명*/
     background: radial-gradient(circle at 50% 50%,
             transparent 0%,
             transparent 220px,
@@ -33,8 +32,6 @@
     height: 36px;
     background: url('../assets/image/stamina_bar.svg') no-repeat center / contain;
 
-    /* 이미지 안의 '빈 스태미나 칸' 위치에 맞게 패딩 조절 (상 우 하 좌) */
-    /* 왼쪽 패딩(55px 자리)을 늘려서 :( 아이콘 오른쪽부터 게이지가 시작되게 설정 */
     padding: 10px 12px 10px 55px;
     box-sizing: border-box;
     z-index: 9999;
@@ -44,7 +41,6 @@
     height: 100%;
     background-color: #ffffff;
 
-    /* 총 20칸이라면 steps(20)을 줘서 20단계로만 바뀌도록 강제 */
     /* transition: width 0.1s steps(20, jump-end); */
 }
 

@@ -5,8 +5,8 @@
     width: 100vw;
     height: 100vh;
     background-color: #000;
-    z-index: 99999;
-    /* 뒤에 있는 플레이어나 맵을 완벽히 덮도록 설정 */
+    z-index: 9999;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -19,7 +19,7 @@
     image-rendering: pixelated;
 }
 
-/* 1. 블루스크린 배경 (전체 화면) */
+/* 1. 블루스크린 배경 */
 .start-bg-img {
     position: absolute;
     top: 0;
