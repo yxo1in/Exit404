@@ -133,4 +133,4 @@ const init = (problems) => {
   loading.remove();
 };
 
-export { init, problemList };
+export { init, problemList, items };

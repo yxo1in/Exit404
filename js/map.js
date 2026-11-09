@@ -1,5 +1,6 @@
 import { getPlayerPos } from "./player.js";
 
+
 const TILE_SIZE = 40;
 
 const desks = [

@@ -1,5 +1,5 @@
 import { isMove, setGoal, deskIsNear, removeDesk, isExit } from "./map.js";
-import { problemList } from "./main.js";
+import { problemList, items } from "./main.js";
 
 let run = false;
 
@@ -91,6 +91,18 @@ const intersect = () => {
     2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
     3. 문제 모달 띄우기 + 게임 진행 멈추기
   */
+  if (!isEscaped && isExit(x, y)) {
+    // 탈출 처리 구현하기 **
+    if (items.length === 10) {
+      console.log("escape");
+      isEscaped = true;
+    } else {
+      pressed = {};
+      alert("아이템이 부족합니다. (모든 문제를 해결하고 다시 시도해보세요)");
+    }
+    return;
+  }
+
   // console.log(deskIsNear(x, y))
   const desk = deskIsNear(x, y);
   if (desk) {
@@ -98,7 +110,7 @@ const intersect = () => {
       inventoryClose();
     }
     const modal = document.getElementById("question-modal");
-    const questionTitle = document.getElementById('question-title');
+    const questionTitle = document.getElementById("question-title");
     if (!isOpenQuestionModal) {
       const index = pickProblem();
       if (index === -1) return; // 모든 문제를 푼 상태
@@ -181,12 +193,6 @@ const loop = () => {
         see = "right";
       }
     }
-  }
-
-  if (!isEscaped && isExit(x, y)) {
-    // isEscaped = true;
-    // 탈출 처리 구현하기 **
-    console.log("escape");
   }
 
   if (run && moved) {
