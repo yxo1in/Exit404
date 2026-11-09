@@ -1,3 +1,11 @@
+/* 게임 시작 전 기본 상태: 숨김 */
+#map,
+#stamina-container,
+#game {
+    display: none;
+}
+
+
 #fogOfWar {
     position: fixed;
     top: 0;
