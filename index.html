@@ -10,18 +10,39 @@
   <link rel="stylesheet" href="./css/map.css" />
   <link rel="stylesheet" href="./css/inventoryModal.css" />
   <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/start.css" />
 
 
 </head>
 
 <body>
+  <!-- 시작 화면 -->
+  <div id="start-screen">
+    <img src="./assets/image/main_screen.svg" class="start-bg-img" alt="background" />
+
+    <div class="menu-container">
+      <img src="./assets/image/right_arrow.svg" id="menu-arrow-left" class="menu-arrow" alt="arrow left" />
+
+      <button class="menu-btn" data-index="0" id="btn-start">
+        <img src="./assets/image/start_txt.png" alt="START" />
+      </button>
+      <button class="menu-btn" data-index="1" id="btn-ranking">
+        <img src="./assets/image/ranking_txt.png" alt="RANKING" />
+      </button>
+      <button class="menu-btn" data-index="2" id="btn-language">
+        <img src="./assets/image/language_txt.png" alt="LANGUAGE" />
+      </button>
+
+      <img src="./assets/image/left_arrow.svg" id="menu-arrow-right" class="menu-arrow" alt="arrow right" />
+    </div>
+  </div>
   <div id="loading">불러오는 중...</div>
 
   <div id="map">
     <canvas id="mapCanvas">
     </canvas>
   </div>
-  
+
   <div id="stamina-container">
     <div class="stamina-track">
       <div id="stamina-bar">
@@ -29,9 +50,10 @@
     </div>
   </div>
 
-  <div id=" game">
+  <div id="game" style="display: none;">
     <img id="player" alt="player" data-sprite="" />
     <img id="teacher" alt="teacher" data-sprite="" />
+  </div>
   </div>
   <!-- 인벤토리 모달 -->
   <div class="inventory-modal" id="inventory-modal">
@@ -62,66 +84,66 @@
     </div>
   </div>
 
-    <!-- 문제 모달 -->
-    <div class="question-modal" id="question-modal">
-      <div class="question-modal-header" id="question-modal-header">
-        <div class="question-modal-header-search">
-          <div class="question-modal-header-search-icon"></div>
-        </div>
+  <!-- 문제 모달 -->
+  <div class="question-modal" id="question-modal">
+    <div class="question-modal-header" id="question-modal-header">
+      <div class="question-modal-header-search">
+        <div class="question-modal-header-search-icon"></div>
       </div>
-      <div class="question-modal-body">
-        <div class="question-modal-file">
-          <div class="question-modal-file-menu">
-            <div class="question-modal-file-icon-wrap">
-              <div class="question-modal-file-icon" style="
+    </div>
+    <div class="question-modal-body">
+      <div class="question-modal-file">
+        <div class="question-modal-file-menu">
+          <div class="question-modal-file-icon-wrap">
+            <div class="question-modal-file-icon" style="
                   background-image: url(./assets/image/ant-design_file-outlined.svg);
                 "></div>
-              <div class="question-modal-file-icon" style="
-                  background-image: url(./assets/image/bx_search-alt-2.svg);"
-        ></div>
-            </div>
-            <div class="question-modal-file-icon" style="background-image: url(./assets/image/ep_setting.svg)"></div>
+            <div class="question-modal-file-icon" style="
+                  background-image: url(./assets/image/bx_search-alt-2.svg);"></div>
           </div>
-          <div class="question-modal-file-text-wrap">
-            <div style="display: flex">
-              <img src="./assets/image/downArrow.svg" alt="아래 화살표" />
-              <p class="question-modal-file-text">JavaScript</p>
-            </div>
-            <div class="question-modal-file-text-sub-wrap">
-              <p class="question-modal-file-text">1_quiz.js</p>
-              <p class="question-modal-file-text">2_quiz.js</p>
-              <p class="question-modal-file-text">3_quiz.js</p>
-            </div>
+          <div class="question-modal-file-icon" style="background-image: url(./assets/image/ep_setting.svg)"></div>
+        </div>
+        <div class="question-modal-file-text-wrap">
+          <div style="display: flex">
+            <img src="./assets/image/downArrow.svg" alt="아래 화살표" />
+            <p class="question-modal-file-text">JavaScript</p>
+          </div>
+          <div class="question-modal-file-text-sub-wrap">
+            <p class="question-modal-file-text">1_quiz.js</p>
+            <p class="question-modal-file-text">2_quiz.js</p>
+            <p class="question-modal-file-text">3_quiz.js</p>
           </div>
         </div>
-        <div class="question-modal-anwser-wrap">
-          <div class="question-modal-question">
-            <div class="question-modal-question-file">
-              <p class="question-modal-question-file-text">Question</p>
-              <p class="question-modal-question-file-text">x</p>
-            </div>
-            <div>
-              <p><span>Q1.</span><span id="question-title"></span></p>
-              <label for="answer">
-                <input id='answer' type="text" placeholder="">
-              </label>
-            </div>
+      </div>
+      <div class="question-modal-anwser-wrap">
+        <div class="question-modal-question">
+          <div class="question-modal-question-file">
+            <p class="question-modal-question-file-text">Question</p>
+            <p class="question-modal-question-file-text">x</p>
           </div>
-          <div class="question-modal-answer">
-            <div class="question-modal-answer-menu" id="question-modal-answer-menu"></div>
-            <div class="question-modal-answer-wrap">
-              <p class="question-modal-answer-text">C:\user\2026\Exit404></p>
-              <div id="answer_result"></div>
-            </div>
+          <div>
+            <p><span>Q1.</span><span id="question-title"></span></p>
+            <label for="answer">
+              <input id='answer' type="text" placeholder="">
+            </label>
+          </div>
+        </div>
+        <div class="question-modal-answer">
+          <div class="question-modal-answer-menu" id="question-modal-answer-menu"></div>
+          <div class="question-modal-answer-wrap">
+            <p class="question-modal-answer-text">C:\user\2026\Exit404></p>
+            <div id="answer_result"></div>
           </div>
         </div>
       </div>
     </div>
+  </div>
 
 
 
-    <script type="module" src="./js/map.js"></script>
-    <script type="module" src="./js/supabase.js"></script>
+  <script type="module" src="./js/start.js"></script>
+  <script type="module" src="./js/map.js"></script>
+  <script type="module" src="./js/main.js"></script>
 </body>
 
 </html>

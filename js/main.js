@@ -61,15 +61,12 @@ inventory.querySelectorAll(".item-wrap").forEach((item) => {
   });
 });
 
-const init = (problems) => {
+const init = (problems = []) => {
   const loading = document.getElementById("loading");
-
-  console.log(problems);
-  if (problems.length === 0) {
-    loading.textContent = "문제를 불러오지 못했습니다.";
-    return;
+  if (loading) {
+    loading.style.display = "none";
   }
-  
+
   roadMap();
   startPlayer();
   moveTeacher();
@@ -81,8 +78,6 @@ const init = (problems) => {
   document.addEventListener("keyup", (e) => {
     stop(e.code);
   });
-
-  loading.remove();
 };
 
 export { init };
