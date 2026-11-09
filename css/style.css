@@ -60,3 +60,74 @@
             transparent 8px,
             transparent 12px);
 }
+
+#gameover-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameover-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.gameover-title {
+    max-width: 1890px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.gameover-subtitle {
+    max-width: 160px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.gameover-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.gameover-option-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.gameover-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.gameover-btn img {
+    height: 16px;
+    width: auto;
+    display: block;
+}
+
+/* 화살표 숨김/표시 처리 */
+.gameover-arrow {
+    width: 16px;
+    height: 30px;
+    visibility: hidden;
+}
+
+/* 선택된 메뉴행의 화살표만 보이기 */
+.gameover-option-row.active .gameover-arrow {
+    visibility: visible;
+}

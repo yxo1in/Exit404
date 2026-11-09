@@ -1,10 +1,13 @@
 import { BFS, toCell } from "./map.js";
+import { showGameOver } from "./gameover.js";
 import {
   getPlayerPos,
   isOpenInventory,
   isOpenQuestionModal,
 } from "./player.js";
 // BFS
+
+let isGameOver = false;
 
 const CHARACTER = {
   "idle-up": "mirim_teacher back.png",
@@ -59,6 +62,8 @@ const setPath = () => {
   if (res.length === 0) {
     // res => 경로인데 경로가 없는거면 캐릭터와 닿은거겠죠?
     // Game Over 구현하기 **
+    isGameOver = true;
+    showGameOver();
     console.log("game over");
   }
   path = res;
@@ -91,6 +96,7 @@ const move = () => {
 };
 
 const moveTeacher = () => {
+  if (isGameOver) return;
   if (!isOpenInventory && !isOpenQuestionModal) {
     setPath();
     const isMove = move();
@@ -99,5 +105,9 @@ const moveTeacher = () => {
   }
   requestAnimationFrame(moveTeacher);
 };
+
+export function resetTeacher() {
+  isGameOver = false;
+}
 
 export { moveTeacher };

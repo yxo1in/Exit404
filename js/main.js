@@ -111,6 +111,16 @@ renderInventory();
 
 const init = (problems = []) => {
   const loading = document.getElementById("loading");
+
+  document.addEventListener("keydown", (e) => {
+    // 게임오버 화면이 켜져 있으면 플레이어 이동 막기
+    const gameoverScreen = document.getElementById('gameover-screen');
+    if (gameoverScreen && gameoverScreen.style.display === 'flex') return;
+
+    if (e.code.startsWith("Arrow")) e.preventDefault();
+    playerIntersect(e.code);
+  });
+
   if (loading) {
     loading.style.display = "none";
     problemList = problems;
