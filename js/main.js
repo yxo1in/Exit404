@@ -31,9 +31,9 @@ document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
   .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
   .join("");
 
-const showAnswerResult = (isCorrect) => {
+const showAnswerResult = (isCorrect, answer) => {
   document.getElementById("answer_result").innerHTML =
-    `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+    `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : `Error answer : ${answer}`}</p>`;
 };
 
 const answerInput = document.getElementById("answer");
@@ -43,12 +43,18 @@ const submitAnswer = async () => {
 
   const index = currentProblem;
   const { checkAnswer } = await import("./quiz_service.js");
-  const { isCorrect } = await checkAnswer(problemList[index].id, answer);
-  showAnswerResult(isCorrect);
+  const { isCorrect, correctAnswer } = await checkAnswer(
+    problemList[index].id,
+    answer,
+  );
+
+  showAnswerResult(isCorrect, correctAnswer);
   if (isCorrect) solveProblem(index);
-  scheduleCloseModal(1000);
+  scheduleCloseModal(2000);
 };
-document.getElementById("answer-submit").addEventListener("click", submitAnswer);
+document
+  .getElementById("answer-submit")
+  .addEventListener("click", submitAnswer);
 
 // ================================
 // InventoryModal
@@ -93,7 +99,7 @@ const init = (problems) => {
     loading.textContent = "문제를 불러오지 못했습니다.";
     return;
   }
-  
+
   roadMap();
   startPlayer();
   moveTeacher();
