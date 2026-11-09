@@ -17,9 +17,9 @@
     /* 중심은 완전 투명*/
     background: radial-gradient(circle at 50% 50%,
             transparent 0%,
-            transparent 220px,
-            rgba(0, 0, 0, 0.8) 300px,
-            rgba(0, 0, 0, 0.98) 420px,
+            transparent 100px,
+            rgba(0, 0, 0, 0.8) 200px,
+            rgba(0, 0, 0, 0.98) 400px,
             rgba(0, 0, 0, 1) 100%);
 }
 
@@ -59,4 +59,93 @@
             #000 8px,
             transparent 8px,
             transparent 12px);
+}
+
+#gameover-screen,
+#gameclear-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000000;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gameover-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.gameover-title {
+    max-width: 1890px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.gameover-subtitle {
+    max-width: 160px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.gameover-options {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.gameover-option-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.gameover-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.gameover-btn img {
+    height: 16px;
+    width: auto;
+    display: block;
+}
+
+/* 화살표 숨김/표시 처리 */
+.gameover-arrow {
+    width: 16px;
+    height: 30px;
+    visibility: hidden;
+}
+
+/* 선택된 메뉴행의 화살표만 보이기 */
+.gameover-option-row.active .gameover-arrow {
+    visibility: visible;
+}
+
+#timer-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: #ffffff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-family: monospace, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    border: 2px solid #ffffff;
+    z-index: 9999;
+    pointer-events: none;
+    /* 클릭 이벤트가 게임 화면을 방해하지 않도록 설정 */
 }

@@ -10,6 +10,7 @@ import {
 } from "./player.js";
 import { moveTeacher, increaseTeacherSpeed } from "./teacher.js";
 import { roadMap } from "./map.js";
+import { startTimer } from "./timer.js";
 // ===============
 // QuestionModal
 // ===============
@@ -125,8 +126,21 @@ const runGame = () => {
   roadMap();
   startPlayer();
   moveTeacher();
+  startTimer();
 
   document.addEventListener("keydown", (e) => {
+    const startScreen = document.getElementById("start-screen");
+    const gameoverScreen = document.getElementById("gameover-screen");
+    const gameclearScreen = document.getElementById("gameclear-screen");
+
+    // 시작화면, 게임오버, 게임클리어 화면이 열려있으면 플레이어 키보드 이동 무시
+    if (
+      (startScreen && getComputedStyle(startScreen).display !== "none") ||
+      (gameoverScreen && gameoverScreen.style.display === "flex") ||
+      (gameclearScreen && gameclearScreen.style.display === "flex")
+    )
+      return;
+
     if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
     playerIntersect(e.code);
   });
@@ -142,10 +156,11 @@ const pressStart = () => {
 
 const init = (problems = []) => {
   const loading = document.getElementById("loading");
+
   if (loading) {
     loading.style.display = "none";
     problemList = problems;
-    console.log(problems);
+
     if (problems.length === 0) {
       loading.textContent = "문제를 불러오지 못했습니다.";
       return;
@@ -154,4 +169,5 @@ const init = (problems = []) => {
     runGame();
   }
 };
+
 export { init, pressStart, problemList, items };
