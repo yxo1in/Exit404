@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./css/inventoryModal.css" />
   <link rel="stylesheet" href="./css/style.css" />
   <link rel="stylesheet" href="./css/start.css" />
+  <link rel="stylesheet" href="./css/ranking.css" />
 
 
 </head>
@@ -50,7 +51,76 @@
     </div>
   </div>
 
+  <!-- 랭킹 모달 화면 -->
+  <div id="ranking-modal" style="display: none;">
+    <div class="ranking-modal-content">
+      <h2> RANKING </h2>
+      <div id="ranking-list-container">
+        <p>로딩 중...</p>
+      </div>
+      <button id="btn-close-ranking">닫기 (ESC)</button>
+    </div>
+  </div>
+
+  <!-- 우측 하단 타이머 -->
+  <div id="timer-container" style="display: none;">
+    <span id="timer-display">00:00</span>
+  </div>
+
+  <!-- 게임 클리어 화면 -->
+  <div id="gameclear-screen" style="display: none;">
+    <div class="gameover-container">
+      <img src="./assets/image/survived.svg" class="gameover-title" alt="YOU SURVIVED." />
+
+      <div class="gameover-options">
+        <div class="gameover-option-row active" data-index="0">
+          <img src="./assets/image/right_arrow.svg" class="gameover-arrow arrow-left" alt="arrow" />
+          <button class="gameover-btn" id="btn-clear-exit">
+            <img src="./assets/image/exit_txt.png" alt="EXIT" />
+          </button>
+          <img src="./assets/image/left_arrow.svg" class="gameover-arrow arrow-right" alt="arrow" />
+        </div>
+
+        <div class="gameover-option-row" data-index="1">
+          <img src="./assets/image/right_arrow.svg" class="gameover-arrow arrow-left" alt="arrow" />
+          <button class="gameover-btn" id="btn-clear-restart">
+            <img src="./assets/image/restart_txt.png" alt="RESTART" />
+          </button>
+          <img src="./assets/image/left_arrow.svg" class="gameover-arrow arrow-right" alt="arrow" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 게임오버 화면 -->
+  <div id="gameover-screen" style="display: none;">
+    <div class="gameover-container">
+      <img src="./assets/image/gameover.svg" class="gameover-title" alt="GAME OVER" />
+
+      <img src="./assets/image/restart_txt.svg" class="gameover-subtitle" alt="RESTART" />
+
+      <div class="gameover-options">
+        <div class="gameover-option-row" data-index="0">
+          <img src="./assets/image/right_arrow.svg" class="gameover-arrow arrow-left" alt="arrow" />
+          <button class="gameover-btn" id="btn-gameover-yes">
+            <img src="./assets/image/yes_txt.png" alt="YES" />
+          </button>
+          <img src="./assets/image/left_arrow.svg" class="gameover-arrow arrow-right" alt="arrow" />
+        </div>
+
+        <div class="gameover-option-row" data-index="1">
+          <img src="./assets/image/right_arrow.svg" class="gameover-arrow arrow-left" alt="arrow" />
+          <button class="gameover-btn" id="btn-gameover-no">
+            <img src="./assets/image/No_txt.png" alt="NO" />
+          </button>
+          <img src="./assets/image/left_arrow.svg" class="gameover-arrow arrow-right" alt="arrow" />
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div id="game" style="display: none;">
+    <div id="fogOfWar"></div>
     <img id="player" alt="player" data-sprite="" />
     <img id="teacher" alt="teacher" data-sprite="" />
   </div>
@@ -155,6 +225,8 @@
   <script type="module" src="./js/map.js"></script>
   <script type="module" src="./js/main.js"></script>
   <script type="module" src="./js/supabase.js"></script>
+  <script type="module" src="./js/gameover.js"></script>
+  <script type="module" src="./js/gameclear.js"></script>
 </body>
 
 </html>

@@ -109,12 +109,15 @@ const addItem = (index) => {
 
 renderInventory();
 
+// js/main.js 파일 최하단 init 함수 부분만 깔끔하게 정리
+
 const init = (problems = []) => {
   const loading = document.getElementById("loading");
+
   if (loading) {
     loading.style.display = "none";
     problemList = problems;
-    console.log(problems);
+
     if (problems.length === 0) {
       loading.textContent = "문제를 불러오지 못했습니다.";
       return;
@@ -124,13 +127,25 @@ const init = (problems = []) => {
     startPlayer();
     moveTeacher();
 
+    // ★ 이벤트는 1번만 깔끔하게 등록
     document.addEventListener("keydown", (e) => {
+      const startScreen = document.getElementById('start-screen');
+      const gameoverScreen = document.getElementById('gameover-screen');
+      const gameclearScreen = document.getElementById('gameclear-screen');
+
+      // 시작화면, 게임오버, 게임클리어 화면이 열려있으면 플레이어 키보드 이동 무시
+      if ((startScreen && getComputedStyle(startScreen).display !== 'none') ||
+        (gameoverScreen && gameoverScreen.style.display === 'flex') ||
+        (gameclearScreen && gameclearScreen.style.display === 'flex')) return;
+
       if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
       playerIntersect(e.code);
     });
+
     document.addEventListener("keyup", (e) => {
       stop(e.code);
     });
-  };
-}
+  }
+};
+
 export { init, problemList, items };
