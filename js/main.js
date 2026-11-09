@@ -56,7 +56,7 @@ const submitAnswer = async () => {
     solveProblem(index);
     addItem(index);
   } else if (!isCorrect) {
-    increaseTeacherSpeed(); // 통신 오류는 오답으로 치지 않음
+    increaseTeacherSpeed();
   }
   scheduleCloseModal(2000);
 };
