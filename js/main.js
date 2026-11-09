@@ -1,30 +1,30 @@
-import { playerIntersect, stop } from "./player.js";
+import { startPlayer, playerIntersect, stop } from "./player.js";
 import { moveTeacher } from "./teacher.js";
-// import { roadMap } from "./map.js";
+import { roadMap } from "./map.js";
 // ===============
 // QuestionModal
 // ===============
-// const headerMenu = [
-//   "File",
-//   "Edit",
-//   "Selection",
-//   "View",
-//   "Go",
-//   "Run",
-//   "Terminal",
-// ];
-// document.getElementById("question-modal-header").innerHTML = headerMenu
-//   .map((m) => `<div class="question-modal-header-menu">${m}</div>`)
-//   .join("");
+const headerMenu = [
+  "File",
+  "Edit",
+  "Selection",
+  "View",
+  "Go",
+  "Run",
+  "Terminal",
+];
+document.getElementById("question-modal-header").innerHTML = headerMenu
+  .map((m) => `<div class="question-modal-header-menu">${m}</div>`)
+  .join("");
 
-// const answerMenu = ["Problem", "Output", "Debug Console", "Terminal"];
-// document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
-//   .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
-//   .join("");
+const answerMenu = ["Problem", "Output", "Debug Console", "Terminal"];
+document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
+  .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
+  .join("");
 
-// const isCorrect = false;
-// document.getElementById("answer_result").innerHTML =
-//   `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+const isCorrect = false;
+document.getElementById("answer_result").innerHTML =
+  `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
 
 // ================================
 // InventoryModal
@@ -61,14 +61,28 @@ inventory.querySelectorAll(".item-wrap").forEach((item) => {
   });
 });
 
-// window.addEventListener("DOMContentLoaded", () => {
-//   roadMap();
-// });
+const init = (problems) => {
+  const loading = document.getElementById("loading");
 
-document.addEventListener("keydown", (e) => {
-  if (e.code.startsWith("Arrow")) e.preventDefault();
-  playerIntersect(e.code);
-});
-document.addEventListener("keyup", (e) => {
-  stop(e.code);
-});
+  console.log(problems);
+  if (problems.length === 0) {
+    loading.textContent = "문제를 불러오지 못했습니다.";
+    return;
+  }
+  
+  roadMap();
+  startPlayer();
+  moveTeacher();
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code.startsWith("Arrow")) e.preventDefault();
+    playerIntersect(e.code);
+  });
+  document.addEventListener("keyup", (e) => {
+    stop(e.code);
+  });
+
+  loading.remove();
+};
+
+export { init };

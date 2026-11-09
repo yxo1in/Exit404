@@ -1,5 +1,9 @@
 import { BFS, toCell } from "./map.js";
-import { getPlayerPos } from "./player.js";
+import {
+  getPlayerPos,
+  isOpenInventory,
+  isOpenQuestionModal,
+} from "./player.js";
 // BFS
 
 const CHARACTER = {
@@ -55,6 +59,7 @@ const setPath = () => {
   if (res.length === 0) {
     // res => 경로인데 경로가 없는거면 캐릭터와 닿은거겠죠?
     // Game Over 구현하기 **
+    console.log("game over");
   }
   path = res;
 };
@@ -86,13 +91,13 @@ const move = () => {
 };
 
 const moveTeacher = () => {
-  setPath();
-  const isMove = move();
-  setCharacter(isMove ? `walk-${see}` : `idle-${see}`);
-  draw();
-
+  if (!isOpenInventory && !isOpenQuestionModal) {
+    setPath();
+    const isMove = move();
+    setCharacter(isMove ? `walk-${see}` : `idle-${see}`);
+    draw();
+  }
   requestAnimationFrame(moveTeacher);
 };
-requestAnimationFrame(moveTeacher);
 
 export { moveTeacher };
