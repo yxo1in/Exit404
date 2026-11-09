@@ -2,6 +2,26 @@ import { getPlayerPos } from "./player.js";
 
 const TILE_SIZE = 40;
 
+const desks = [
+  { x: 24, y: 4, w: 2, h: 2, question: 0 },
+  { x: 33, y: 3, w: 2, h: 2, question: 1 },
+  { x: 48, y: 3, w: 2, h: 2, question: 2 },
+  { x: 62, y: 6, w: 2, h: 2, question: 3 },
+  { x: 49, y: 23, w: 2, h: 2, question: 4 },
+  { x: 61, y: 28, w: 2, h: 2, question: 5 },
+  { x: 74, y: 27, w: 2, h: 2, question: 6 },
+  { x: 11, y: 36, w: 2, h: 2, question: 7 },
+  { x: 36, y: 48, w: 2, h: 2, question: 8 },
+  { x: 71, y: 48, w: 2, h: 2, question: 9 },
+];
+
+const exit = {
+  x: 83,
+  y: 7,
+  radius: 1.5,
+  tiles: { x: 82, y: 6, w: 1, h: 2 },
+};
+
 const rooms = [
   // 왼쪽 라인
   { name: "r_left_top", x: 6, y: 6, w: 11, h: 10 },
@@ -122,11 +142,13 @@ const roadMap = () => {
   toiletTile.src = "../assets/tile/toilet-tile.jpeg";
   const woodTile = new Image();
   woodTile.src = "../assets/tile/wood-tile.png";
+  const desktop = new Image();
+  desktop.src = "../assets/image/desktop.svg";
 
   let imagesLoaded = 0;
   const onImageLoad = () => {
     imagesLoaded++;
-    if (imagesLoaded === 3) {
+    if (imagesLoaded === 4) {
       resizeCanvas();
     }
   };
@@ -134,6 +156,7 @@ const roadMap = () => {
   corridorTile.onload = onImageLoad;
   toiletTile.onload = onImageLoad;
   woodTile.onload = onImageLoad;
+  desktop.onload = onImageLoad;
 
   const resizeCanvas = () => {
     canvas.width = window.innerWidth;
@@ -235,6 +258,35 @@ const roadMap = () => {
       ctx.fillRect(drawX, drawY, drawWidth, drawHeight);
     });
 
+    desks.forEach((desk) => {
+      ctx.drawImage(
+        desktop,
+        desk.x * TILE_SIZE,
+        desk.y * TILE_SIZE,
+        desk.w * TILE_SIZE,
+        desk.h * TILE_SIZE,
+      );
+    });
+
+    const exitX = exit.x * TILE_SIZE;
+    const exitY = exit.y * TILE_SIZE;
+    const exitRadius = exit.radius * TILE_SIZE;
+    const exitGlow = ctx.createRadialGradient(
+      exitX,
+      exitY,
+      0,
+      exitX,
+      exitY,
+      exitRadius,
+    );
+    exitGlow.addColorStop(0, "rgba(110, 235, 60, 0.95)");
+    exitGlow.addColorStop(0.5, "rgba(110, 235, 60, 0.6)");
+    exitGlow.addColorStop(1, "rgba(110, 235, 60, 0)");
+    ctx.fillStyle = exitGlow;
+    ctx.beginPath();
+    ctx.arc(exitX, exitY, exitRadius, 0, Math.PI * 2);
+    ctx.fill();
+
     // ★ [카메라 추적 추가] 3. 카메라 이동 복원
     ctx.restore();
 
@@ -266,6 +318,26 @@ corridors.map((r) => {
     }
   }
 });
+desks.map((r) => {
+  for (let row = r.y - gridMinY; row < r.y - gridMinY + r.h; row++) {
+    for (let col = r.x - gridMinX; col < r.x - gridMinX + r.w; col++) {
+      grid[row][col + 7] = 2;
+    }
+  }
+});
+for (
+  let row = exit.tiles.y - gridMinY;
+  row < exit.tiles.y - gridMinY + exit.tiles.h;
+  row++
+) {
+  for (
+    let col = exit.tiles.x - gridMinX;
+    col < exit.tiles.x - gridMinX + exit.tiles.w;
+    col++
+  ) {
+    grid[row][col + 7] = 3;
+  }
+}
 grid.shift();
 /*
 1. 인덱스 + minValue => 좌표값으로 계산
@@ -276,6 +348,7 @@ grid.shift();
 3. 에러 발생 => 벽이 아닌데 막힘, 벽인데 안막힘 => 배열 인덱스를 잘못 가져온듯....
 4. 해결!!!!!!!!!!!!!!!!!!
 */
+
 const isMove = (x, y) => {
   // console.log(grid);
   // console.log(x, y);
@@ -283,35 +356,35 @@ const isMove = (x, y) => {
   let cy = Math.ceil((y - gridMinY) / TILE_SIZE);
   // console.log(cx, cy);
   // console.log(grid[cy][cx]);
-  if (grid[cy][cx] === 0) {
-    console.log(true);
+  if (grid[cy][cx] === 0 || grid[cy][cx] === 3) {
+    // console.log(true);
     return true;
   }
-  console.log(false);
+  // console.log(false);
   return false;
 };
 
 /* 
-  BFS 구현하기
-  1. queue 하나 만들기
-  2. 시작 정점 = 선생님 좌표값
-  3. 시작 정점의 adjacent => 해당 좌표의 한 칸 떨어진 좌표 => dx, dy로 구현 + 정점의 값이 0이여야함
-  4. 근데 또 그렇게 하면 방문한 정점을 재방문하는 경우가 생길 수 있다 => 방문햇는지 체크 
-  5. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
-    => 1) prev에 넣는 값의 형식은 객체로, {row : , col : } 로 정의한다.
-       2) prev에 처음 값을 넣을 땐 어디서 어디로 이동했는지 알 수 없음 => 해당 좌표값 넣기.
-       */
+BFS 구현하기
+1. queue 하나 만들기
+2. 시작 정점 = 선생님 좌표값
+3. 시작 정점의 adjacent => 해당 좌표의 한 칸 떨어진 좌표 => dx, dy로 구현 + 정점의 값이 0이여야함
+4. 근데 또 그렇게 하면 방문한 정점을 재방문하는 경우가 생길 수 있다 => 방문햇는지 체크 
+5. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
+=> 1) prev에 넣는 값의 형식은 객체로, {row : , col : } 로 정의한다.
+2) prev에 처음 값을 넣을 땐 어디서 어디로 이동했는지 알 수 없음 => 해당 좌표값 넣기.
+*/
 /* 
-  prev 흐름
-  0. 현재 좌표(선생님 좌표)와 캐릭터의 좌표가 같으면 GAME OVER => prev 실행 X
-  1. 우선 prev를 만들 때 grid와 같은 크기로 만든 뒤 값을 null로 채운다.
-  2. 큐에 넣는 순간 prev에 dequeue한 값을 넣는다.
-  3. 조건 = 범위 안인가? + 해당 grid 값이 0인가? 해당 prev의 값이 null인지를 만족하면 큐에 enqueue
-  4. BFS를 호출할 때마다 prev는 초기화
-  5. 역추적 끝내는 조건 => prev[지금 row, 지금 col] == 선생님 칸
-  6. prev로 최종 다착 지점을 가르키는 지점을 가리키는 지점을 ... 반복해서 경로 찾기
-  
-  => 총 반복문 2개 (BFS, prev)
+prev 흐름
+0. 현재 좌표(선생님 좌표)와 캐릭터의 좌표가 같으면 GAME OVER => prev 실행 X
+1. 우선 prev를 만들 때 grid와 같은 크기로 만든 뒤 값을 null로 채운다.
+2. 큐에 넣는 순간 prev에 dequeue한 값을 넣는다.
+3. 조건 = 범위 안인가? + 해당 grid 값이 0인가? 해당 prev의 값이 null인지를 만족하면 큐에 enqueue
+4. BFS를 호출할 때마다 prev는 초기화
+5. 역추적 끝내는 조건 => prev[지금 row, 지금 col] == 선생님 칸
+6. prev로 최종 다착 지점을 가르키는 지점을 가리키는 지점을 ... 반복해서 경로 찾기
+
+=> 총 반복문 2개 (BFS, prev)
 */
 const dr = [-1, 1, 0, 0]; // 상하좌우
 const dc = [0, 0, -1, 1]; // 상하좌우
@@ -346,7 +419,7 @@ const BFS = (sx, sy) => {
         nr < grid.length &&
         nc >= 0 &&
         nc < grid[0].length &&
-        grid[nr][nc] === 0 &&
+        (grid[nr][nc] === 0 || grid[nr][nc] === 3) &&
         prev[nr][nc] === null
       ) {
         prev[nr][nc] = current;
@@ -370,13 +443,27 @@ const toCell = (x, y) => ({
   row: Math.ceil((y - gridMinY) / TILE_SIZE),
 });
 
-// 픽셀 중앙 좌표 구하기
-const toPixel = (row, col) => ({
-  x: col * TILE_SIZE + gridMinX - TILE_SIZE / 2,
-  y: row * TILE_SIZE + gridMinY - TILE_SIZE / 2,
-});
+const deskIsNear = (x, y) => {
+  // console.log(x, y);
+  let character = toCell(x, y);
 
-roadMap();
+  if (grid[character.row][character.col] === 2) {
+    return true;
+  }
+  for (let i = 0; i < 4; i++) {
+    const nr = character.row + dr[i];
+    const nc = character.col + dc[i];
+    if (grid[nr][nc] === 2) {
+      return true;
+    }
+  }
+  return false;
+};
+
+const isExit = (x, y) => {
+  const character = toCell(x, y);
+  return grid[character.row][character.col] === 3;
+};
 
 export {
   roadMap,
@@ -390,5 +477,6 @@ export {
   setGoal,
   BFS,
   toCell,
-  toPixel
+  deskIsNear,
+  isExit,
 };

@@ -19,6 +19,7 @@
   padding-left: 12px;
   transition: 0.3s;
   margin-inline: 30px;
+  z-index: 1000000;
   
 }
 .question-modal-header {

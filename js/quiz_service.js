@@ -1,14 +1,15 @@
 // Supabase 클라이언트 (프로젝트 설정에 맞춰 import)
-import { supabase } from './supabase.js';
+
+import { supabaseClient } from './supabase.js';
 
 /**
  * 1. 카테고리별 또는 전체 문제 목록 가져오기
  * @param {string} [category] - 특정 카테고리 (선택 사항)
  */
 export async function getProblems(category = null) {
-    let query = supabase
-        .from('problem')
-        .select('id, category, question');
+  let query = supabaseClient
+    .from('problem')
+    .select('id, category, question'); 
 
     if (category) {
         query = query.eq('category', category);
@@ -27,11 +28,11 @@ export async function getProblems(category = null) {
  * @param {string} problemId - UUID 형태의 문제 ID
  */
 export async function getProblemById(problemId) {
-    const { data, error } = await supabase
-        .from('problem')
-        .select('id, category, question')
-        .eq('id', problemId)
-        .single();
+  const { data, error } = await supabaseClient
+    .from('problem')
+    .select('id, category, question')
+    .eq('id', problemId)
+    .single();
 
     if (error) {
         console.error('문제 가져오기 실패:', error);
@@ -46,11 +47,11 @@ export async function getProblemById(problemId) {
  * @param {string} userSubmittedAnswer - 사용자가 입력한 정답
  */
 export async function checkAnswer(problemId, userSubmittedAnswer) {
-    const { data, error } = await supabase
-        .from('problem')
-        .select('answer')
-        .eq('id', problemId)
-        .single();
+  const { data, error } = await supabaseClient
+    .from('problem')
+    .select('answer')
+    .eq('id', problemId)
+    .single();
 
     if (error || !data) {
         console.error('정답 확인 중 오류 발생:', error);

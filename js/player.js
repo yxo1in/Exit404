@@ -1,4 +1,4 @@
-import { isMove, setGoal } from "./map.js";
+import { isMove, setGoal, deskIsNear, isExit } from "./map.js";
 
 let run = false;
 
@@ -36,6 +36,9 @@ const setCharacter = (move) => {
   player.src = encodeURI(`./assets/character/${character[move]}`);
 };
 
+let isOpenQuestionModal = false;
+let isOpenInventory = false;
+let isEscaped = false;
 const move = () => {
   const isLeft = see === "left" ? " scaleX(-1)" : "";
 
@@ -47,6 +50,31 @@ const move = () => {
 };
 
 const c = document.getElementById("player");
+
+const intersect = () => {
+  /* 상호작용 구현
+    1. 상호작용을 눌렀을 때 이 함수가 호출됨.
+    2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
+    3. 문제 모달 띄우기 + 게임 진행 멈추기
+  */
+  // console.log(deskIsNear(x, y))
+  if (deskIsNear(x, y)) {
+    if (isOpenInventory) {
+      inventoryClose();
+    }
+    const modal = document.getElementById("question-modal");
+    if (!isOpenQuestionModal) {
+      modal.style.width = "1328px";
+      modal.style.height = "858px";
+      isOpenQuestionModal = true;
+      setTimeout(() => {
+        modal.style.width = "0px";
+        modal.style.height = "0px";
+        isOpenQuestionModal = false;
+      }, 20000);
+    }
+  }
+};
 const loop = () => {
   setGoal(x, y);
   let moved = false;
@@ -56,60 +84,68 @@ const loop = () => {
     run = false;
   }
 
-  if (!run) {
-    const SPEED = 4;
-    if (pressed.ArrowUp) {
-      if (isMove(x, y - SPEED)) {
-        y -= SPEED;
-        moved = true;
+  if (!isOpenInventory && !isOpenQuestionModal) {
+    if (!run) {
+      const SPEED = 4;
+      if (pressed.ArrowUp) {
+        if (isMove(x, y - SPEED)) {
+          y -= SPEED;
+          moved = true;
+        }
+        see = "up";
+      } else if (pressed.ArrowDown) {
+        if (isMove(x, y + SPEED)) {
+          y += SPEED;
+          moved = true;
+        }
+        see = "down";
+      } else if (pressed.ArrowLeft) {
+        if (isMove(x - SPEED, y)) {
+          x -= SPEED;
+          moved = true;
+        }
+        see = "left";
+      } else if (pressed.ArrowRight) {
+        if (isMove(x + SPEED, y)) {
+          x += SPEED;
+          moved = true;
+        }
+        see = "right";
       }
-      see = "up";
-    } else if (pressed.ArrowDown) {
-      if (isMove(x, y + SPEED)) {
-        y += SPEED;
-        moved = true;
+    } else if (run) {
+      const SPEED = 6;
+      if (pressed.ArrowUp) {
+        if (isMove(x, y - SPEED)) {
+          y -= SPEED;
+          moved = true;
+        }
+        see = "up";
+      } else if (pressed.ArrowDown) {
+        if (isMove(x, y + SPEED)) {
+          y += SPEED;
+          moved = true;
+        }
+        see = "down";
+      } else if (pressed.ArrowLeft) {
+        if (isMove(x - SPEED, y)) {
+          x -= SPEED;
+          moved = true;
+        }
+        see = "left";
+      } else if (pressed.ArrowRight) {
+        if (isMove(x + SPEED, y)) {
+          x += SPEED;
+          moved = true;
+        }
+        see = "right";
       }
-      see = "down";
-    } else if (pressed.ArrowLeft) {
-      if (isMove(x - SPEED, y)) {
-        x -= SPEED;
-        moved = true;
-      }
-      see = "left";
-    } else if (pressed.ArrowRight) {
-      if (isMove(x + SPEED, y)) {
-        x += SPEED;
-        moved = true;
-      }
-      see = "right";
     }
-  } else if (run) {
-    const SPEED = 6;
-    if (pressed.ArrowUp) {
-      if (isMove(x, y - SPEED)) {
-        y -= SPEED;
-        moved = true;
-      }
-      see = "up";
-    } else if (pressed.ArrowDown) {
-      if (isMove(x, y + SPEED)) {
-        y += SPEED;
-        moved = true;
-      }
-      see = "down";
-    } else if (pressed.ArrowLeft) {
-      if (isMove(x - SPEED, y)) {
-        x -= SPEED;
-        moved = true;
-      }
-      see = "left";
-    } else if (pressed.ArrowRight) {
-      if (isMove(x + SPEED, y)) {
-        x += SPEED;
-        moved = true;
-      }
-      see = "right";
-    }
+  }
+
+  if (!isEscaped && isExit(x, y)) {
+    // isEscaped = true;
+    // 탈출 처리 구현하기 **
+    console.log("escape");
   }
 
   if (run && moved) {
@@ -120,7 +156,7 @@ const loop = () => {
   } else {
     currentStamina = Math.min(MAX_STAMINA, currentStamina + RECOVERY_RATE);
     if (isExhausted && currentStamina >= 20) {
-      isExhausted = false;  
+      isExhausted = false;
     }
   }
 
@@ -135,27 +171,6 @@ const loop = () => {
   requestAnimationFrame(loop); // loop가 종료된 시점에 다시 loop 호출 != 재귀
   // 재귀는 현재 함수가 완료되기 전에 같은 함수를 다시 호출
 };
-
-const intersect = () => {
-  console.log("상호작용 키");
-};
-
-let isOpenQuestionModal = false;
-let isOpenInventory = false;
-// document
-//   .getElementById("question-modal-button")
-//   .addEventListener("click", () => {
-//     const modal = document.getElementById("question-modal");
-//     if (!isOpenQuestionModal && !isOpenInventory) {
-//       modal.style.width = "1328px";
-//       modal.style.height = "858px";
-//       isOpenQuestionModal = !isOpenQuestionModal;
-//     } else {
-//       modal.style.width = "0px";
-//       modal.style.height = "0px";
-//       isOpenQuestionModal = !isOpenQuestionModal;
-//     }
-//   });
 
 const inventoryModal = document.getElementById("inventory-modal");
 const inventoryOpen = () => {
@@ -203,11 +218,20 @@ window.addEventListener("blur", () => {
   pressed = {};
 });
 
-// 처음에 시작하랴고 넣은겨
-setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
-move();
-requestAnimationFrame(loop);
+// 데이터를 불러온 뒤 main.js에서 호출
+const startPlayer = () => {
+  setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
+  move();
+  requestAnimationFrame(loop);
+};
 
 const getPlayerPos = () => ({ x, y });
 
-export { playerIntersect, stop, getPlayerPos };
+export {
+  startPlayer,
+  playerIntersect,
+  stop,
+  getPlayerPos,
+  isOpenInventory,
+  isOpenQuestionModal,
+};
