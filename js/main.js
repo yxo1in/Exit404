@@ -1,6 +1,5 @@
 import { startPlayer, playerIntersect, stop } from "./player.js";
 import { moveTeacher } from "./teacher.js";
-import { problems } from "./supabase.js";
 import { roadMap } from "./map.js";
 // ===============
 // QuestionModal
@@ -62,7 +61,7 @@ inventory.querySelectorAll(".item-wrap").forEach((item) => {
   });
 });
 
-const init = () => {
+const init = (problems) => {
   const loading = document.getElementById("loading");
 
   console.log(problems);
@@ -70,7 +69,7 @@ const init = () => {
     loading.textContent = "문제를 불러오지 못했습니다.";
     return;
   }
-
+  
   roadMap();
   startPlayer();
   moveTeacher();
@@ -86,4 +85,4 @@ const init = () => {
   loading.remove();
 };
 
-init();
+export { init };

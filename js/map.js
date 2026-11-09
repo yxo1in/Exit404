@@ -3,16 +3,16 @@ import { getPlayerPos } from "./player.js";
 const TILE_SIZE = 40;
 
 const desks = [
-  { x: 24, y: 4, w: 2, h: 2, question: 0 }, // r_top_1
-  { x: 33, y: 3, w: 2, h: 2, question: 1 }, // r_top_2
-  { x: 48, y: 3, w: 2, h: 2, question: 2 }, // r_top_3
-  { x: 62, y: 6, w: 2, h: 2, question: 3 }, // r_right_top1
-  { x: 49, y: 23, w: 2, h: 2, question: 4 }, // r_mid_small
-  { x: 61, y: 28, w: 2, h: 2, question: 5 }, // r_right_mid
-  { x: 74, y: 27, w: 2, h: 2, question: 6 }, // r_right_bot1
-  { x: 11, y: 36, w: 2, h: 2, question: 7 }, // r_left_bot
-  { x: 36, y: 48, w: 2, h: 2, question: 8 }, // r_bot_mid
-  { x: 71, y: 48, w: 2, h: 2, question: 9 }, // r_bot_right
+  { x: 24, y: 4, w: 2, h: 2, question: 0 },
+  { x: 33, y: 3, w: 2, h: 2, question: 1 },
+  { x: 48, y: 3, w: 2, h: 2, question: 2 },
+  { x: 62, y: 6, w: 2, h: 2, question: 3 },
+  { x: 49, y: 23, w: 2, h: 2, question: 4 },
+  { x: 61, y: 28, w: 2, h: 2, question: 5 },
+  { x: 74, y: 27, w: 2, h: 2, question: 6 },
+  { x: 11, y: 36, w: 2, h: 2, question: 7 },
+  { x: 36, y: 48, w: 2, h: 2, question: 8 },
+  { x: 71, y: 48, w: 2, h: 2, question: 9 },
 ];
 
 const exit = {
@@ -357,10 +357,10 @@ const isMove = (x, y) => {
   // console.log(cx, cy);
   // console.log(grid[cy][cx]);
   if (grid[cy][cx] === 0 || grid[cy][cx] === 3) {
-    console.log(true);
+    // console.log(true);
     return true;
   }
-  console.log(false);
+  // console.log(false);
   return false;
 };
 

@@ -77,8 +77,8 @@
                   background-image: url(./assets/image/ant-design_file-outlined.svg);
                 "></div>
               <div class="question-modal-file-icon" style="
-                  background-image: url(./assets/image/bx_search-alt-2.svg);
-                "></div>
+                  background-image: url(./assets/image/bx_search-alt-2.svg);"
+        ></div>
             </div>
             <div class="question-modal-file-icon" style="background-image: url(./assets/image/ep_setting.svg)"></div>
           </div>
@@ -100,6 +100,12 @@
               <p class="question-modal-question-file-text">Question</p>
               <p class="question-modal-question-file-text">x</p>
             </div>
+            <div>
+              <p><span>Q1.</span><span id="question-title"></span></p>
+              <label for="answer">
+                <input id='answer' type="text" placeholder="">
+              </label>
+            </div>
           </div>
           <div class="question-modal-answer">
             <div class="question-modal-answer-menu" id="question-modal-answer-menu"></div>
@@ -115,7 +121,7 @@
 
 
     <script type="module" src="./js/map.js"></script>
-    <script type="module" src="./js/main.js"></script>
+    <script type="module" src="./js/supabase.js"></script>
 </body>
 
 </html>

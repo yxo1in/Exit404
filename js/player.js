@@ -57,6 +57,7 @@ const intersect = () => {
     2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
     3. 문제 모달 띄우기 + 게임 진행 멈추기
   */
+  // console.log(deskIsNear(x, y))
   if (deskIsNear(x, y)) {
     if (isOpenInventory) {
       inventoryClose();

@@ -1,4 +1,5 @@
 import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+import { init } from "./main.js";
 
 const SUPABASE_URL = "https://uzawdbyxziomlqezxuhb.supabase.co";
 const SUPABASE_ANON_KEY =
@@ -6,7 +7,7 @@ const SUPABASE_ANON_KEY =
 
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 이 파일을 import한 모듈은 문제를 다 불러올 때까지 기다렸다가 실행됨
+// 문제를 다 불러온 뒤 게임 시작
 const { data, error } = await supabaseClient
   .from("problem")
   .select("id, category, question");
@@ -15,6 +16,6 @@ if (error) {
   console.error("연결 실패:", error);
 }
 
-const problems = data ?? [];
+init(data ?? []);
 
-export { supabaseClient, problems };
+export { supabaseClient };
