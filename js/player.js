@@ -73,7 +73,7 @@ const solveProblem = (index) => {
 
 let toastTimer = null;
 
-const showToast = (message) => {
+const showAlert = (message) => {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.add("show");
@@ -296,5 +296,5 @@ export {
   currentProblem,
   solveProblem,
   scheduleCloseModal,
-  showToast
+  showAlert
 };
