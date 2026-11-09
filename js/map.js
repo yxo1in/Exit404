@@ -339,7 +339,7 @@ grid.shift();
 /*
 1. 인덱스 + minValue => 좌표값으로 계산
 2. 만약 SPEED 만큼 움직였는데 1으로 된 값의 위치하면 이동 불가
- => 이걸 어케 구할거냐? 캐릭터의 좌표값을 찾는 방법을 알아야함. 
+ => 캐릭터의 좌표값을 찾는 방법을 알아야함. 
   => 이걸 토대로 배열에 넣어서 구해야하는데.......
   => minValue - 캐릭터 좌표값 하면 인덱스 구해질듯.!!!!
 3. 에러 발생 => 벽이 아닌데 막힘, 벽인데 안막힘 => 배열 인덱스를 잘못 가져온듯....
@@ -366,8 +366,8 @@ BFS 구현하기
 1. queue 하나 만들기
 2. 시작 정점 = 선생님 좌표값
 3. 시작 정점의 adjacent => 해당 좌표의 한 칸 떨어진 좌표 => dx, dy로 구현 + 정점의 값이 0이여야함
-4. 근데 또 그렇게 하면 방문한 정점을 재방문하는 경우가 생길 수 있다 => 방문햇는지 체크 
-5. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
+4. 이렇게 가다가 캐릭터 좌표값을 만나면 경로를 계산 => prev 이용 => 
+  prev => 현재 좌표의 전 칸을 담는 배열(grid와 같은 크기)
 => 1) prev에 넣는 값의 형식은 객체로, {row : , col : } 로 정의한다.
 2) prev에 처음 값을 넣을 땐 어디서 어디로 이동했는지 알 수 없음 => 해당 좌표값 넣기.
 */
@@ -405,7 +405,7 @@ const BFS = (sx, sy) => {
     const current = queue.shift();
     if (current.row === gy && current.col === gx) {
       break;
-    }
+    } // 목표(goal)에 도달.
 
     // 상하좌우 계산
     for (let i = 0; i < 4; i++) {
@@ -426,13 +426,13 @@ const BFS = (sx, sy) => {
   }
   if (prev[gy][gx] === null) return null;
 
-  let cur = { row: gy, col: gx };
+  let cur = { row: gy, col: gx }; // 목표 좌표
   const path = [];
-  while (!(cur.row === sy && cur.col === sx)) {
-    path.push(cur);
+  while (!(cur.row === sy && cur.col === sx)) { // sy, sx에 도달할 때까지~~
+    path.unshift(cur);
     cur = prev[cur.row][cur.col];
   }
-  return path.reverse();
+  return path
 };
 
 const toCell = (x, y) => ({

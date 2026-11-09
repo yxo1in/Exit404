@@ -42,11 +42,11 @@ const submitAnswer = async () => {
   const answer = answerInput.value.trim();
   if (!answer) return;
 
-  document.getElementById("answer-submit").disabled = true; // 문제당 한 번만 제출
+  document.getElementById("answer-submit").disabled = true;
 
   const index = currentProblem;
   const { checkAnswer } = await import("./quiz_service.js");
-  const { isCorrect, correctAnswer, error } = await checkAnswer(
+  const { isCorrect, correctAnswer} = await checkAnswer(
     problemList[index].id,
     answer,
   );
