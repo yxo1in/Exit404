@@ -1,18 +1,19 @@
 import { getPlayerPos } from "./player.js";
 
+
 const TILE_SIZE = 40;
 
 const desks = [
-  { x: 24, y: 4, w: 2, h: 2, question: 0 },
-  { x: 33, y: 3, w: 2, h: 2, question: 1 },
-  { x: 48, y: 3, w: 2, h: 2, question: 2 },
-  { x: 62, y: 6, w: 2, h: 2, question: 3 },
-  { x: 49, y: 23, w: 2, h: 2, question: 4 },
-  { x: 61, y: 28, w: 2, h: 2, question: 5 },
-  { x: 74, y: 27, w: 2, h: 2, question: 6 },
-  { x: 11, y: 36, w: 2, h: 2, question: 7 },
-  { x: 36, y: 48, w: 2, h: 2, question: 8 },
-  { x: 71, y: 48, w: 2, h: 2, question: 9 },
+  { x: 24, y: 4, w: 2, h: 2 },
+  { x: 33, y: 3, w: 2, h: 2 },
+  { x: 48, y: 3, w: 2, h: 2 },
+  { x: 62, y: 6, w: 2, h: 2 },
+  { x: 49, y: 23, w: 2, h: 2 },
+  { x: 61, y: 28, w: 2, h: 2 },
+  { x: 74, y: 27, w: 2, h: 2 },
+  { x: 11, y: 36, w: 2, h: 2 },
+  { x: 36, y: 48, w: 2, h: 2 },
+  { x: 71, y: 48, w: 2, h: 2 },
 ];
 
 const exit = {
@@ -443,21 +444,44 @@ const toCell = (x, y) => ({
   row: Math.ceil((y - gridMinY) / TILE_SIZE),
 });
 
+// grid.shift() 이후 책상 칸: row = desk.y, col = desk.x + 1
+const findDesk = (row, col) =>
+  desks.find(
+    (desk) =>
+      row >= desk.y &&
+      row < desk.y + desk.h &&
+      col > desk.x &&
+      col <= desk.x + desk.w,
+  );
+
 const deskIsNear = (x, y) => {
   // console.log(x, y);
   let character = toCell(x, y);
 
-  if (grid[character.row][character.col] === 2) {
-    return true;
+  const onDesk = findDesk(character.row, character.col);
+  if (onDesk) {
+    return onDesk;
   }
   for (let i = 0; i < 4; i++) {
     const nr = character.row + dr[i];
     const nc = character.col + dc[i];
-    if (grid[nr][nc] === 2) {
-      return true;
+    const nearDesk = findDesk(nr, nc);
+    if (nearDesk) {
+      return nearDesk;
     }
   }
-  return false;
+  return null;
+};
+
+const removeDesk = (desk) => {
+  const index = desks.indexOf(desk);
+
+  desks.splice(index, 1);
+  for (let row = desk.y; row < desk.y + desk.h; row++) {
+    for (let col = desk.x + 1; col <= desk.x + desk.w; col++) {
+      grid[row][col] = 0;
+    }
+  }
 };
 
 const isExit = (x, y) => {
@@ -478,5 +502,6 @@ export {
   BFS,
   toCell,
   deskIsNear,
+  removeDesk,
   isExit,
 };
