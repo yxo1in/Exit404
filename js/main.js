@@ -121,6 +121,18 @@ const init = (problems = []) => {
     playerIntersect(e.code);
   });
 
+  document.addEventListener("keydown", (e) => {
+  const gameoverScreen = document.getElementById('gameover-screen');
+  const gameclearScreen = document.getElementById('gameclear-screen');
+
+  // 게임오버나 게임클리어 화면일 때 플레이어 이동 차단
+  if ((gameoverScreen && gameoverScreen.style.display === 'flex') ||
+      (gameclearScreen && gameclearScreen.style.display === 'flex')) return;
+
+  if (e.code.startsWith("Arrow")) e.preventDefault();
+  playerIntersect(e.code);
+});
+
   if (loading) {
     loading.style.display = "none";
     problemList = problems;

@@ -1,5 +1,6 @@
 import { isMove, setGoal, deskIsNear, removeDesk, isExit } from "./map.js";
 import { problemList, items } from "./main.js";
+import { showGameClear } from "./gameclear.js";
 
 let run = false;
 
@@ -91,11 +92,15 @@ const intersect = () => {
     2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
     3. 문제 모달 띄우기 + 게임 진행 멈추기
   */
+
   if (!isEscaped && isExit(x, y)) {
-    // 탈출 처리 구현하기 **
-    if (items.length === 10) {
+    // 푼 문제 개수 또는 items 개수로 확인
+    const solvedCount = isSolve.filter(val => val === 1).length;
+
+    if (solvedCount === 10 || items.length === 10) {
       console.log("escape");
       isEscaped = true;
+      showGameClear();
     } else {
       pressed = {};
       alert("아이템이 부족합니다. (모든 문제를 해결하고 다시 시도해보세요)");
@@ -106,14 +111,21 @@ const intersect = () => {
   // console.log(deskIsNear(x, y))
   const desk = deskIsNear(x, y);
   if (desk) {
-    if (isOpenInventory) {
-      inventoryClose();
-    }
+    if (isOpenInventory) inventoryClose();
+
     const modal = document.getElementById("question-modal");
     const questionTitle = document.getElementById("question-title");
+
     if (!isOpenQuestionModal) {
       const index = pickProblem();
-      if (index === -1) return; // 모든 문제를 푼 상태
+
+      // 모든 문제를 푼 상태일 때 바로 클리어 화면 띄우기
+      if (index === -1) {
+        showGameClear(); // 10개 문제를 다 푼 상태에서 책상 누르면 바로 클리어!
+        return;
+      }
+
+      currentProblem = index;
 
       currentProblem = index;
       currentDesk = desk;
