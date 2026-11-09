@@ -1,4 +1,9 @@
-import { startPlayer, playerIntersect, stop } from "./player.js";
+import {
+  startPlayer,
+  playerIntersect,
+  stop,
+  isOpenQuestionModal,
+} from "./player.js";
 import { moveTeacher } from "./teacher.js";
 import { roadMap } from "./map.js";
 // ===============
@@ -25,6 +30,14 @@ document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
 const isCorrect = false;
 document.getElementById("answer_result").innerHTML =
   `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+
+const answerInput = document.getElementById("answer");
+const submitAnswer = () => {
+  const answer = answerInput.value.trim();
+  // TODO: 입력한 정답(answer)으로 채점 로직 연결
+  console.log(answer);
+};
+document.getElementById("answer-submit").addEventListener("click", submitAnswer);
 
 // ================================
 // InventoryModal
@@ -75,7 +88,7 @@ const init = (problems) => {
   moveTeacher();
 
   document.addEventListener("keydown", (e) => {
-    if (e.code.startsWith("Arrow")) e.preventDefault();
+    if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
     playerIntersect(e.code);
   });
   document.addEventListener("keyup", (e) => {
