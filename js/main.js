@@ -3,12 +3,15 @@ import {
   playerIntersect,
   stop,
   isOpenQuestionModal,
+  currentProblem,
+  solveProblem,
 } from "./player.js";
 import { moveTeacher } from "./teacher.js";
 import { roadMap } from "./map.js";
 // ===============
 // QuestionModal
 // ===============
+let problemList = [];
 const headerMenu = [
   "File",
   "Edit",
@@ -27,15 +30,21 @@ document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
   .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
   .join("");
 
-const isCorrect = false;
-document.getElementById("answer_result").innerHTML =
-  `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+const showAnswerResult = (isCorrect) => {
+  document.getElementById("answer_result").innerHTML =
+    `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+};
 
 const answerInput = document.getElementById("answer");
-const submitAnswer = () => {
+const submitAnswer = async () => {
   const answer = answerInput.value.trim();
-  // TODO: 입력한 정답(answer)으로 채점 로직 연결
-  console.log(answer);
+  if (!answer) return;
+
+  const index = currentProblem;
+  const { checkAnswer } = await import("./quiz_service.js");
+  const { isCorrect } = await checkAnswer(problemList[index].id, answer);
+  showAnswerResult(isCorrect);
+  if (isCorrect) solveProblem(index);
 };
 document.getElementById("answer-submit").addEventListener("click", submitAnswer);
 
@@ -76,7 +85,7 @@ inventory.querySelectorAll(".item-wrap").forEach((item) => {
 
 const init = (problems) => {
   const loading = document.getElementById("loading");
-
+  problemList = problems;
   console.log(problems);
   if (problems.length === 0) {
     loading.textContent = "문제를 불러오지 못했습니다.";
@@ -98,4 +107,4 @@ const init = (problems) => {
   loading.remove();
 };
 
-export { init };
+export { init, problemList };

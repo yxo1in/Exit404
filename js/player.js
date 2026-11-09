@@ -1,4 +1,5 @@
 import { isMove, setGoal, deskIsNear, isExit } from "./map.js";
+import { problemList } from "./main.js";
 
 let run = false;
 
@@ -51,6 +52,23 @@ const move = () => {
 
 const c = document.getElementById("player");
 
+const isSolve = Array.from({ length: 10 }, () => 0);
+let currentProblem = -1;
+
+const pickProblem = () => {
+  if (isSolve.every((solved) => solved === 1)) return -1;
+
+  let index;
+  do {
+    index = Math.floor(Math.random() * isSolve.length);
+  } while (isSolve[index] === 1);
+  return index;
+};
+
+const solveProblem = (index) => {
+  isSolve[index] = 1;
+};
+
 const intersect = () => {
   /* 상호작용 구현
     1. 상호작용을 눌렀을 때 이 함수가 호출됨.
@@ -63,7 +81,16 @@ const intersect = () => {
       inventoryClose();
     }
     const modal = document.getElementById("question-modal");
+    const questionTitle = document.getElementById('question-title');
     if (!isOpenQuestionModal) {
+      const index = pickProblem();
+      if (index === -1) return; // 모든 문제를 푼 상태
+
+      currentProblem = index;
+      questionTitle.textContent = problemList[index].question;
+      document.getElementById("answer").value = "";
+      document.getElementById("answer_result").innerHTML = "";
+
       modal.style.width = "1328px";
       modal.style.height = "858px";
       isOpenQuestionModal = true;
@@ -234,4 +261,6 @@ export {
   getPlayerPos,
   isOpenInventory,
   isOpenQuestionModal,
+  currentProblem,
+  solveProblem,
 };
