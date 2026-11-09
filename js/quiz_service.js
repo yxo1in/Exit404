@@ -1,4 +1,5 @@
 // Supabase 클라이언트 (프로젝트 설정에 맞춰 import)
+
 import { supabaseClient } from './supabase.js';
 
 /**
@@ -10,16 +11,16 @@ export async function getProblems(category = null) {
     .from('problem')
     .select('id, category, question'); 
 
-  if (category) {
-    query = query.eq('category', category);
-  }
+    if (category) {
+        query = query.eq('category', category);
+    }
 
-  const { data, error } = await query;
-  if (error) {
-    console.error('문제 조회 실패:', error);
-    return [];
-  }
-  return data;
+    const { data, error } = await query;
+    if (error) {
+        console.error('문제 조회 실패:', error);
+        return [];
+    }
+    return data;
 }
 
 /**
@@ -33,11 +34,11 @@ export async function getProblemById(problemId) {
     .eq('id', problemId)
     .single();
 
-  if (error) {
-    console.error('문제 가져오기 실패:', error);
-    return null;
-  }
-  return data;
+    if (error) {
+        console.error('문제 가져오기 실패:', error);
+        return null;
+    }
+    return data;
 }
 
 /**
@@ -52,19 +53,19 @@ export async function checkAnswer(problemId, userSubmittedAnswer) {
     .eq('id', problemId)
     .single();
 
-  if (error || !data) {
-    console.error('정답 확인 중 오류 발생:', error);
-    return { isCorrect: false, error: '문제를 찾을 수 없습니다.' };
-  }
+    if (error || !data) {
+        console.error('정답 확인 중 오류 발생:', error);
+        return { isCorrect: false, error: '문제를 찾을 수 없습니다.' };
+    }
 
-  // 공백 및 대소문자 정규화 후 비교
-  const correctAnswer = data.answer.trim().toLowerCase();
-  const inputAnswer = userSubmittedAnswer.trim().toLowerCase();
+    // 공백 및 대소문자 정규화 후 비교
+    const correctAnswer = data.answer.trim().toLowerCase();
+    const inputAnswer = userSubmittedAnswer.trim().toLowerCase();
 
-  const isCorrect = correctAnswer === inputAnswer;
+    const isCorrect = correctAnswer === inputAnswer;
 
-  return {
-    isCorrect,
-    correctAnswer: data.answer // 필요 시 정답 제공
-  };
+    return {
+        isCorrect,
+        correctAnswer: data.answer // 필요 시 정답 제공
+    };
 }
