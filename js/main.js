@@ -109,28 +109,28 @@ const addItem = (index) => {
 
 renderInventory();
 
-const init = (problems) => {
+const init = (problems = []) => {
   const loading = document.getElementById("loading");
-  problemList = problems;
-  console.log(problems);
-  if (problems.length === 0) {
-    loading.textContent = "문제를 불러오지 못했습니다.";
-    return;
-  }
+  if (loading) {
+    loading.style.display = "none";
+    problemList = problems;
+    console.log(problems);
+    if (problems.length === 0) {
+      loading.textContent = "문제를 불러오지 못했습니다.";
+      return;
+    }
 
-  roadMap();
-  startPlayer();
-  moveTeacher();
+    roadMap();
+    startPlayer();
+    moveTeacher();
 
-  document.addEventListener("keydown", (e) => {
-    if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
-    playerIntersect(e.code);
-  });
-  document.addEventListener("keyup", (e) => {
-    stop(e.code);
-  });
-
-  loading.remove();
-};
-
+    document.addEventListener("keydown", (e) => {
+      if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
+      playerIntersect(e.code);
+    });
+    document.addEventListener("keyup", (e) => {
+      stop(e.code);
+    });
+  };
+}
 export { init, problemList, items };
