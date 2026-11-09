@@ -5,6 +5,7 @@ import {
   isOpenQuestionModal,
   currentProblem,
   solveProblem,
+  scheduleCloseModal,
 } from "./player.js";
 import { moveTeacher } from "./teacher.js";
 import { roadMap } from "./map.js";
@@ -45,6 +46,7 @@ const submitAnswer = async () => {
   const { isCorrect } = await checkAnswer(problemList[index].id, answer);
   showAnswerResult(isCorrect);
   if (isCorrect) solveProblem(index);
+  scheduleCloseModal(1000);
 };
 document.getElementById("answer-submit").addEventListener("click", submitAnswer);
 

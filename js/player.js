@@ -69,6 +69,20 @@ const solveProblem = (index) => {
   isSolve[index] = 1;
 };
 
+let closeTimer = null;
+
+const closeQuestionModal = () => {
+  const modal = document.getElementById("question-modal");
+  modal.style.width = "0px";
+  modal.style.height = "0px";
+  isOpenQuestionModal = false;
+};
+
+const scheduleCloseModal = (ms) => {
+  clearTimeout(closeTimer);
+  closeTimer = setTimeout(closeQuestionModal, ms);
+};
+
 const intersect = () => {
   /* 상호작용 구현
     1. 상호작용을 눌렀을 때 이 함수가 호출됨.
@@ -94,11 +108,7 @@ const intersect = () => {
       modal.style.width = "1328px";
       modal.style.height = "858px";
       isOpenQuestionModal = true;
-      setTimeout(() => {
-        modal.style.width = "0px";
-        modal.style.height = "0px";
-        isOpenQuestionModal = false;
-      }, 20000);
+      scheduleCloseModal(20000);
     }
   }
 };
@@ -263,4 +273,5 @@ export {
   isOpenQuestionModal,
   currentProblem,
   solveProblem,
+  scheduleCloseModal,
 };
