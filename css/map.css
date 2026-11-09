@@ -69,3 +69,13 @@ body {
 .toast.show {
     opacity: 1;
 }
+
+.timer {
+    position: fixed;
+    top: 24px;
+    right: 32px;
+    z-index: 3;
+    color: #ffffff;
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 40px;
+}

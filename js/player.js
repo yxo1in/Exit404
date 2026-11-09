@@ -84,6 +84,21 @@ const showAlert = (message) => {
   }, 2500);
 };
 
+let startTime = 0;
+let timerId = null;
+
+const updateTimer = () => {
+  const total = Math.floor((Date.now() - startTime) / 1000);
+  const min = String(Math.floor(total / 60)).padStart(2, "0");
+  const sec = String(total % 60).padStart(2, "0");
+  document.getElementById("timer").textContent = `${min}:${sec}`;
+};
+
+const startTimer = () => {
+  startTime = Date.now();
+  timerId = setInterval(updateTimer, 250);
+};
+
 let closeTimer = null;
 
 const closeQuestionModal = () => {
@@ -109,8 +124,9 @@ const intersect = () => {
     if (items.length === 10) {
       console.log("escape");
       isEscaped = true;
+      clearInterval(timerId);
     } else {
-      showToast("아이템이 부족합니다");
+      showAlert("아이템이 부족합니다");
     }
     return;
   }
@@ -281,6 +297,7 @@ window.addEventListener("blur", () => {
 const startPlayer = () => {
   setCharacter("idle-down"); // 처음엔 아래 보면서 멈춘 상태
   move();
+  startTimer();
   requestAnimationFrame(loop);
 };
 
