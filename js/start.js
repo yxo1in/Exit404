@@ -1,4 +1,4 @@
-import { init } from "./main.js";
+import { pressStart } from "./main.js";
 
 let currentMenuIndex = 0; // 0: START, 1: RANKING, 2: LANGUAGE
 
@@ -51,10 +51,7 @@ function startGame() {
     if (staminaEl) staminaEl.style.display = 'flex';
     if (gameEl) gameEl.style.display = 'block';
 
-    init();
-
-    // 4. 캔버스 사이즈 갱신
-    window.dispatchEvent(new Event('resize'));
+    pressStart();
 }
 
 document.addEventListener('DOMContentLoaded', () => {

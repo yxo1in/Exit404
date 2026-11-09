@@ -123,7 +123,7 @@ const intersect = () => {
     // 탈출 처리 구현하기 **
     if (items.length === 10) {
       console.log("escape");
-      isEscaped = true;
+      isEscaped = true;x 
       clearInterval(timerId);
     } else {
       showAlert("아이템이 부족합니다");

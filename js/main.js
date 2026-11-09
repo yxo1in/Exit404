@@ -114,6 +114,32 @@ const addItem = (index) => {
 
 renderInventory();
 
+let isStartPressed = false;
+let isGameRunning = false;
+
+// START를 눌렀고 문제도 불러온 뒤에 한 번만 게임 시작
+const runGame = () => {
+  if (isGameRunning || !isStartPressed || problemList.length === 0) return;
+  isGameRunning = true;
+
+  roadMap();
+  startPlayer();
+  moveTeacher();
+
+  document.addEventListener("keydown", (e) => {
+    if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
+    playerIntersect(e.code);
+  });
+  document.addEventListener("keyup", (e) => {
+    stop(e.code);
+  });
+};
+
+const pressStart = () => {
+  isStartPressed = true;
+  runGame();
+};
+
 const init = (problems = []) => {
   const loading = document.getElementById("loading");
   if (loading) {
@@ -125,17 +151,7 @@ const init = (problems = []) => {
       return;
     }
 
-    roadMap();
-    startPlayer();
-    moveTeacher();
-
-    document.addEventListener("keydown", (e) => {
-      if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
-      playerIntersect(e.code);
-    });
-    document.addEventListener("keyup", (e) => {
-      stop(e.code);
-    });
-  };
-}
-export { init, problemList, items };
+    runGame();
+  }
+};
+export { init, pressStart, problemList, items };
