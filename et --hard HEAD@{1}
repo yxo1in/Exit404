@@ -1,0 +1,33 @@
+[33md94627e[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32m방예린[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: pull origin main: Fast-forward
+[33m4ea87df[m[33m ([m[1;31morigin/방예린[m[33m)[m HEAD@{1}: commit: [feat] : 첫 시작 화면
+[33m62770b5[m HEAD@{2}: pull origin main: Fast-forward
+[33maeca139[m HEAD@{3}: commit: [feat] : 문제 불러오고 정답 확인하기
+[33m705b9e5[m HEAD@{4}: pull origin main: Fast-forward
+[33me96bf20[m HEAD@{5}: commit: [feat] : 괴물(추격자) 캐릭터 디자인 추가
+[33m30f257d[m HEAD@{6}: pull origin main: Fast-forward
+[33m08b470d[m HEAD@{7}: commit: [fix] : 스테미나 바 디자인 변경
+[33m75a0703[m HEAD@{8}: commit (merge): Merge branch 'main' of https://github.com/yxo1in/Exit404 into 방예린
+[33m79b742f[m HEAD@{9}: commit: test
+[33macd3cd4[m HEAD@{10}: commit: [fix] : 화면 흔들림
+[33m5679a5f[m HEAD@{11}: pull origin main: Fast-forward
+[33m3f152a7[m HEAD@{12}: checkout: moving from main to 방예린
+[33m1bc02d4[m[33m ([m[1;32mmain[m[33m)[m HEAD@{13}: commit: t
+[33m93ae35a[m HEAD@{14}: commit: [feat] : 카메라 추적 기능 (시야제한 제외됨)
+[33m0fcb483[m HEAD@{15}: reset: moving to origin/main
+[33m0fcb483[m HEAD@{16}: reset: moving to HEAD
+[33m0fcb483[m HEAD@{17}: commit: [fix] : 복도 오류
+[33m57a28e6[m HEAD@{18}: commit: [feat] : 시야제한 구현
+[33md6adb4a[m HEAD@{19}: commit: [feat] : 벽 두께, 복도 벽 구현(타일 미구현)
+[33m87d99a4[m HEAD@{20}: commit: [feat] : 기본적인 방, 벽, 복도 구현 (벽두께 타일 패턴 미구현)
+[33m9f3ccb9[m HEAD@{21}: Branch: renamed refs/heads/방예린 to refs/heads/main
+[33m9f3ccb9[m HEAD@{23}: pull origin main: Fast-forward
+[33m15b1fc0[m HEAD@{24}: reset: moving to HEAD
+[33m15b1fc0[m HEAD@{25}: pull origin main: Fast-forward
+[33mb6ab0c7[m HEAD@{26}: pull origin main: Fast-forward
+[33m3f152a7[m HEAD@{27}: commit: DB 연결 성공
+[33ma7608a1[m HEAD@{28}: checkout: moving from main to 방예린
+[33m5157bed[m HEAD@{29}: checkout: moving from 방예린 to main
+[33ma7608a1[m HEAD@{30}: commit: 메인 캐릭터 이미지 추가
+[33m9a6558d[m HEAD@{31}: pull origin main: Fast-forward
+[33m5157bed[m HEAD@{32}: checkout: moving from main to 방예린
+[33m5157bed[m HEAD@{33}: clone: from https://github.com/yxo1in/Exit404.git

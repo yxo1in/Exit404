@@ -1,4 +1,5 @@
-import { isMove, setGoal, deskIsNear, isExit } from "./map.js";
+import { isMove, setGoal, deskIsNear, removeDesk, isExit } from "./map.js";
+import { problemList, items } from "./main.js";
 
 let run = false;
 
@@ -51,27 +52,79 @@ const move = () => {
 
 const c = document.getElementById("player");
 
+const isSolve = Array.from({ length: 10 }, () => 0);
+let currentProblem = -1;
+let currentDesk = null;
+
+const pickProblem = () => {
+  if (isSolve.every((solved) => solved === 1)) return -1;
+
+  let index;
+  do {
+    index = Math.floor(Math.random() * isSolve.length);
+  } while (isSolve[index] === 1);
+  return index;
+};
+
+const solveProblem = (index) => {
+  isSolve[index] = 1;
+  removeDesk(currentDesk);
+};
+
+let closeTimer = null;
+
+const closeQuestionModal = () => {
+  const modal = document.getElementById("question-modal");
+  modal.style.width = "0px";
+  modal.style.height = "0px";
+  isOpenQuestionModal = false;
+};
+
+const scheduleCloseModal = (ms) => {
+  clearTimeout(closeTimer); // 이전 타이머 취소
+  closeTimer = setTimeout(closeQuestionModal, ms);
+};
+
 const intersect = () => {
   /* 상호작용 구현
     1. 상호작용을 눌렀을 때 이 함수가 호출됨.
     2. 캐릭터 좌표값을 배열로 보내고 상하좌우에 2가 있다면
     3. 문제 모달 띄우기 + 게임 진행 멈추기
   */
+  if (!isEscaped && isExit(x, y)) {
+    // 탈출 처리 구현하기 **
+    if (items.length === 10) {
+      console.log("escape");
+      isEscaped = true;
+    } else {
+      pressed = {};
+      alert("아이템이 부족합니다. (모든 문제를 해결하고 다시 시도해보세요)");
+    }
+    return;
+  }
+
   // console.log(deskIsNear(x, y))
-  if (deskIsNear(x, y)) {
+  const desk = deskIsNear(x, y);
+  if (desk) {
     if (isOpenInventory) {
       inventoryClose();
     }
     const modal = document.getElementById("question-modal");
+    const questionTitle = document.getElementById("question-title");
     if (!isOpenQuestionModal) {
+      const index = pickProblem();
+      if (index === -1) return; // 모든 문제를 푼 상태
+
+      currentProblem = index;
+      currentDesk = desk;
+      questionTitle.textContent = problemList[index].question;
+      document.getElementById("answer").value = "";
+      document.getElementById("answer_result").innerHTML = "";
+
       modal.style.width = "1328px";
       modal.style.height = "858px";
       isOpenQuestionModal = true;
-      setTimeout(() => {
-        modal.style.width = "0px";
-        modal.style.height = "0px";
-        isOpenQuestionModal = false;
-      }, 20000);
+      scheduleCloseModal(20000);
     }
   }
 };
@@ -140,12 +193,6 @@ const loop = () => {
         see = "right";
       }
     }
-  }
-
-  if (!isEscaped && isExit(x, y)) {
-    // isEscaped = true;
-    // 탈출 처리 구현하기 **
-    console.log("escape");
   }
 
   if (run && moved) {
@@ -234,4 +281,7 @@ export {
   getPlayerPos,
   isOpenInventory,
   isOpenQuestionModal,
+  currentProblem,
+  solveProblem,
+  scheduleCloseModal,
 };

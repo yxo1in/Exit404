@@ -114,12 +114,22 @@
             <p class="question-modal-file-text">3_quiz.js</p>
           </div>
         </div>
-      </div>
-      <div class="question-modal-anwser-wrap">
-        <div class="question-modal-question">
-          <div class="question-modal-question-file">
-            <p class="question-modal-question-file-text">Question</p>
-            <p class="question-modal-question-file-text">x</p>
+        <div class="question-modal-anwser-wrap">
+          <div class="question-modal-question">
+            <div class="question-modal-question-file">
+              <p class="question-modal-question-file-text">Question</p>
+              <p class="question-modal-question-file-text">x</p>
+            </div>
+            <div class="question-modal-content">
+              <p class="question-modal-title"><span>Q. </span><span id="question-title"></span></p>
+              <div class="question-modal-answer-form">
+                <label for="answer" class="question-modal-answer-label">
+                  <input id="answer" class="question-modal-answer-input" type="text" placeholder="정답을 입력하세요"
+                    autocomplete="off">
+                </label>
+                <button id="answer-submit" class="question-modal-answer-submit" type="button">제출</button>
+              </div>
+            </div>
           </div>
           <div>
             <p><span>Q1.</span><span id="question-title"></span></p>
@@ -144,6 +154,7 @@
   <script type="module" src="./js/start.js"></script>
   <script type="module" src="./js/map.js"></script>
   <script type="module" src="./js/main.js"></script>
+  <script type="module" src="./js/supabase.js"></script>
 </body>
 
 </html>

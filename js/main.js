@@ -1,9 +1,18 @@
-import { startPlayer, playerIntersect, stop } from "./player.js";
+import {
+  startPlayer,
+  playerIntersect,
+  stop,
+  isOpenQuestionModal,
+  currentProblem,
+  solveProblem,
+  scheduleCloseModal,
+} from "./player.js";
 import { moveTeacher } from "./teacher.js";
 import { roadMap } from "./map.js";
 // ===============
 // QuestionModal
 // ===============
+let problemList = [];
 const headerMenu = [
   "File",
   "Edit",
@@ -22,66 +31,106 @@ document.getElementById("question-modal-answer-menu").innerHTML = answerMenu
   .map((m) => `<p class="question-modal-answer-menu-text">${m}</p>`)
   .join("");
 
-const isCorrect = false;
-document.getElementById("answer_result").innerHTML =
-  `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : "Error"}</p>`;
+const showAnswerResult = (isCorrect, answer) => {
+  document.getElementById("answer_result").innerHTML =
+    `<p class="answer-result" style="color:${isCorrect ? "green" : "#b90e0a"}">${isCorrect ? "Pass" : `Error answer : ${answer}`}</p>`;
+};
+
+const answerInput = document.getElementById("answer");
+const submitAnswer = async () => {
+  const answer = answerInput.value.trim();
+  if (!answer) return;
+
+  const index = currentProblem;
+  const { checkAnswer } = await import("./quiz_service.js");
+  const { isCorrect, correctAnswer } = await checkAnswer(
+    problemList[index].id,
+    answer,
+  );
+
+  showAnswerResult(isCorrect, correctAnswer);
+  if (isCorrect) {
+    solveProblem(index);
+    addItem(index);
+  }
+  scheduleCloseModal(2000);
+};
+document
+  .getElementById("answer-submit")
+  .addEventListener("click", submitAnswer);
 
 // ================================
 // InventoryModal
 // ================================
-
-
-
-
+const ITEM_LIST = [
+  { 1: "열쇠1" },
+  { 2: "열쇠2" },
+  { 3: "열쇠3" },
+  { 4: "열쇠4" },
+  { 5: "열쇠5" },
+  { 6: "열쇠6" },
+  { 7: "열쇠7" },
+  { 8: "열쇠8" },
+  { 9: "열쇠9" },
+  { 10: "열쇠10" },
+];
 const inventory = document.getElementById("inventory-modal-item");
-const items = [1, 2, 3, 4, 5, 6, 7, 8];
-const items_explain = {
-  1: "1번 아이템",
-  2: "2번 아이템",
-  3: "3번 아이템",
-  4: "4번 아이템",
-  5: "5번 아이템",
-  6: "6번 아이템",
-  7: "7번 아이템",
-  8: "8번 아이템",
-};
-inventory.innerHTML = items
-  .map((item, idx) => {
-    return `<div class="item-wrap" data-item="${item}">아이템${item}</div>`;
-  })
-  .join("");
+const items = [];
 
 const itemName = document.getElementById("item-name");
 const itemExplain = document.getElementById("item-explain");
-const selectItem = (item) => {
-  itemName.innerHTML = `${item} :`;
-  itemExplain.innerHTML = items_explain[item];
+const selectItem = (key, value) => {
+  itemName.innerHTML = `${key} :`;
+  itemExplain.innerHTML = value;
 };
 
-inventory.querySelectorAll(".item-wrap").forEach((item) => {
-  item.addEventListener("click", () => {
-    const itemNum = Number(item.dataset.item);
-    selectItem(itemNum);
+const renderInventory = () => {
+  inventory.innerHTML = items
+    .map((item) => {
+      const [key, value] = Object.entries(item)[0];
+      return `<div class="item-wrap" data-key="${key}" data-value="${value}">${value}</div>`;
+    })
+    .join("");
+
+  inventory.querySelectorAll(".item-wrap").forEach((item) => {
+    item.addEventListener("click", () => {
+      selectItem(item.dataset.key, item.dataset.value);
+    });
   });
-});
+};
+
+const addItem = (index) => {
+  const item = ITEM_LIST[index];
+  if (items.includes(item)) return; // 제출 버튼을 여러 번 눌러도 한 번만 추가
+
+  items.push(item);
+  renderInventory();
+};
+
+renderInventory();
 
 const init = (problems = []) => {
   const loading = document.getElementById("loading");
   if (loading) {
     loading.style.display = "none";
-  }
+    problemList = problems;
+    console.log(problems);
+    if (problems.length === 0) {
+      loading.textContent = "문제를 불러오지 못했습니다.";
+      return;
+    }
 
-  roadMap();
-  startPlayer();
-  moveTeacher();
+    roadMap();
+    startPlayer();
+    moveTeacher();
 
-  document.addEventListener("keydown", (e) => {
-    if (e.code.startsWith("Arrow")) e.preventDefault();
-    playerIntersect(e.code);
-  });
-  document.addEventListener("keyup", (e) => {
-    stop(e.code);
-  });
-};
-
-export { init };
+    document.addEventListener("keydown", (e) => {
+      if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
+      playerIntersect(e.code);
+    });
+    document.addEventListener("keyup", (e) => {
+      stop(e.code);
+    });
+  };
+}
+export { init, problemList, items };
