@@ -100,4 +100,8 @@ const moveTeacher = () => {
   requestAnimationFrame(moveTeacher);
 };
 
-export { moveTeacher };
+const increaseTeacherSpeed = () => {
+  SPEED += 0.5;
+};
+
+export { moveTeacher, increaseTeacherSpeed };

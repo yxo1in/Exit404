@@ -147,6 +147,7 @@ const intersect = () => {
       currentDesk = desk;
       questionTitle.textContent = problemList[index].question;
       document.getElementById("answer").value = "";
+      document.getElementById("answer-submit").disabled = false;
       document.getElementById("answer_result").innerHTML = "";
 
       modal.style.width = "1328px";

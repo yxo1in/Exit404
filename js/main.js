@@ -6,9 +6,9 @@ import {
   currentProblem,
   solveProblem,
   scheduleCloseModal,
-  showAlert
+  showAlert,
 } from "./player.js";
-import { moveTeacher } from "./teacher.js";
+import { moveTeacher, increaseTeacherSpeed } from "./teacher.js";
 import { roadMap } from "./map.js";
 // ===============
 // QuestionModal
@@ -42,9 +42,11 @@ const submitAnswer = async () => {
   const answer = answerInput.value.trim();
   if (!answer) return;
 
+  document.getElementById("answer-submit").disabled = true; // 문제당 한 번만 제출
+
   const index = currentProblem;
   const { checkAnswer } = await import("./quiz_service.js");
-  const { isCorrect, correctAnswer } = await checkAnswer(
+  const { isCorrect, correctAnswer, error } = await checkAnswer(
     problemList[index].id,
     answer,
   );
@@ -53,6 +55,8 @@ const submitAnswer = async () => {
   if (isCorrect) {
     solveProblem(index);
     addItem(index);
+  } else if (!isCorrect) {
+    increaseTeacherSpeed(); // 통신 오류는 오답으로 치지 않음
   }
   scheduleCloseModal(2000);
 };
@@ -103,7 +107,7 @@ const renderInventory = () => {
 const addItem = (index) => {
   const item = ITEM_LIST[index];
   if (items.includes(item)) return; // 제출 버튼을 여러 번 눌러도 한 번만 추가
-  showAlert("아이템이 지급되었습니다. ")
+  showAlert("아이템이 지급되었습니다. ");
   items.push(item);
   renderInventory();
 };
