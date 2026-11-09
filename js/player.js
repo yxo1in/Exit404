@@ -284,6 +284,18 @@ const startPlayer = () => {
   requestAnimationFrame(loop);
 };
 
+const resetPlayer = () => {
+  x = 260; // 처음 시작 x 좌표
+  y = 230; // 처음 시작 y 좌표
+  see = "down";
+  run = false;
+  currentStamina = MAX_STAMINA;
+  isExhausted = false;
+  isEscaped = false;
+  setCharacter("idle-down");
+  move();
+};
+
 const getPlayerPos = () => ({ x, y });
 
 export {
