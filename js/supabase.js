@@ -57,4 +57,24 @@ export async function insertDummyRankings() {
   }
 }
 
+export async function saveRanking(studentName, playTime) {
+  const { data, error } = await supabaseClient
+    .from('ranking')
+    .insert([
+      {
+        user_id: crypto.randomUUID(), // user_id가 varchar/uuid 타입일 경우 필요
+        student_name: studentName,
+        play_time: playTime
+      }
+    ]);
+
+  if (error) {
+    console.error('랭킹 저장 실패:', error);
+    return false;
+  }
+
+  console.log('랭킹 저장 성공:', data);
+  return true;
+}
+
 export { supabaseClient };
