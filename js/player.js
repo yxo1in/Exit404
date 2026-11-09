@@ -1,4 +1,4 @@
-import { isMove, setGoal, deskIsNear, isExit } from "./map.js";
+import { isMove, setGoal, deskIsNear, removeDesk, isExit } from "./map.js";
 import { problemList } from "./main.js";
 
 let run = false;
@@ -54,6 +54,7 @@ const c = document.getElementById("player");
 
 const isSolve = Array.from({ length: 10 }, () => 0);
 let currentProblem = -1;
+let currentDesk = null;
 
 const pickProblem = () => {
   if (isSolve.every((solved) => solved === 1)) return -1;
@@ -67,6 +68,7 @@ const pickProblem = () => {
 
 const solveProblem = (index) => {
   isSolve[index] = 1;
+  removeDesk(currentDesk);
 };
 
 let closeTimer = null;
@@ -79,7 +81,7 @@ const closeQuestionModal = () => {
 };
 
 const scheduleCloseModal = (ms) => {
-  clearTimeout(closeTimer);
+  clearTimeout(closeTimer); // 이전 타이머 취소
   closeTimer = setTimeout(closeQuestionModal, ms);
 };
 
@@ -90,7 +92,8 @@ const intersect = () => {
     3. 문제 모달 띄우기 + 게임 진행 멈추기
   */
   // console.log(deskIsNear(x, y))
-  if (deskIsNear(x, y)) {
+  const desk = deskIsNear(x, y);
+  if (desk) {
     if (isOpenInventory) {
       inventoryClose();
     }
@@ -101,6 +104,7 @@ const intersect = () => {
       if (index === -1) return; // 모든 문제를 푼 상태
 
       currentProblem = index;
+      currentDesk = desk;
       questionTitle.textContent = problemList[index].question;
       document.getElementById("answer").value = "";
       document.getElementById("answer_result").innerHTML = "";

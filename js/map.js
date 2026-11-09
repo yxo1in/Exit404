@@ -443,21 +443,44 @@ const toCell = (x, y) => ({
   row: Math.ceil((y - gridMinY) / TILE_SIZE),
 });
 
+// grid.shift() 이후 책상 칸: row = desk.y, col = desk.x + 1
+const findDesk = (row, col) =>
+  desks.find(
+    (desk) =>
+      row >= desk.y &&
+      row < desk.y + desk.h &&
+      col > desk.x &&
+      col <= desk.x + desk.w,
+  );
+
 const deskIsNear = (x, y) => {
   // console.log(x, y);
   let character = toCell(x, y);
 
-  if (grid[character.row][character.col] === 2) {
-    return true;
+  const onDesk = findDesk(character.row, character.col);
+  if (onDesk) {
+    return onDesk;
   }
   for (let i = 0; i < 4; i++) {
     const nr = character.row + dr[i];
     const nc = character.col + dc[i];
-    if (grid[nr][nc] === 2) {
-      return true;
+    const nearDesk = findDesk(nr, nc);
+    if (nearDesk) {
+      return nearDesk;
     }
   }
-  return false;
+  return null;
+};
+
+const removeDesk = (desk) => {
+  const index = desks.indexOf(desk);
+
+  desks.splice(index, 1);
+  for (let row = desk.y; row < desk.y + desk.h; row++) {
+    for (let col = desk.x + 1; col <= desk.x + desk.w; col++) {
+      grid[row][col] = 0;
+    }
+  }
 };
 
 const isExit = (x, y) => {
@@ -478,5 +501,6 @@ export {
   BFS,
   toCell,
   deskIsNear,
+  removeDesk,
   isExit,
 };
