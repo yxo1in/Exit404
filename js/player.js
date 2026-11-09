@@ -71,6 +71,19 @@ const solveProblem = (index) => {
   removeDesk(currentDesk);
 };
 
+let toastTimer = null;
+
+const showToast = (message) => {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer); // 이전 타이머 취소
+  toastTimer = setTimeout(() => {
+    toast.classList.remove("show");
+  }, 2500);
+};
+
 let closeTimer = null;
 
 const closeQuestionModal = () => {
@@ -97,8 +110,7 @@ const intersect = () => {
       console.log("escape");
       isEscaped = true;
     } else {
-      pressed = {};
-      alert("아이템이 부족합니다. (모든 문제를 해결하고 다시 시도해보세요)");
+      showToast("아이템이 부족합니다");
     }
     return;
   }
@@ -284,4 +296,5 @@ export {
   currentProblem,
   solveProblem,
   scheduleCloseModal,
+  showToast
 };

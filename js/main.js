@@ -6,6 +6,7 @@ import {
   currentProblem,
   solveProblem,
   scheduleCloseModal,
+  showToast
 } from "./player.js";
 import { moveTeacher } from "./teacher.js";
 import { roadMap } from "./map.js";
@@ -102,7 +103,7 @@ const renderInventory = () => {
 const addItem = (index) => {
   const item = ITEM_LIST[index];
   if (items.includes(item)) return; // 제출 버튼을 여러 번 눌러도 한 번만 추가
-
+  showToast("아이템이 지급되었습니다. ")
   items.push(item);
   renderInventory();
 };
