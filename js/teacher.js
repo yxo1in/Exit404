@@ -106,8 +106,11 @@ const moveTeacher = () => {
   requestAnimationFrame(moveTeacher);
 };
 
+const increaseTeacherSpeed = () => {
+  SPEED += 0.5;
+};
+
+export { moveTeacher, increaseTeacherSpeed };
 export function resetTeacher() {
   isGameOver = false;
 }
-
-export { moveTeacher };

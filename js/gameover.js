@@ -1,3 +1,5 @@
+import { stopTimer } from "./timer.js";
+
 let currentGameOverIndex = 0; // 0: YES, 1: NO
 let isGameOverActive = false;
 
@@ -20,6 +22,7 @@ function updateGameOverMenu() {
 export function showGameOver() {
     const gameoverScreen = document.getElementById('gameover-screen');
     if (gameoverScreen) {
+        stopTimer();
         gameoverScreen.style.display = 'flex';
         isGameOverActive = true;
         currentGameOverIndex = 0;
@@ -48,20 +51,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 function selectGameOverMenu() {
-    if (currentGameOverIndex === 0) {
-        // YES: 완전 새로고침 (가장 깔끔하고 확실함)
-        location.reload();
-    } else {
-        // NO: 시작 화면 복귀 + 게임 상태 리셋
-        const gameoverScreen = document.getElementById('gameover-screen');
-        if (gameoverScreen) gameoverScreen.style.display = 'none';
-
-        const startScreen = document.getElementById('start-screen');
-        if (startScreen) startScreen.style.display = 'flex';
-
-        resetPlayer();
-        resetTeacher();
-
-        isGameOverActive = false;
-    }
+    // YES, NO 모두 새로고침으로 게임 상태를 초기화하고 시작 화면으로 돌아감
+    location.reload();
 }

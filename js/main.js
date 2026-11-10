@@ -6,9 +6,11 @@ import {
   currentProblem,
   solveProblem,
   scheduleCloseModal,
+  showAlert,
 } from "./player.js";
-import { moveTeacher } from "./teacher.js";
+import { moveTeacher, increaseTeacherSpeed } from "./teacher.js";
 import { roadMap } from "./map.js";
+import { startTimer } from "./timer.js";
 // ===============
 // QuestionModal
 // ===============
@@ -41,9 +43,11 @@ const submitAnswer = async () => {
   const answer = answerInput.value.trim();
   if (!answer) return;
 
+  document.getElementById("answer-submit").disabled = true;
+
   const index = currentProblem;
   const { checkAnswer } = await import("./quiz_service.js");
-  const { isCorrect, correctAnswer } = await checkAnswer(
+  const { isCorrect, correctAnswer} = await checkAnswer(
     problemList[index].id,
     answer,
   );
@@ -52,6 +56,8 @@ const submitAnswer = async () => {
   if (isCorrect) {
     solveProblem(index);
     addItem(index);
+  } else if (!isCorrect) {
+    increaseTeacherSpeed();
   }
   scheduleCloseModal(2000);
 };
@@ -102,14 +108,51 @@ const renderInventory = () => {
 const addItem = (index) => {
   const item = ITEM_LIST[index];
   if (items.includes(item)) return; // 제출 버튼을 여러 번 눌러도 한 번만 추가
-
+  showAlert("아이템이 지급되었습니다. ");
   items.push(item);
   renderInventory();
 };
 
 renderInventory();
 
-// js/main.js 파일 최하단 init 함수 부분만 깔끔하게 정리
+let isStartPressed = false;
+let isGameRunning = false;
+
+// START를 눌렀고 문제도 불러온 뒤에 한 번만 게임 시작
+const runGame = () => {
+  if (isGameRunning || !isStartPressed || problemList.length === 0) return;
+  isGameRunning = true;
+
+  roadMap();
+  startPlayer();
+  moveTeacher();
+  startTimer();
+
+  document.addEventListener("keydown", (e) => {
+    const startScreen = document.getElementById("start-screen");
+    const gameoverScreen = document.getElementById("gameover-screen");
+    const gameclearScreen = document.getElementById("gameclear-screen");
+
+    // 시작화면, 게임오버, 게임클리어 화면이 열려있으면 플레이어 키보드 이동 무시
+    if (
+      (startScreen && getComputedStyle(startScreen).display !== "none") ||
+      (gameoverScreen && gameoverScreen.style.display === "flex") ||
+      (gameclearScreen && gameclearScreen.style.display === "flex")
+    )
+      return;
+
+    if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
+    playerIntersect(e.code);
+  });
+  document.addEventListener("keyup", (e) => {
+    stop(e.code);
+  });
+};
+
+const pressStart = () => {
+  isStartPressed = true;
+  runGame();
+};
 
 const init = (problems = []) => {
   const loading = document.getElementById("loading");
@@ -123,29 +166,8 @@ const init = (problems = []) => {
       return;
     }
 
-    roadMap();
-    startPlayer();
-    moveTeacher();
-
-    // ★ 이벤트는 1번만 깔끔하게 등록
-    document.addEventListener("keydown", (e) => {
-      const startScreen = document.getElementById('start-screen');
-      const gameoverScreen = document.getElementById('gameover-screen');
-      const gameclearScreen = document.getElementById('gameclear-screen');
-
-      // 시작화면, 게임오버, 게임클리어 화면이 열려있으면 플레이어 키보드 이동 무시
-      if ((startScreen && getComputedStyle(startScreen).display !== 'none') ||
-        (gameoverScreen && gameoverScreen.style.display === 'flex') ||
-        (gameclearScreen && gameclearScreen.style.display === 'flex')) return;
-
-      if (e.code.startsWith("Arrow") && !isOpenQuestionModal) e.preventDefault();
-      playerIntersect(e.code);
-    });
-
-    document.addEventListener("keyup", (e) => {
-      stop(e.code);
-    });
+    runGame();
   }
 };
 
-export { init, problemList, items };
+export { init, pressStart, problemList, items };

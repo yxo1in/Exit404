@@ -61,7 +61,8 @@
             transparent 12px);
 }
 
-#gameover-screen {
+#gameover-screen,
+#gameclear-screen {
     position: fixed;
     top: 0;
     left: 0;

@@ -8,15 +8,17 @@ const SUPABASE_ANON_KEY =
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // 문제를 다 불러온 뒤 게임 시작
-const { data, error } = await supabaseClient
+supabaseClient
   .from("problem")
-  .select("id, category, question");
+  .select("id, category, question")
+  .then(({ data, error }) => {
+    if (error) {
+      console.error("연결 실패:", error);
+    }
 
-if (error) {
-  console.error("연결 실패:", error);
-}
+    init(data ?? []);
+  });
 
-init(data ?? []);
 export async function fetchRanking() {
   // supabase -> supabaseClient 로 수정!
   const { data, error } = await supabaseClient

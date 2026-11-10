@@ -1,3 +1,5 @@
+import { stopTimer } from "./timer.js";
+
 let currentClearIndex = 0; // 0: EXIT, 1: RESTART
 let isGameClearActive = false;
 
@@ -17,6 +19,7 @@ function updateGameClearMenu() {
 export function showGameClear() {
     const clearScreen = document.getElementById('gameclear-screen');
     if (clearScreen) {
+        stopTimer();
         clearScreen.style.display = 'flex';
         isGameClearActive = true;
         currentClearIndex = 0;
@@ -45,17 +48,6 @@ document.addEventListener('keydown', (e) => {
 });
 
 function selectGameClearMenu() {
-    if (currentClearIndex === 0) {
-        // EXIT: 메인 시작 화면으로 이동
-        const clearScreen = document.getElementById('gameclear-screen');
-        if (clearScreen) clearScreen.style.display = 'none';
-
-        const startScreen = document.getElementById('start-screen');
-        if (startScreen) startScreen.style.display = 'flex';
-
-        isGameClearActive = false;
-    } else {
-        // RESTART: 처음부터 다시 시작
-        location.reload();
-    }
+    // EXIT, RESTART 모두 새로고침으로 게임 상태를 초기화하고 시작 화면으로 돌아감
+    location.reload();
 }
