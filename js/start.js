@@ -1,11 +1,33 @@
 import { pressStart } from "./main.js";
 import { fetchRanking } from "./supabase.js";
-import { insertDummyRankings } from "./supabase.js";
-window.insertDummyRankings = insertDummyRankings; // 콘솔에서 호출할 수 있도록 window 객체에 등록
-
+import { loadProblemsByCategory } from "./supabase.js";
 
 let currentMenuIndex = 0; // 0: START, 1: RANKING, 2: LANGUAGE
 const menuYPositions = [-10, 30, 79]; // 화살표 Y 위치
+
+document.addEventListener("DOMContentLoaded", () => {
+    const langSelect = document.getElementById("btn-language");
+
+    if (langSelect) {
+        // 드롭다운 변경(선택 완료) 시 실행
+        langSelect.addEventListener("change", (e) => {
+            const selectedCategory = e.target.value; // 'javascript', 'c', 'java'
+            console.log(`선택된 카테고리: ${selectedCategory}`);
+
+            loadProblemsByCategory(selectedCategory);
+
+            // ★ 선택이 끝나면 포커스를 해제하여 방향키 조작이 다시 시작 화면 메뉴로 돌아오게 함
+            langSelect.blur();
+        });
+
+        // 엔터/스페이스로 포커스 해제 처리
+        langSelect.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                langSelect.blur();
+            }
+        });
+    }
+});
 
 // 1. 화살표 위치 업데이트
 function updateMenuArrow() {
@@ -25,7 +47,15 @@ function selectMenu(index) {
     } else if (index === 1) {
         openRankingModal();
     } else if (index === 2) {
-        console.log("LANGUAGE 모달 열기");
+        const langSelect = document.getElementById('btn-language');
+        if (langSelect) {
+            langSelect.focus();
+            if (typeof langSelect.showPicker === 'function') {
+                langSelect.showPicker();
+            } else {
+                langSelect.click();
+            }
+        }
     }
 }
 
@@ -56,23 +86,17 @@ export async function openRankingModal() {
         return;
     }
 
-    // 1. 모달 표시 및 로딩 문구 세팅
     modal.style.display = 'flex';
     container.innerHTML = '<p style="color: white; padding: 20px;">로딩 중...</p>';
 
     try {
-        // 2. Supabase 데이터 가져오기
         const rankings = await fetchRanking();
-
-        // 데이터 확인용 콘솔 출력 (F12에서 확인 가능)
-        console.log("불러온 랭킹 데이터:", rankings);
 
         if (!rankings || rankings.length === 0) {
             container.innerHTML = '<p style="color: white; padding: 20px;">등록된 랭킹 기록이 없습니다.</p>';
             return;
         }
 
-        // 3. 테이블 HTML 생성
         let html = `
       <table class="ranking-table">
         <thead>
@@ -96,8 +120,6 @@ export async function openRankingModal() {
         });
 
         html += '</tbody></table>';
-
-        // 4. 화면에 테이블 렌더링
         container.innerHTML = html;
 
     } catch (err) {
@@ -106,21 +128,17 @@ export async function openRankingModal() {
     }
 }
 
-// 5. 랭킹 모달 닫기
 export function closeRankingModal() {
     const modal = document.getElementById('ranking-modal');
     if (modal) modal.style.display = 'none';
 }
 
-// 6. 키보드 및 이벤트 리스너 통합 등록
 document.addEventListener('DOMContentLoaded', () => {
     const loadingEl = document.getElementById('loading');
     if (loadingEl) loadingEl.style.display = 'none';
 
-    // 화살표 위치 초기화
     updateMenuArrow();
 
-    // 버튼 마우스 이벤트 등록
     const menuButtons = document.querySelectorAll('.menu-btn');
     menuButtons.forEach((btn) => {
         btn.addEventListener('mouseenter', () => {
@@ -143,14 +161,16 @@ document.addEventListener('DOMContentLoaded', () => {
 window.addEventListener('keydown', (e) => {
     const startScreen = document.getElementById('start-screen');
     const rankingModal = document.getElementById('ranking-modal');
+    const langSelect = document.getElementById('btn-language');
 
-    // ESC 누르면 랭킹 모달 닫기
+    // 현재 포커스가 언어 선택(select)에 가있는 동안에는 방향키 메뉴 이동을 방지
+    if (document.activeElement === langSelect) return;
+
     if (e.key === 'Escape') {
         closeRankingModal();
         return;
     }
 
-    // 시작 화면이 닫혀있거나 랭킹 모달이 열려있으면 방향키 무시
     if (!startScreen || startScreen.style.display === 'none') return;
     if (rankingModal && rankingModal.style.display === 'flex') return;
 

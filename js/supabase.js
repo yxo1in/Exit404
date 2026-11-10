@@ -5,22 +5,30 @@ const SUPABASE_URL = "https://uzawdbyxziomlqezxuhb.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV6YXdkYnl4emlvbWxxZXp4dWhiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4MzM0NTUsImV4cCI6MjEwNDQwOTQ1NX0.hl1kQnFRyQoIBOKt3Qn_cvG-2MWTZQjYPG57_sJsrKE";
 
-const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 문제를 다 불러온 뒤 게임 시작
-supabaseClient
-  .from("problem")
-  .select("id, category, question")
-  .then(({ data, error }) => {
-    if (error) {
-      console.error("연결 실패:", error);
-    }
+// 선택한 카테고리의 문제를 가져오는 함수 (기본값 'javascript')
+export async function loadProblemsByCategory(category = "javascript") {
+  const { data, error } = await supabaseClient
+    .from("problem")
+    .select("id, category, question")
+    .eq("category", category);
 
-    init(data ?? []);
-  });
+  if (error) {
+    console.error(`${category} 문제 로드 실패:`, error);
+    init([]);
+    return;
+  }
 
+  console.log(`${category} 문제 불러오기 성공:`, data);
+  init(data ?? []);
+}
+
+// 최초 실행 시 기본값 'javascript' 로드
+loadProblemsByCategory("javascript");
+
+// 랭킹 목록 조회
 export async function fetchRanking() {
-  // supabase -> supabaseClient 로 수정!
   const { data, error } = await supabaseClient
     .from('ranking')
     .select('student_name, play_time')
@@ -34,49 +42,27 @@ export async function fetchRanking() {
   return data;
 }
 
-// js/supabase.js
-
-// 테스트용 더미 데이터 삽입 함수
-export async function insertDummyRankings() {
-  const dummyData = [
-    { student_name: "김미림", play_time: 45 },
-    { student_name: "이해커", play_time: 62 },
-    { student_name: "박자바", play_time: 78 },
-    { student_name: "최파이썬", play_time: 95 },
-    { student_name: "정웹개발", play_time: 120 }
-  ];
-
-  const { data, error } = await supabaseClient
-    .from('ranking')
-    .insert(dummyData);
-
-  if (error) {
-    console.error("더미 데이터 삽입 실패:", error);
-    alert("더미 데이터 삽입에 실패했습니다. (콘솔 확인)");
-  } else {
-    console.log("더미 데이터 삽입 성공!");
-    alert("테스트용 랭킹 데이터 5건이 추가되었습니다!");
-  }
-}
-
+// 실제 게임 기록 저장 함수
 export async function saveRanking(studentName, playTime) {
-  const { data, error } = await supabaseClient
-    .from('ranking')
-    .insert([
-      {
-        user_id: crypto.randomUUID(), // user_id가 varchar/uuid 타입일 경우 필요
-        student_name: studentName,
-        play_time: playTime
-      }
-    ]);
+  try {
+    const { data, error } = await supabaseClient
+      .from('ranking')
+      .insert([
+        {
+          student_name: studentName,
+          play_time: playTime
+        }
+      ]);
 
-  if (error) {
-    console.error('랭킹 저장 실패:', error);
+    if (error) {
+      console.error('랭킹 저장 중 에러 발생:', error);
+      return false;
+    }
+
+    console.log('실제 데이터 랭킹 저장 완료:', data);
+    return true;
+  } catch (err) {
+    console.error('서버 통신 에러:', err);
     return false;
   }
-
-  console.log('랭킹 저장 성공:', data);
-  return true;
 }
-
-export { supabaseClient };
