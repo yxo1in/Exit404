@@ -30,8 +30,13 @@
       <button class="menu-btn" data-index="1" id="btn-ranking">
         <img src="./assets/image/ranking_txt.png" alt="RANKING" />
       </button>
-      <button class="menu-btn" data-index="2" id="btn-language">
+      <button class="menu-btn category-btn-wrapper" data-index="2">
         <img src="./assets/image/language_txt.png" alt="LANGUAGE" />
+
+        <!-- 2. 이미지 위에 투명하게 얹을 select 태그 (DB 값과 동일하게 javascript) -->
+        <select id="btn-language" class="hidden-select">
+          <option value="javascript">JavaScript</option>
+        </select>
       </button>
 
       <img src="./assets/image/left_arrow.svg" id="menu-arrow-right" class="menu-arrow" alt="arrow right" />
@@ -186,23 +191,23 @@
           </div>
         </div>
       </div>
-        <div class="question-modal-anwser-wrap">
-          <div class="question-modal-question">
-            <div class="question-modal-question-file">
-              <p class="question-modal-question-file-text">Question</p>
-              <p class="question-modal-question-file-text">x</p>
-            </div>
-            <div class="question-modal-content">
-              <p class="question-modal-title"><span>Q. </span><span id="question-title"></span></p>
-              <div class="question-modal-answer-form">
-                <label for="answer" class="question-modal-answer-label">
-                  <input id="answer" class="question-modal-answer-input" type="text" placeholder="정답을 입력하세요"
-                    autocomplete="off">
-                </label>
-                <button id="answer-submit" class="question-modal-answer-submit" type="button">제출</button>
-              </div>
+      <div class="question-modal-anwser-wrap">
+        <div class="question-modal-question">
+          <div class="question-modal-question-file">
+            <p class="question-modal-question-file-text">Question</p>
+            <p class="question-modal-question-file-text">x</p>
+          </div>
+          <div class="question-modal-content">
+            <p class="question-modal-title"><span>Q. </span><span id="question-title"></span></p>
+            <div class="question-modal-answer-form">
+              <label for="answer" class="question-modal-answer-label">
+                <input id="answer" class="question-modal-answer-input" type="text" placeholder="정답을 입력하세요"
+                  autocomplete="off">
+              </label>
+              <button id="answer-submit" class="question-modal-answer-submit" type="button">제출</button>
             </div>
           </div>
+        </div>
         <div class="question-modal-answer">
           <div class="question-modal-answer-menu" id="question-modal-answer-menu"></div>
           <div class="question-modal-answer-wrap">

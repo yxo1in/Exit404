@@ -3,7 +3,12 @@ import { stopTimer } from "./timer.js";
 let currentGameOverIndex = 0; // 0: YES, 1: NO
 let isGameOverActive = false;
 
-// js/gameover.js
+export function handleGameOver() {
+  stopTimer(); // 타이머 중지
+  
+  const gameoverScreen = document.getElementById('gameover-screen');
+  if (gameoverScreen) gameoverScreen.style.display = 'flex';
+}
 
 function updateGameOverMenu() {
     const gameoverScreen = document.getElementById('gameover-screen');
