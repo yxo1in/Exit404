@@ -1,7 +1,6 @@
-import { init } from "./main.js";
+import { pressStart } from "./main.js";
 import { fetchRanking } from "./supabase.js";
 import { insertDummyRankings } from "./supabase.js";
-import { startTimer } from "./timer.js";
 window.insertDummyRankings = insertDummyRankings; // 콘솔에서 호출할 수 있도록 window 객체에 등록
 
 
@@ -46,10 +45,7 @@ function startGame() {
     if (staminaEl) staminaEl.style.display = 'flex';
     if (gameEl) gameEl.style.display = 'block';
 
-    init();
-    startTimer(); // ★ 게임 시작 시 초 단위 타이머 작동!
-
-    window.dispatchEvent(new Event('resize'));
+    pressStart();
 }
 
 export async function openRankingModal() {

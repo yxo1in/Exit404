@@ -47,3 +47,25 @@ body {
     color: #ffffff;
     font-size: 24px;
 }
+
+.toast {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000000;
+    padding: 16px 32px;
+    color: #c8c8c8;
+    font-family: "Pretendard", sans-serif;
+    font-size: 22px;
+    background-color: #1f1f1f;
+    border: 1px solid #5a5a5a;
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s;
+}
+
+.toast.show {
+    opacity: 1;
+}
