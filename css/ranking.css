@@ -1,0 +1,59 @@
+#ranking-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.85);
+  z-index: 10000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-family: monospace, sans-serif;
+}
+
+.ranking-modal-content {
+  background: #1e1e1e;
+  border: 2px solid #ffffff;
+  padding: 30px;
+  width: 400px;
+  max-height: 80vh;
+  overflow-y: auto;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.ranking-modal-content h2 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.ranking-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.ranking-table th, .ranking-table td {
+  padding: 8px 12px;
+  border-bottom: 1px solid #444;
+  text-align: center;
+}
+
+.ranking-table th {
+  color: #ffca28;
+}
+
+#btn-close-ranking {
+  background: #444;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+#btn-close-ranking:hover {
+  background: #666;
+}

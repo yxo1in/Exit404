@@ -2,6 +2,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #444444;
 }
 
 p {
@@ -10,5 +11,14 @@ p {
 
 @font-face {
   font-family: 'Pretendard';
-  src: url('../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf');
+  src: url('../assets/fonts/Pretendard/woff2/PretendardVariable.woff2');
+}
+
+#mapCanvas,
+#map,
+body {
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  overflow: hidden;
 }

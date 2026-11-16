@@ -1,11 +1,13 @@
 @font-face {
   font-family: 'Pretendard';
-  src: url('../assets/fonts/Pretendard/public/variable/PretendardVariable.ttf');
+  src: url('../assets/fonts/Pretendard/woff2/PretendardVariable.woff2');
 }
 
 .question-modal {
   width: 0;
   height: 0;
+  position: fixed;
+  margin: auto;
   overflow: hidden;
   border-radius: 15px;
   background: #303030;
@@ -17,6 +19,7 @@
   padding-left: 12px;
   transition: 0.3s;
   margin-inline: 30px;
+  z-index: 1000000;
   
 }
 .question-modal-header {
@@ -149,6 +152,65 @@
   color: #c8c8c8;
   font-family: "Pretendard", sans-serif;
   font-size: 14px;
+}
+
+.question-modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 28px 24px;
+  font-family: "Pretendard", sans-serif;
+}
+
+.question-modal-title {
+  color: #c8c8c8;
+  font-size: 22px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.question-modal-answer-form {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.question-modal-answer-label {
+  flex: 1;
+}
+
+.question-modal-answer-input {
+  width: 100%;
+  height: 44px;
+  box-sizing: border-box;
+  padding-inline: 12px;
+  color: #c8c8c8;
+  font-family: inherit;
+  font-size: 18px;
+  background-color: #303030;
+  border: 1px solid #5a5a5a;
+  border-radius: 6px;
+  outline: none;
+}
+
+.question-modal-answer-input:focus {
+  border-color: #0078d4;
+}
+
+.question-modal-answer-submit {
+  width: 96px;
+  height: 44px;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 18px;
+  background-color: #0078d4;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.question-modal-answer-submit:hover {
+  background-color: #026ec1;
 }
 
 .question-modal-answer {

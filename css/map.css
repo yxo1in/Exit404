@@ -6,15 +6,66 @@
 
 }
 
-#mapCanvas {
-    display: block;
-    /* 캔버스 하단 여백 제거  */
+#player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
 }
 
+/* 
 html,
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000000;
+    /* 배경 */
+/* } */
+
+#mapCanvas {
+    display: block;
+    /* inline 요소 여백 제거 */
+}
+
+*/ html,
 body {
     width: 100%;
     height: 100%;
     overflow: hidden;
 
+}
+
+#loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-size: 24px;
+}
+
+.toast {
+    position: fixed;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2000000;
+    padding: 16px 32px;
+    color: #c8c8c8;
+    font-family: "Pretendard", sans-serif;
+    font-size: 22px;
+    background-color: #1f1f1f;
+    border: 1px solid #5a5a5a;
+    border-radius: 10px;
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.2s;
+}
+
+.toast.show {
+    opacity: 1;
 }

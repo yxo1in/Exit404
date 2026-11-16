@@ -1,0 +1,59 @@
+import { stopTimer } from "./timer.js";
+
+let currentGameOverIndex = 0; // 0: YES, 1: NO
+let isGameOverActive = false;
+
+export function handleGameOver() {
+  stopTimer(); // 타이머 중지
+  
+  const gameoverScreen = document.getElementById('gameover-screen');
+  if (gameoverScreen) gameoverScreen.style.display = 'flex';
+}
+
+function updateGameOverMenu() {
+    const gameoverScreen = document.getElementById('gameover-screen');
+    if (!gameoverScreen) return;
+
+    const rows = gameoverScreen.querySelectorAll('.gameover-option-row');
+    rows.forEach((row, index) => {
+        if (index === currentGameOverIndex) {
+            row.classList.add('active');
+        } else {
+            row.classList.remove('active');
+        }
+    });
+}
+
+export function showGameOver() {
+    const gameoverScreen = document.getElementById('gameover-screen');
+    if (gameoverScreen) {
+        stopTimer();
+        gameoverScreen.style.display = 'flex';
+        isGameOverActive = true;
+        currentGameOverIndex = 0;
+        updateGameOverMenu();
+    }
+}
+
+document.addEventListener('keydown', (e) => {
+    if (!isGameOverActive) return;
+
+    if (['ArrowUp', 'ArrowDown', 'w', 'W', 's', 'S', ' ', 'Enter'].includes(e.key)) {
+        e.preventDefault();
+    }
+
+    if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
+        currentGameOverIndex = (currentGameOverIndex === 0) ? 1 : 0;
+        updateGameOverMenu();
+    } else if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S') {
+        currentGameOverIndex = (currentGameOverIndex === 1) ? 0 : 1;
+        updateGameOverMenu();
+    } else if (e.key === 'Enter' || e.key === ' ') {
+        selectGameOverMenu();
+    }
+});
+
+function selectGameOverMenu() {
+    // YES, NO 모두 새로고침으로 게임 상태를 초기화하고 시작 화면으로 돌아감
+    location.reload();
+}
