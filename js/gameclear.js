@@ -4,7 +4,6 @@ import { saveRanking } from "./supabase.js";
 let currentClearIndex = 0; // 0: EXIT, 1: RESTART
 let isGameClearActive = false;
 
-// 키보드 이벤트 핸들러를 별도 함수로 분리
 function handleClearMenuKeydown(e) {
     if (!isGameClearActive) return;
 

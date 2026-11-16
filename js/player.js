@@ -133,7 +133,7 @@ const intersect = () => {
 
       // 모든 문제를 푼 상태일 때 바로 클리어 화면 띄우기
       if (index === -1) {
-        showGameClear(); // 10개 문제를 다 푼 상태에서 책상 누르면 바로 클리어!
+        showGameClear(); // 10개 문제를 다 푼 상태에서 책상 누르면 바로 클리어
         return;
       }
 
@@ -155,7 +155,7 @@ const loop = () => {
   setGoal(x, y);
   let moved = false;
 
-  // 스태미나 소진(탈진) 상태이거나 게이지가 0이면 run을 강제로 끔
+  // 스태미나 소진 상태이거나 게이지가 0이면 run을 강제로 끔
   if (isExhausted || currentStamina <= 0) {
     run = false;
   }
@@ -230,7 +230,6 @@ const loop = () => {
     }
   }
 
-  // ⚡ [추가] UI 게이지 업데이트
   if (staminaBar) {
     staminaBar.style.width = `${(currentStamina / MAX_STAMINA) * 90}%`;
   }
@@ -239,7 +238,6 @@ const loop = () => {
   move();
 
   requestAnimationFrame(loop); // loop가 종료된 시점에 다시 loop 호출 != 재귀
-  // 재귀는 현재 함수가 완료되기 전에 같은 함수를 다시 호출
 };
 
 const inventoryModal = document.getElementById("inventory-modal");

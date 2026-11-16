@@ -11,9 +11,9 @@ import {
 import { moveTeacher, increaseTeacherSpeed } from "./teacher.js";
 import { roadMap } from "./map.js";
 import { startTimer } from "./timer.js";
-// ===============
+
 // QuestionModal
-// ===============
+
 let problemList = [];
 const headerMenu = [
   "File",
@@ -65,9 +65,7 @@ document
   .getElementById("answer-submit")
   .addEventListener("click", submitAnswer);
 
-// ================================
 // InventoryModal
-// ================================
 const ITEM_LIST = [
   { 1: "열쇠1" },
   { 2: "열쇠2" },
@@ -118,7 +116,6 @@ renderInventory();
 let isStartPressed = false;
 let isGameRunning = false;
 
-// START를 눌렀고 문제도 불러온 뒤에 한 번만 게임 시작
 const runGame = () => {
   if (isGameRunning || !isStartPressed || problemList.length === 0) return;
   isGameRunning = true;

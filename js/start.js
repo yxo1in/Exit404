@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// 1. 화살표 위치 업데이트
+// 화살표 위치 업데이트
 function updateMenuArrow() {
     const arrowLeft = document.getElementById('menu-arrow-left');
     const arrowRight = document.getElementById('menu-arrow-right');
@@ -39,7 +39,7 @@ function updateMenuArrow() {
     arrowRight.style.top = `${targetY}px`;
 }
 
-// 2. 메뉴 선택 동작
+// 메뉴 선택 동작
 function selectMenu(index) {
     if (index === 0) {
         startGame();
@@ -58,7 +58,7 @@ function selectMenu(index) {
     }
 }
 
-// 3. 게임 시작 처리
+// 게임 시작 처리
 function startGame() {
     const startScreen = document.getElementById('start-screen');
     const loadingEl = document.getElementById('loading');
@@ -156,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// 키보드 조작 (글로벌 윈도우 키 이벤트)
 window.addEventListener('keydown', (e) => {
     const startScreen = document.getElementById('start-screen');
     const rankingModal = document.getElementById('ranking-modal');

@@ -7,7 +7,7 @@ const SUPABASE_ANON_KEY =
 
 export const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// 선택한 카테고리의 문제를 가져오는 함수 (기본값 'javascript')
+// 선택한 카테고리의 문제를 가져오는 함수 
 export async function loadProblemsByCategory(category = "javascript") {
   const { data, error } = await supabaseClient
     .from("problem")

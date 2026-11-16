@@ -1,5 +1,3 @@
-// js/timer.js
-
 let timerInterval = null;
 let secondsElapsed = 0;
 

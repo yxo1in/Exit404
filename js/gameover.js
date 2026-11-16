@@ -35,7 +35,6 @@ export function showGameOver() {
     }
 }
 
-// 키보드 조작 이벤트 (반응성 최적화 및 기본 스크롤 방지)
 document.addEventListener('keydown', (e) => {
     if (!isGameOverActive) return;
 

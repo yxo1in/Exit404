@@ -168,12 +168,12 @@ const roadMap = () => {
   const draw = () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // 1. 플레이어 위치 및 카메라 계산
+    // 플레이어 위치 및 카메라 계산
     const pos = getPlayerPos();
     const cameraX = canvas.width / 2 - pos.x;
     const cameraY = canvas.height / 2 - pos.y;
 
-    // 2. 카메라 이동 적용
+    // 카메라 이동 적용
     ctx.save();
     ctx.translate(cameraX, cameraY);
 
