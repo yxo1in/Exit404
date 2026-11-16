@@ -1,4 +1,4 @@
-/* 게임 시작 전 기본 상태: 숨김 */
+/* 게임 시작 전 기본 상태 숨김 */
 #map,
 #stamina-container,
 #game {
@@ -14,7 +14,6 @@
     pointer-events: none;
     z-index: 10;
 
-    /* 중심은 완전 투명*/
     background: radial-gradient(circle at 50% 50%,
             transparent 0%,
             transparent 100px,
@@ -147,7 +146,6 @@
     border: 2px solid #ffffff;
     z-index: 9999;
     pointer-events: none;
-    /* 클릭 이벤트가 게임 화면을 방해하지 않도록 설정 */
 }
 
 .category-btn-wrapper {

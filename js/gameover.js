@@ -39,7 +39,6 @@ export function showGameOver() {
 document.addEventListener('keydown', (e) => {
     if (!isGameOverActive) return;
 
-    // 방향키나 스페이스바 입력 시 화면이 아래위로 흔들리거나 키가 씹히는 현상 방지
     if (['ArrowUp', 'ArrowDown', 'w', 'W', 's', 'S', ' ', 'Enter'].includes(e.key)) {
         e.preventDefault();
     }

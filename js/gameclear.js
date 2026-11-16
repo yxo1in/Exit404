@@ -10,7 +10,7 @@ function handleClearMenuKeydown(e) {
 
     if (['ArrowUp', 'ArrowDown', 'w', 'W', 's', 'S', ' ', 'Enter'].includes(e.key)) {
         e.preventDefault();
-        e.stopPropagation(); // 게임 플레이 키 이벤트로 전파되는 것 완전 차단
+        e.stopPropagation(); // 게임 플레이 키 이벤트로 전파되는 것 막기
     }
 
     if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W') {
@@ -43,7 +43,6 @@ export async function showGameClear() {
 async function onGameClear() {
     const actualPlayTime = getElapsedTime();
 
-    // prompt 창이 뜨면서 키 입력 상태가 꼬이는 것을 방지하기 위해 약간의 딜레이 후 실행
     setTimeout(async () => {
         const studentName = prompt(`기록: ${actualPlayTime}초\n랭킹에 등록할 이름을 입력하세요:`);
 

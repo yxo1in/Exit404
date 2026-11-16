@@ -9,14 +9,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const langSelect = document.getElementById("btn-language");
 
     if (langSelect) {
-        // 드롭다운 변경(선택 완료) 시 실행
+        // 드롭다운 변경 시 실행
         langSelect.addEventListener("change", (e) => {
             const selectedCategory = e.target.value; // 'javascript', 'c', 'java'
             console.log(`선택된 카테고리: ${selectedCategory}`);
 
             loadProblemsByCategory(selectedCategory);
 
-            // ★ 선택이 끝나면 포커스를 해제하여 방향키 조작이 다시 시작 화면 메뉴로 돌아오게 함
             langSelect.blur();
         });
 
@@ -163,7 +162,7 @@ window.addEventListener('keydown', (e) => {
     const rankingModal = document.getElementById('ranking-modal');
     const langSelect = document.getElementById('btn-language');
 
-    // 현재 포커스가 언어 선택(select)에 가있는 동안에는 방향키 메뉴 이동을 방지
+    // 현재 포커스가 언어에 가있는 동안에는 방향키 메뉴 이동을 방지
     if (document.activeElement === langSelect) return;
 
     if (e.key === 'Escape') {

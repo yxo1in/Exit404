@@ -24,7 +24,6 @@ export async function loadProblemsByCategory(category = "javascript") {
   init(data ?? []);
 }
 
-// 최초 실행 시 기본값 'javascript' 로드
 loadProblemsByCategory("javascript");
 
 // 랭킹 목록 조회

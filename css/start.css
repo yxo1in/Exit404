@@ -14,12 +14,10 @@
     overflow: hidden;
 }
 
-/* 픽셀 아트 이미지 깨짐 방지 */
 #start-screen img {
     image-rendering: pixelated;
 }
 
-/* 1. 블루스크린 배경 */
 .start-bg-img {
     position: absolute;
     top: 0;
@@ -31,7 +29,6 @@
 }
 
 
-/* 3. 메뉴 컨테이너 */
 .menu-container {
     position: relative;
     z-index: 2;
@@ -51,7 +48,6 @@
     cursor: pointer;
 }
 
-/* 4. 화살표 위치 및 애니메이션 */
 .menu-arrow {
     position: absolute;
     width: 20px;
